@@ -1,0 +1,15 @@
+.DS_Store
+.idea
+.hbuilderx
+.vite
+.vite_opt_cache
+.vscode
+*.log
+/coverage
+/src/client/shared.ts
+/src/node/shared.ts
+dist
+node_modules
+pnpm-global
+TODOs.md
+unpackage
