@@ -15,7 +15,9 @@
               </template>
             </uni-easyinput>
           </uni-forms-item>
-          <uni-forms-item label="贷款年限" name="termInYears"><uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" /></uni-forms-item>
+          <uni-forms-item label="贷款年限" name="termInYears">
+            <uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" />
+          </uni-forms-item>
           <uni-forms-item label="贷款年利率" name="interestRate">
             <uni-easyinput v-model="form.interestRate" type="digit" placeholder="请输入贷款年利率" :clearable="false">
               <template #right>
@@ -48,11 +50,49 @@
           </uni-forms-item>
         </uni-forms>
       </view>
+
+      <view style="margin-top: 30px; text-align: right">
+        <view
+          style="
+            box-sizing: border-box;
+            width: 100vw;
+            display: flex;
+            background-color: rgb(248, 249, 250);
+            color: rgb(47, 55, 70);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1;
+          "
+        >
+          <view style="flex: 1; padding: 15px 8px; text-align: left">期数</view>
+          <view style="flex: 1; padding: 15px 8px">还款额</view>
+          <view style="flex: 1; padding: 15px 8px">应还本金</view>
+          <view style="flex: 1; padding: 15px 8px">应还利息</view>
+        </view>
+        <view
+          v-for="(item, index) in loanDetails"
+          style="box-sizing: border-box; width: 100vw; display: flex; color: rgb(17, 25, 39); font-size: 16px; font-weight: 400; line-height: 22px"
+          :key="index"
+        >
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247); text-align: left">第{{ index + 1 }}月</view>
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
+            <text>{{ priceFormat(item.principal + item.interest, 2) }}</text>
+          </view>
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
+            <text>{{ priceFormat(item.principal, 2) }}</text>
+          </view>
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
+            <text>{{ priceFormat(item.interest, 2) }}</text>
+          </view>
+        </view>
+      </view>
     </uni-section>
   </view>
 </template>
 
 <script>
+import { priceFormat } from '@/utils/function'
+
 export default {
   data() {
     return {
@@ -128,7 +168,10 @@ export default {
             { minimum: 5000, errorMessage: '输入金额需大于 5000 元' }
           ]
         }
-      }
+      },
+
+      // 贷款详细
+      loanDetails: []
     }
   },
   computed: {},
@@ -138,6 +181,8 @@ export default {
     this.$refs.form.setRules(this.rules)
   },
   methods: {
+    priceFormat,
+
     /**
      * 计算等额本息还款
      * @param {number} principal 贷款总金额
@@ -178,16 +223,64 @@ export default {
       return payments
     },
 
+    // 1111111111111111
+
+    calculateMonthlyPayments(principal, annualInterestRate, numberOfYears) {
+      // Convert annual interest rate to monthly interest rate
+      var monthlyInterestRate = annualInterestRate / 1200
+
+      // Convert number of years to number of monthly payments
+      var numberOfMonths = numberOfYears * 12
+
+      // Calculate monthly payment using the formula for monthly payment in the case of monthly decreasing
+      var monthlyPayment = (principal * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfMonths))
+
+      // Initialize arrays to hold the data for each month
+      var monthlyData = []
+      var remainingBalance = principal
+
+      // Loop through each month and calculate the data for that month
+      for (var i = 1; i <= numberOfMonths; i++) {
+        // Calculate the interest for the month
+        var interest = remainingBalance * monthlyInterestRate
+
+        // Calculate the principal for the month
+        var principalPayment = monthlyPayment - interest
+
+        // Calculate the remaining balance after the payment
+        remainingBalance -= principalPayment
+
+        // Add the data for the month to the array
+        monthlyData.push({
+          month: i,
+          payment: monthlyPayment.toFixed(2),
+          principal: principalPayment.toFixed(2),
+          interest: interest.toFixed(2),
+          balance: remainingBalance.toFixed(2)
+        })
+      }
+
+      // Return the array of monthly data
+      return monthlyData
+    },
+
     submit() {
       this.$refs.form
         .validate()
         .then((res) => {
-          console.log('success', res)
-          console.log(this.calculateEqualPaymentsLoan(res.principal, res.interestRate, res.termInYears))
-          this.form = { ...this.form, ...this.calculateEqualPaymentsLoan(res.principal, res.interestRate, res.termInYears) }
-          this.form.monthlyInterestRate = (res.interestRate / 1.2).toFixed(4)
-          this.form.totalRepayment = Number(res.principal) + Number(this.form.totalInterest)
-          console.log(this.calculateLoan(res.principal, res.interestRate, res.termInYears))
+          if (this.form.savings === 0) {
+            const equalInstallment = this.calculateEqualPaymentsLoan(res.principal, res.interestRate, res.termInYears)
+            this.form.monthlyInterestRate = priceFormat(res.interestRate / 1.2, 4)
+            this.form.monthlyPayment = priceFormat(equalInstallment.monthlyPayment, 2)
+            this.form.totalInterest = priceFormat(equalInstallment.totalInterest, 2)
+            this.form.totalPayments = priceFormat(equalInstallment.totalPayments, 2)
+            this.form.totalRepayment = priceFormat(Number(res.principal) + Number(equalInstallment.totalInterest), 2)
+            this.loanDetails = this.calculateLoan(res.principal, res.interestRate, res.termInYears)
+          } else {
+            const result = this.calculateMonthlyPayments(res.principal, res.interestRate, res.termInYears)
+            this.loanDetails = result.monthlyPayments
+            console.log(result)
+          }
         })
         .catch((err) => {
           console.log('err', err)
