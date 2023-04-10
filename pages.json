@@ -1,24 +1,45 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+  "pages": [
     {
-      "path": "pages/index/index",
+      "path": "pages/home/home",
+      "style": {}
+    },
+    {
+      "path": "pages/depositInterestCalc/depositInterestCalc",
       "style": {
         "navigationBarTitleText": "计算人民币存款利息"
       }
     },
     {
-      "path": "pages/loan/loan",
+      "path": "pages/loanCalc/loanCalc",
       "style": {
-        "navigationBarTitleText": "贷款计算器",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "贷款计算器"
+      }
+    },
+    {
+      "path": "pages/interestRateCalc/interestRateCalc",
+      "style": {
+        "navigationBarTitleText": "实际利率计算器"
+      }
+    },
+    {
+      "path": "pages/rateConversionCalc/rateConversionCalc",
+      "style": {
+        "navigationBarTitleText": "利率转换计算器"
+      }
+    },
+    {
+      "path": "pages/taxCalc/taxCalc",
+      "style": {
+        "navigationBarTitleText": "个税计算器"
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarTitleText": "金融计算器",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
   },
   "uniIdRouter": {}
 }

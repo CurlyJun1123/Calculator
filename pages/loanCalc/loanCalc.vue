@@ -38,11 +38,12 @@
     <uni-section title="计算结果" type="line">
       <view class="example">
         <uni-forms label-width="90px" label-align="right" :modelValue="form">
-          <uni-forms-item label="还款合计"><uni-easyinput v-model="form.totalRepayment" :clearable="false" /></uni-forms-item>
-          <uni-forms-item label="本息合计"><uni-easyinput v-model="form.totalInterest" :clearable="false" /></uni-forms-item>
-          <uni-forms-item label="月供"><uni-easyinput v-model="form.monthlyPayment" :clearable="false" /></uni-forms-item>
-          <uni-forms-item label="月利率" name="monthlyInterestRate">
-            <uni-easyinput v-model="form.monthlyInterestRate" type="digit" :clearable="false">
+          <uni-forms-item label="还款总额"><uni-easyinput v-model="form.totalRepayment" :clearable="false" /></uni-forms-item>
+          <uni-forms-item label="本息总额"><uni-easyinput v-model="form.totalInterest" :clearable="false" /></uni-forms-item>
+          <uni-forms-item v-if="form.savings === 0" label="月供"><uni-easyinput v-model="form.monthlyPayment" :clearable="false" /></uni-forms-item>
+          <uni-forms-item v-else-if="form.savings === 1" label="首月还款"><uni-easyinput v-model="form.monthlyPayment" :clearable="false" /></uni-forms-item>
+          <uni-forms-item label="月利率" name="monthlyRate">
+            <uni-easyinput v-model="form.monthlyRate" type="digit" :clearable="false">
               <template #right>
                 <view class="rightSlot">‰</view>
               </template>
@@ -51,38 +52,29 @@
         </uni-forms>
       </view>
 
-      <view style="margin-top: 30px; text-align: right">
-        <view
-          style="
-            box-sizing: border-box;
-            width: 100vw;
-            display: flex;
-            background-color: rgb(248, 249, 250);
-            color: rgb(47, 55, 70);
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1;
-          "
-        >
+      <view style="text-align: right">
+        <view style="background-color: rgb(248, 249, 250); box-sizing: border-box; color: rgb(47, 55, 70); display: flex; font-size: 14px; font-weight: 600; line-height: 1; width: 100%">
           <view style="flex: 1; padding: 15px 8px; text-align: left">期数</view>
           <view style="flex: 1; padding: 15px 8px">还款额</view>
           <view style="flex: 1; padding: 15px 8px">应还本金</view>
           <view style="flex: 1; padding: 15px 8px">应还利息</view>
+          <view style="flex: 1; padding: 15px 8px">剩余本金</view>
         </view>
-        <view
-          v-for="(item, index) in loanDetails"
-          style="box-sizing: border-box; width: 100vw; display: flex; color: rgb(17, 25, 39); font-size: 16px; font-weight: 400; line-height: 22px"
-          :key="index"
-        >
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247); text-align: left">第{{ index + 1 }}月</view>
+        <view v-for="(item, index) in loanDetails" style="box-sizing: border-box; width: 100%; display: flex; color: rgb(17, 25, 39); font-size: 15px; font-weight: 400; line-height: 22px" :key="index">
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247); text-align: left">
+            <text>第{{ item.period }}月</text>
+          </view>
           <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
-            <text>{{ priceFormat(item.principal + item.interest, 2) }}</text>
+            <text>{{ priceFormat(item.payment, 2) }}</text>
           </view>
           <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
             <text>{{ priceFormat(item.principal, 2) }}</text>
           </view>
           <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
             <text>{{ priceFormat(item.interest, 2) }}</text>
+          </view>
+          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
+            <text>{{ priceFormat(item.balance, 2) }}</text>
           </view>
         </view>
       </view>
@@ -99,8 +91,8 @@ export default {
       // 基础表单数据
       form: {
         interestRate: 5,
-        monthlyInterestRate: 0,
         monthlyPayment: 0,
+        monthlyRate: 0,
         principal: 100000,
         savings: 0,
         termInYears: 3,
@@ -109,7 +101,7 @@ export default {
       },
       sexs: [
         { value: 0, text: '等额还款' },
-        { value: 1, text: '按月递减还款' }
+        { value: 1, text: '等额本金' }
       ],
       termRange: [
         { value: 0.5, text: '半年（6期）' },
@@ -174,8 +166,11 @@ export default {
       loanDetails: []
     }
   },
+
   computed: {},
+
   onLoad() {},
+
   onReady() {
     // 设置自定义表单校验规则，必须在节点渲染完毕后执行
     this.$refs.form.setRules(this.rules)
@@ -185,83 +180,65 @@ export default {
 
     /**
      * 计算等额本息还款
-     * @param {number} principal 贷款总金额
-     * @param {number} interestRate 年利率
+     * @param {number} amount 贷款总金额
      * @param {number} termInYears 贷款期数（年数）
-     * @returns {number} 每月还款金额
+     * @param {number} interestRate 年利率
+     * @returns
      */
-    calculateEqualPaymentsLoan(principal, interestRate, termInYears) {
-      const monthlyRate = interestRate / 1200
-      const termInMonths = termInYears * 12
-      const monthlyPayment = (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -termInMonths))
-      const totalPayments = monthlyPayment * termInMonths
-      const totalInterest = totalPayments - principal
+    calculateRepayment(amount, termInYears, interestRate) {
+      const monthlyRate = interestRate / 12 // 将年利率转换为月利率
+      const periods = termInYears * 12 // 计算还款期数
+      const monthlyPayment = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -periods)) // 计算每期还款额
+      let balance = amount // 初始化剩余本金
+      let totalInterest = 0 // 初始化总利息
+      const result = [] // 初始化还款计划数组
 
-      return {
-        monthlyPayment: monthlyPayment.toFixed(2),
-        totalPayments: totalPayments.toFixed(2),
-        totalInterest: totalInterest.toFixed(2)
-      }
-    },
-
-    calculateLoan(principal, interestRate, termInYears) {
-      // 计算每个月的还款额
-      const monthlyRate = interestRate / 1200
-      const termInMonths = termInYears * 12
-      const payment = (principal * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -termInMonths))
-
-      // 计算每个月的还款本金和利息
-      const payments = []
-      let balance = principal
-      for (let i = 1; i <= termInMonths; i++) {
-        const interest = balance * monthlyRate
-        const principal = payment - interest
-        payments.push({ interest, principal })
-        balance = balance - principal
-      }
-
-      return payments
-    },
-
-    // 1111111111111111
-
-    calculateMonthlyPayments(principal, annualInterestRate, numberOfYears) {
-      // Convert annual interest rate to monthly interest rate
-      var monthlyInterestRate = annualInterestRate / 1200
-
-      // Convert number of years to number of monthly payments
-      var numberOfMonths = numberOfYears * 12
-
-      // Calculate monthly payment using the formula for monthly payment in the case of monthly decreasing
-      var monthlyPayment = (principal * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfMonths))
-
-      // Initialize arrays to hold the data for each month
-      var monthlyData = []
-      var remainingBalance = principal
-
-      // Loop through each month and calculate the data for that month
-      for (var i = 1; i <= numberOfMonths; i++) {
-        // Calculate the interest for the month
-        var interest = remainingBalance * monthlyInterestRate
-
-        // Calculate the principal for the month
-        var principalPayment = monthlyPayment - interest
-
-        // Calculate the remaining balance after the payment
-        remainingBalance -= principalPayment
-
-        // Add the data for the month to the array
-        monthlyData.push({
-          month: i,
-          payment: monthlyPayment.toFixed(2),
-          principal: principalPayment.toFixed(2),
-          interest: interest.toFixed(2),
-          balance: remainingBalance.toFixed(2)
+      for (let i = 1; i <= periods; i++) {
+        const interest = balance * monthlyRate // 计算本期应还利息
+        const principal = monthlyPayment - interest // 计算本期应还本金
+        balance -= principal // 更新剩余本金
+        totalInterest += interest // 累加总利息
+        result.push({
+          period: i,
+          payment: monthlyPayment,
+          principal,
+          interest,
+          balance
         })
       }
 
-      // Return the array of monthly data
-      return monthlyData
+      return { monthlyPayment, totalInterest, monthlyRate, result }
+    },
+
+    /**
+     * 计算等额本息还款
+     * @param {number} amount 贷款总金额
+     * @param {number} termInYears 贷款期数（年数）
+     * @param {number} interestRate 年利率
+     * @returns
+     */
+    equalPrincipal(amount, termInYears, interestRate) {
+      const monthlyRate = interestRate / 12 // 月利率
+      const periods = Math.floor(termInYears * 12) // 还款月数
+      const principal = amount / periods // 每月应还本金
+      let totalInterest = 0 // 总利息
+      const result = [] // 存储每期还款信息的数组
+
+      for (let i = 1; i <= periods; i++) {
+        const interest = (amount - (i - 1) * principal) * monthlyRate // 本期应还利息
+        const payment = principal + interest // 本期还款额
+        const balance = amount - i * principal // 剩余本金
+        totalInterest += interest // 累计总利息
+        result.push({
+          period: i,
+          payment,
+          principal: principal,
+          interest: interest,
+          balance
+        })
+      }
+
+      return { totalPayment: amount + totalInterest, totalInterest: totalInterest, monthlyRate, result }
     },
 
     submit() {
@@ -269,17 +246,20 @@ export default {
         .validate()
         .then((res) => {
           if (this.form.savings === 0) {
-            const equalInstallment = this.calculateEqualPaymentsLoan(res.principal, res.interestRate, res.termInYears)
-            this.form.monthlyInterestRate = priceFormat(res.interestRate / 1.2, 4)
-            this.form.monthlyPayment = priceFormat(equalInstallment.monthlyPayment, 2)
-            this.form.totalInterest = priceFormat(equalInstallment.totalInterest, 2)
-            this.form.totalPayments = priceFormat(equalInstallment.totalPayments, 2)
-            this.form.totalRepayment = priceFormat(Number(res.principal) + Number(equalInstallment.totalInterest), 2)
-            this.loanDetails = this.calculateLoan(res.principal, res.interestRate, res.termInYears)
+            const result = this.calculateRepayment(res.principal, res.termInYears, res.interestRate / 100)
+            this.form.monthlyPayment = priceFormat(result.monthlyPayment, 2)
+            this.form.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.form.totalInterest = priceFormat(result.totalInterest, 2)
+            this.form.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.loanDetails = result.result
           } else {
-            const result = this.calculateMonthlyPayments(res.principal, res.interestRate, res.termInYears)
-            this.loanDetails = result.monthlyPayments
-            console.log(result)
+            const result = this.equalPrincipal(res.principal, res.termInYears, res.interestRate / 100)
+            this.form.monthlyPayment = priceFormat(result.result[0].payment, 2)
+            this.form.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.form.totalInterest = priceFormat(result.totalInterest, 2)
+            this.form.totalPayment = priceFormat(result.totalPayment, 2)
+            this.form.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.loanDetails = result.result
           }
         })
         .catch((err) => {

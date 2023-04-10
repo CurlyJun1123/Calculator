@@ -27,7 +27,6 @@
           <uni-forms-item>
             <view style="display: flex">
               <button style="flex: 1" type="primary" @click="submit('form')">计算</button>
-              <button style="flex: 1" type="primary" @click="submit('form')">重置</button>
             </view>
           </uni-forms-item>
         </uni-forms>
@@ -46,6 +45,8 @@
 </template>
 
 <script>
+import { priceFormat } from '@/utils/function'
+
 export default {
   data() {
     return {
@@ -107,21 +108,22 @@ export default {
       }
     }
   },
-  watch: {},
-  computed: {},
-  onLoad() {},
+
   onReady() {
     // 设置自定义表单校验规则，必须在节点渲染完毕后执行
     this.$refs.form.setRules(this.rules)
   },
+
   methods: {
+    priceFormat,
+
     submit() {
       this.$refs.form
         .validate()
         .then((res) => {
           console.log('success', res)
-          this.form.interest = this.form.term * (this.form.annualInterestRate / 100) * this.form.deposits
-          this.form.total = Number(this.form.deposits) + Number(this.form.interest)
+          this.form.interest = priceFormat(this.form.term * (this.form.annualInterestRate / 100) * this.form.deposits, 2)
+          this.form.total = priceFormat(Number(this.form.deposits) + Number(this.form.interest), 2)
           uni.showToast({ title: `校验通过` })
         })
         .catch((err) => {
@@ -146,7 +148,6 @@ export default {
 
 button,
 uni-button {
-  margin: 10px 10px;
   height: 35px;
   line-height: 35px;
   font-size: 14px;
