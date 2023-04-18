@@ -85,7 +85,11 @@ export default {
         { value: 30, text: '30年（360期）' }
       ],
       // 校验规则
-      rules: {}
+      rules: {
+        principal: { rules: [{ required: true, errorMessage: '贷款本金不能为空', trigger: 'blur' }] },
+        termInYears: { rules: [{ required: true, errorMessage: '贷款年限不能为空', trigger: 'change' }] },
+        monthlyPayment: { rules: [{ required: true, errorMessage: '每月还款金额不能为空', trigger: 'blur' }] }
+      }
     }
   },
 
@@ -126,7 +130,7 @@ export default {
       this.$refs.form
         .validate()
         .then((res) => {
-          this.annualInterestRate = (this.calculateRepayment(res.termInYears * 12, res.monthlyPayment, res.principal, 200, 10) * 100 * 12).toFixed(2)
+          this.annualInterestRate = (this.calculateRepayment(res.termInYears * 12, res.monthlyPayment, res.principal, 500, 10) * 100 * 12).toFixed(2)
         })
         .catch((err) => {
           console.log('err', err)

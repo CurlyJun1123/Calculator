@@ -82,15 +82,9 @@ export default {
       ],
       // 校验规则
       rules: {
-        savings: {
-          rules: [{ required: true, errorMessage: '储蓄方式不能为空' }]
-        },
-        regularType: {
-          rules: [{ required: true, errorMessage: '定期类型不能为空' }]
-        },
-        term: {
-          rules: [{ required: true, errorMessage: '期限不能为空' }]
-        },
+        savings: { rules: [{ required: true, errorMessage: '储蓄方式不能为空' }] },
+        regularType: { rules: [{ required: true, errorMessage: '定期类型不能为空' }] },
+        term: { rules: [{ required: true, errorMessage: '期限不能为空' }] },
         annualInterestRate: {
           rules: [
             { required: true, errorMessage: '年利率不能为空' },
