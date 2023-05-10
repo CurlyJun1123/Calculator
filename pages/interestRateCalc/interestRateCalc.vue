@@ -3,8 +3,8 @@
     <uni-section title="输入数据" type="line">
       <view class="example">
         <uni-forms ref="form" label-width="90px" label-align="right" :rules="rules" :modelValue="form">
-          <uni-forms-item label="贷款本金" name="principal">
-            <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款本金" :clearable="false">
+          <uni-forms-item label="贷款总额" name="principal">
+            <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款总额" :clearable="false">
               <template #right>
                 <view class="rightSlot">元</view>
               </template>
@@ -130,7 +130,12 @@ export default {
       this.$refs.form
         .validate()
         .then((res) => {
-          this.annualInterestRate = (this.calculateRepayment(res.termInYears * 12, res.monthlyPayment, res.principal, 500, 10) * 100 * 12).toFixed(2)
+          const monthlyPaymentAndInterest = res.termInYears * 12 * Number(res.monthlyPayment)
+          if (monthlyPaymentAndInterest <= Number(res.principal)) {
+            uni.showToast({ title: '还款总额不能小于贷款总额', icon: 'none' })
+          } else {
+            this.annualInterestRate = (this.calculateRepayment(res.termInYears * 12, res.monthlyPayment, res.principal, 500, 10) * 100 * 12).toFixed(2)
+          }
         })
         .catch((err) => {
           console.log('err', err)

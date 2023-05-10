@@ -28,12 +28,13 @@
           <uni-forms-item>
             <view style="display: flex">
               <button style="flex: 1" type="primary" @click="submit('form')">计算</button>
-              <button style="flex: 1" type="primary" @click="submit('form')">重置</button>
             </view>
           </uni-forms-item>
         </uni-forms>
       </view>
     </uni-section>
+
+    <ct-timeline></ct-timeline>
 
     <uni-section title="计算结果" type="line">
       <view class="example">
@@ -60,6 +61,7 @@
           <view style="flex: 1; padding: 15px 8px">应还利息</view>
           <view style="flex: 1; padding: 15px 8px">剩余本金</view>
         </view>
+
         <view v-for="(item, index) in loanDetails" style="box-sizing: border-box; width: 100%; display: flex; color: rgb(17, 25, 39); font-size: 15px; font-weight: 400; line-height: 22px" :key="index">
           <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247); text-align: left">
             <text>第{{ item.period }}月</text>
@@ -284,7 +286,6 @@ export default {
 
 button,
 uni-button {
-  margin: 10px 10px;
   height: 35px;
   line-height: 35px;
   font-size: 14px;

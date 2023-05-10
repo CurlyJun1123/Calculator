@@ -1,4 +1,10 @@
 {
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
+    }
+  },
   "pages": [
     {
       "path": "pages/home/home",
