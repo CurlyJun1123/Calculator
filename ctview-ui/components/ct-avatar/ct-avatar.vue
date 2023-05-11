@@ -5,7 +5,7 @@
       :src="avatarUrl || defaultUrl"
       :mode="mode"
       :style="[{ width: imageWidth, height: imageHeight, borderRadius }]"
-      :class="[{ 'ct-avatar-round': round },{  'Ground': !isCallResume() && avatarBool }]"
+      :class="[{ 'ct-avatar-round': round }, { Ground: !isCallResume() && avatarBool }]"
       @error="errorHandler"
     ></image>
     <!-- 'Ground': !isCallResume() && avatarBool  -->
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-const getVal = val => {
+const getVal = (val) => {
   const reg = /^[0-9]*$/g
   return typeof val === 'number' || reg.test(val) ? val + 'px' : val
 }
@@ -85,32 +85,33 @@ export default {
       default: ''
     },
     // 是不是职聊简历
-    visibility:{
+    visibility: {
       type: [String, Number],
       default: ''
     },
     // 有没有投递 有没有购买
-     isBuy:{
+    isBuy: {
       type: [String, Number],
       default: ''
-    },
+    }
   },
 
   data() {
     return {
       avatarUrl: this.src,
-      avatarBool:false
+      avatarBool: false
     }
   },
 
-  created(){
-    console.log(this.visibility,this.isBuy,'11111');
+  created() {
+    console.log(this.visibility, this.isBuy, '11111')
     let url = this.avatarUrl || this.defaultUrl // 获取头像路径
-       if (url.indexOf('/default/headimg') > -1) {  //判断有没有 '/default/headimg' 这个字段 有的话就是系统默认头像
-          this.avatarBool = false // 如果是系统默认头像设置为false
-        } else {
-          this.avatarBool = true// 如果是自定义头像设置为true
-        }
+    if (url.indexOf('/default/headimg') > -1) {
+      //判断有没有 '/default/headimg' 这个字段 有的话就是系统默认头像
+      this.avatarBool = false // 如果是系统默认头像设置为false
+    } else {
+      this.avatarBool = true // 如果是自定义头像设置为true
+    }
   },
 
   watch: {
@@ -165,19 +166,19 @@ export default {
     clickHandler() {
       this.$emit('click', this.name)
     },
-     //直call简历 还是职聊简历  true:职聊简历  false:直call简历
+    //直call简历 还是职聊简历  true:职聊简历  false:直call简历
     isCallResume() {
       // 判断是不是没有字段都没空 避免影响到其他头像
-        if(this.visibility=='' && this.isBuy==''){
-          return true
-        }
-        if (this.visibility === 1 || this.isBuy === 1) {
-          //公开或者有购买关系可以看到联系方式的为直call简历
-          return true
-        } else if (this.visibility === 2) {
-          //其余的为职聊简历
-          return false
-        }     
+      if (this.visibility == '' && this.isBuy == '') {
+        return true
+      }
+      if (this.visibility === 1 || this.isBuy === 1) {
+        //公开或者有购买关系可以看到联系方式的为直call简历
+        return true
+      } else if (this.visibility === 2) {
+        //其余的为职聊简历
+        return false
+      }
     }
   }
 }

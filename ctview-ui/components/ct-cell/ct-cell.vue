@@ -123,21 +123,7 @@ export default {
       }
     },
 
-    navigateTo({
-      openType = 'navigate',
-      url = '',
-      animationType = '',
-      animationDuration = 300,
-      events = {},
-      delta = 1,
-      success = () => {},
-      fail = res => {
-        
-      },
-      complete = res => {
-        
-      }
-    } = {}) {
+    navigateTo({ openType = 'navigate', url = '', animationType = '', animationDuration = 300, events = {}, delta = 1, success = () => {}, fail = (res) => {}, complete = (res) => {} } = {}) {
       switch (openType) {
         case 'navigate':
           uni.navigateTo({ url })

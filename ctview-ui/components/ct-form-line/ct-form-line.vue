@@ -10,7 +10,9 @@
     </view>
     <view class="ct-form-line-suffix">
       <slot name="suffix"></slot>
-      <view v-if="arrow" class="ct-form-line-arrow"><ct-icon name="iconarrow1r" size="14" color="#999" /></view>
+      <view v-if="arrow" class="ct-form-line-arrow">
+        <ct-icon name="iconarrow1r" size="14" color="#999" />
+      </view>
     </view>
   </view>
 </template>

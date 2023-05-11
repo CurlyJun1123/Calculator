@@ -1,5 +1,5 @@
 <template>
-  <view class="form" :class="{ layout }">
+  <view class="ct-form" :class="{ layout }">
     <form><slot /></form>
   </view>
 </template>
@@ -94,7 +94,7 @@ export default {
     checkForm({ value = this.value } = {}) {
       if (!this.validate.checkForm(value)) {
         const error = this.validate.errorList[0]
-        
+
         uni.$ct.showToast(error.msg)
         return false
       } else {

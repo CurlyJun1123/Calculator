@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { isEmpty } from '@/assets/js/common.js'
+import { isEmpty } from '@/utils/function'
 
 export default {
   name: 'CtInput',
@@ -212,11 +212,11 @@ export default {
   }
 }
 
-/deep/ .ct-input-placeholder-none {
+.ct-input-placeholder-none {
   color: #aaa;
 }
 
-/deep/ .ct-input-placeholder-card {
+.ct-input-placeholder-card {
   color: #999;
 }
 

@@ -1,86 +1,49 @@
 <template>
   <view class="container">
-    <uni-section title="输入数据" type="line">
-      <view class="example">
-        <uni-forms ref="form" label-width="90px" label-align="right" :rules="rules" :modelValue="form">
-          <uni-forms-item label="还款方式" name="savings">
-            <view style="display: flex; align-items: center; height: 100%">
-              <uni-data-checkbox v-model="form.savings" placeholder="请选择还款方式" :clear="false" :localdata="sexs" />
-            </view>
-          </uni-forms-item>
-          <uni-forms-item label="贷款本金" name="principal">
-            <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款本金" :clearable="false">
-              <template #right>
-                <view class="rightSlot">元</view>
-              </template>
-            </uni-easyinput>
-          </uni-forms-item>
-          <uni-forms-item label="贷款年限" name="termInYears">
-            <uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" />
-          </uni-forms-item>
-          <uni-forms-item label="贷款年利率" name="interestRate">
-            <uni-easyinput v-model="form.interestRate" type="digit" placeholder="请输入贷款年利率" :clearable="false">
-              <template #right>
-                <view class="rightSlot">%</view>
-              </template>
-            </uni-easyinput>
-          </uni-forms-item>
-          <uni-forms-item>
-            <view style="display: flex">
-              <button style="flex: 1" type="primary" @click="submit('form')">计算</button>
-            </view>
-          </uni-forms-item>
-        </uni-forms>
-      </view>
-    </uni-section>
+    <view class="form">
+      <uni-forms ref="form" label-width="90px" label-align="right" :rules="rules" :modelValue="form">
+        <uni-forms-item label="还款方式" name="savings">
+          <view style="display: flex; align-items: center; height: 100%">
+            <uni-data-checkbox v-model="form.savings" placeholder="请选择还款方式" :clear="false" :localdata="sexs" />
+          </view>
+        </uni-forms-item>
+        <uni-forms-item label="贷款本金" name="principal">
+          <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款本金" :clearable="false">
+            <template #right>
+              <view class="right-slot">元</view>
+            </template>
+          </uni-easyinput>
+        </uni-forms-item>
+        <uni-forms-item label="贷款年限" name="termInYears">
+          <uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" />
+        </uni-forms-item>
+        <uni-forms-item label="贷款年利率" name="interestRate">
+          <uni-easyinput v-model="form.interestRate" type="digit" placeholder="请输入贷款年利率" :clearable="false">
+            <template #right>
+              <view class="right-slot">%</view>
+            </template>
+          </uni-easyinput>
+        </uni-forms-item>
+      </uni-forms>
+      <button type="primary" @click="submit('form')">计算</button>
+    </view>
 
-    <ct-timeline></ct-timeline>
-
-    <uni-section title="计算结果" type="line">
-      <view class="example">
-        <uni-forms label-width="90px" label-align="right" :modelValue="form">
-          <uni-forms-item label="还款总额"><uni-easyinput v-model="form.totalRepayment" :clearable="false" /></uni-forms-item>
-          <uni-forms-item label="本息总额"><uni-easyinput v-model="form.totalInterest" :clearable="false" /></uni-forms-item>
-          <uni-forms-item v-if="form.savings === 0" label="月供"><uni-easyinput v-model="form.monthlyPayment" :clearable="false" /></uni-forms-item>
-          <uni-forms-item v-else-if="form.savings === 1" label="首月还款"><uni-easyinput v-model="form.monthlyPayment" :clearable="false" /></uni-forms-item>
-          <uni-forms-item label="月利率" name="monthlyRate">
-            <uni-easyinput v-model="form.monthlyRate" type="digit" :clearable="false">
-              <template #right>
-                <view class="rightSlot">‰</view>
-              </template>
-            </uni-easyinput>
-          </uni-forms-item>
-        </uni-forms>
+    <template v-if="result">
+      <view class="result">
+        <view class="result-content">还款总额：{{ loan.totalRepayment }}，本息总额：{{ loan.totalInterest }}</view>
       </view>
 
-      <view style="text-align: right">
-        <view style="background-color: rgb(248, 249, 250); box-sizing: border-box; color: rgb(47, 55, 70); display: flex; font-size: 14px; font-weight: 600; line-height: 1; width: 100%">
-          <view style="flex: 1; padding: 15px 8px; text-align: left">期数</view>
-          <view style="flex: 1; padding: 15px 8px">还款额</view>
-          <view style="flex: 1; padding: 15px 8px">应还本金</view>
-          <view style="flex: 1; padding: 15px 8px">应还利息</view>
-          <view style="flex: 1; padding: 15px 8px">剩余本金</view>
-        </view>
-
-        <view v-for="(item, index) in loanDetails" style="box-sizing: border-box; width: 100%; display: flex; color: rgb(17, 25, 39); font-size: 15px; font-weight: 400; line-height: 22px" :key="index">
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247); text-align: left">
-            <text>第{{ item.period }}月</text>
-          </view>
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
-            <text>{{ priceFormat(item.payment, 2) }}</text>
-          </view>
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
-            <text>{{ priceFormat(item.principal, 2) }}</text>
-          </view>
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
-            <text>{{ priceFormat(item.interest, 2) }}</text>
-          </view>
-          <view style="flex: 1; padding: 15px 8px; border-bottom: 1px solid rgb(242, 244, 247)">
-            <text>{{ priceFormat(item.balance, 2) }}</text>
-          </view>
-        </view>
-      </view>
-    </uni-section>
+      <ct-timeline>
+        <ct-timeline-item v-for="(item, index) in loanList" :key="index">
+          <template #label>
+            <view>{{ item.period }}期</view>
+            <view class="timeline-subtitle">剩余本金 {{ priceFormat(item.balance, 2) }}</view>
+          </template>
+          <view>{{ priceFormat(item.payment, 2) }}</view>
+          <view class="timeline-subtitle">含本金 {{ priceFormat(item.principal, 2) }} + 利息 {{ priceFormat(item.interest, 2) }}</view>
+        </ct-timeline-item>
+      </ct-timeline>
+    </template>
   </view>
 </template>
 
@@ -92,15 +55,37 @@ export default {
     return {
       // 基础表单数据
       form: {
-        interestRate: 5,
-        monthlyPayment: 0,
-        monthlyRate: 0,
-        principal: 100000,
+        interestRate: 3.9,
+        principal: 870000,
         savings: 0,
-        termInYears: 3,
-        totalInterest: 0,
-        totalRepayment: 0
+        termInYears: 3
       },
+      // 校验规则
+      rules: {
+        savings: { rules: [{ required: true, errorMessage: '储蓄方式不能为空' }] },
+        principal: {
+          rules: [
+            { required: true, errorMessage: '定期类型不能为空' },
+            { format: 'number', errorMessage: '年利率只能输入数字' }
+          ]
+        },
+        termInYears: { rules: [{ required: true, errorMessage: '期限不能为空' }] },
+        interestRate: {
+          rules: [
+            { required: true, errorMessage: '年利率不能为空' },
+            { format: 'number', errorMessage: '年利率只能输入数字' },
+            { minimum: 0.001, maximum: 100, errorMessage: '年利率应大于{minimum}，且小于{maximum}%' }
+          ]
+        },
+        deposits: {
+          rules: [
+            { required: true, errorMessage: '金额不能为空' },
+            { format: 'number', errorMessage: '金额只能输入数字' },
+            { minimum: 5000, errorMessage: '输入金额需大于 5000 元' }
+          ]
+        }
+      },
+
       sexs: [
         { value: 0, text: '等额还款' },
         { value: 1, text: '等额本金' }
@@ -138,34 +123,24 @@ export default {
         { value: 29, text: '29年（348期）' },
         { value: 30, text: '30年（360期）' }
       ],
-      // 校验规则
-      rules: {
-        savings: { rules: [{ required: true, errorMessage: '储蓄方式不能为空' }] },
-        principal: {
-          rules: [
-            { required: true, errorMessage: '定期类型不能为空' },
-            { format: 'number', errorMessage: '年利率只能输入数字' }
-          ]
-        },
-        termInYears: { rules: [{ required: true, errorMessage: '期限不能为空' }] },
-        interestRate: {
-          rules: [
-            { required: true, errorMessage: '年利率不能为空' },
-            { format: 'number', errorMessage: '年利率只能输入数字' },
-            { minimum: 0.001, maximum: 100, errorMessage: '年利率应大于{minimum}，且小于{maximum}%' }
-          ]
-        },
-        deposits: {
-          rules: [
-            { required: true, errorMessage: '金额不能为空' },
-            { format: 'number', errorMessage: '金额只能输入数字' },
-            { minimum: 5000, errorMessage: '输入金额需大于 5000 元' }
-          ]
-        }
-      },
 
+      result: false,
+      loan: {
+        monthlyRate: 0,
+        totalInterest: 0,
+        totalRepayment: 0
+      },
       // 贷款详细
-      loanDetails: []
+      loanList: []
+    }
+  },
+
+  watch: {
+    form: {
+      handler(newVal, oldVal) {
+        this.result = false
+      },
+      deep: true
     }
   },
 
@@ -177,6 +152,7 @@ export default {
     // 设置自定义表单校验规则，必须在节点渲染完毕后执行
     this.$refs.form.setRules(this.rules)
   },
+
   methods: {
     priceFormat,
 
@@ -231,13 +207,7 @@ export default {
         const payment = principal + interest // 本期还款额
         const balance = amount - i * principal // 剩余本金
         totalInterest += interest // 累计总利息
-        result.push({
-          period: i,
-          payment,
-          principal: principal,
-          interest: interest,
-          balance
-        })
+        result.push({ period: i, payment, principal: principal, interest: interest, balance })
       }
 
       return { totalPayment: amount + totalInterest, totalInterest: totalInterest, monthlyRate, result }
@@ -249,20 +219,19 @@ export default {
         .then((res) => {
           if (this.form.savings === 0) {
             const result = this.calculateRepayment(res.principal, res.termInYears, res.interestRate / 100)
-            this.form.monthlyPayment = priceFormat(result.monthlyPayment, 2)
-            this.form.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
-            this.form.totalInterest = priceFormat(result.totalInterest, 2)
-            this.form.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
-            this.loanDetails = result.result
+            this.loan.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.loan.totalInterest = priceFormat(result.totalInterest, 2)
+            this.loan.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.loanList = result.result
           } else {
             const result = this.equalPrincipal(res.principal, res.termInYears, res.interestRate / 100)
-            this.form.monthlyPayment = priceFormat(result.result[0].payment, 2)
-            this.form.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
-            this.form.totalInterest = priceFormat(result.totalInterest, 2)
-            this.form.totalPayment = priceFormat(result.totalPayment, 2)
-            this.form.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
-            this.loanDetails = result.result
+            this.loan.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.loan.totalInterest = priceFormat(result.totalInterest, 2)
+            this.loan.totalPayment = priceFormat(result.totalPayment, 2)
+            this.loan.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.loanList = result.result
           }
+          this.result = true
         })
         .catch((err) => {
           console.log('err', err)
@@ -273,21 +242,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.example {
+.form {
   padding: 15px;
   background-color: #fff;
 }
 
-.rightSlot {
+.right-slot {
   padding: 0 5px;
   width: 14px;
   text-align: center;
 }
 
-button,
-uni-button {
-  height: 35px;
-  line-height: 35px;
-  font-size: 14px;
+.result {
+  margin: 15px 0 30px;
+  display: flex;
+  justify-content: center;
+
+  .result-content {
+    margin: auto;
+    padding: 0 14px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: #ecf0f1;
+    font-size: 14px;
+    line-height: 30px;
+  }
+}
+
+.timeline-subtitle {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
 }
 </style>

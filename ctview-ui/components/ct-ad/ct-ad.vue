@@ -4,7 +4,9 @@
       <view class="ct-ad-wrapper">
         <slot />
       </view>
-      <view class="ct-ad-close"><ct-icon name="" /></view>
+      <view class="ct-ad-close">
+        <ct-icon name="" />
+      </view>
     </view>
   </uni-popup>
 </template>

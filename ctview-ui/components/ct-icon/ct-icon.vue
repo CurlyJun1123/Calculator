@@ -5,7 +5,7 @@
 </template>
 
 <script>
-const getVal = val => {
+const getVal = (val) => {
   const reg = /^[0-9]*$/g
   return typeof val === 'number' || reg.test(val) ? val + 'px' : val
 }

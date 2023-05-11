@@ -6,8 +6,11 @@
     <view v-if="list.length" class="ct-list-">
       <slot />
     </view>
+
     <!-- 空省页 -->
-    <view v-else class="page-empty justify-center align-center"><slot name="empty" /></view>
+    <view v-else class="page-empty justify-center align-center">
+      <slot name="empty" />
+    </view>
 
     <slot name="footer" />
   </view>
@@ -43,17 +46,16 @@ export default {
   methods: {
     // 滚动时触发
     onScroll(event) {
-      // 
+      //
     },
 
     // 滚动到底部/右边
-    onScrolltolower() {
-      
-    },
+    onScrolltolower() {},
 
     onPulling(e) {
-      // 
+      //
     },
+
     onRefresh() {
       if (this._freshing) return
       this._freshing = true
@@ -62,13 +64,12 @@ export default {
         this._freshing = false
       }, 3000)
     },
+
     onRestore() {
       this.triggered = 'restore' // 需要重置
-      
     },
-    onAbort() {
-      
-    }
+
+    onAbort() {}
   }
 }
 </script>
