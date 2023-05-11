@@ -23,9 +23,6 @@ uni-button {
   height: 35px !important;
   line-height: 35px !important;
   font-size: 14px !important;
-}
-
-uni-button[type='primary'] {
   background-color: $uni-color-primary !important;
 }
 </style>

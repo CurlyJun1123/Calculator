@@ -36,11 +36,17 @@
       <ct-timeline>
         <ct-timeline-item v-for="(item, index) in loanList" :key="index">
           <template #label>
-            <view>{{ item.period }}期</view>
-            <view class="timeline-subtitle">剩余本金 {{ priceFormat(item.balance, 2) }}</view>
+            <text>{{ item.period }}</text>
+            <view class="timeline-subtitle">
+              <text>剩余本金 {{ priceFormat(item.balance, 2) }}</text>
+            </view>
           </template>
-          <view>{{ priceFormat(item.payment, 2) }}</view>
-          <view class="timeline-subtitle">含本金 {{ priceFormat(item.principal, 2) }} + 利息 {{ priceFormat(item.interest, 2) }}</view>
+          <view>
+            <text>{{ priceFormat(item.payment, 2) }}</text>
+          </view>
+          <view class="timeline-subtitle">
+            <text>含本金 {{ priceFormat(item.principal, 2) }} + 利息 {{ priceFormat(item.interest, 2) }}</text>
+          </view>
         </ct-timeline-item>
       </ct-timeline>
     </template>
@@ -58,7 +64,7 @@ export default {
         interestRate: 3.9,
         principal: 870000,
         savings: 0,
-        termInYears: 3
+        termInYears: 30
       },
       // 校验规则
       rules: {
@@ -176,13 +182,7 @@ export default {
         const principal = monthlyPayment - interest // 计算本期应还本金
         balance -= principal // 更新剩余本金
         totalInterest += interest // 累加总利息
-        result.push({
-          period: i,
-          payment: monthlyPayment,
-          principal,
-          interest,
-          balance
-        })
+        result.push({ period: i === 1 ? '首期' : i + '期', payment: monthlyPayment, principal, interest, balance })
       }
 
       return { monthlyPayment, totalInterest, monthlyRate, result }
@@ -207,7 +207,7 @@ export default {
         const payment = principal + interest // 本期还款额
         const balance = amount - i * principal // 剩余本金
         totalInterest += interest // 累计总利息
-        result.push({ period: i, payment, principal: principal, interest: interest, balance })
+        result.push({ period: i === 1 ? '首期' : i + '期', payment, principal: principal, interest: interest, balance })
       }
 
       return { totalPayment: amount + totalInterest, totalInterest: totalInterest, monthlyRate, result }
@@ -264,6 +264,7 @@ export default {
     height: 30px;
     border-radius: 30px;
     background-color: #ecf0f1;
+    color: rgba(0, 0, 0, 0.8);
     font-size: 14px;
     line-height: 30px;
   }
@@ -273,5 +274,6 @@ export default {
   margin-top: 4px;
   color: rgba(0, 0, 0, 0.45);
   font-size: 12px;
+  font-weight: 300;
 }
 </style>

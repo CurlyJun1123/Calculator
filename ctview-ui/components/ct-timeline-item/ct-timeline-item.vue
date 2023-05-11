@@ -1,5 +1,5 @@
 <template>
-  <view class="ct-timeline-item" :class="{ last: isLast }">
+  <view class="ct-timeline-item">
     <view class="ct-timeline-item-label">
       <template v-if="$slots.label"><slot name="label"></slot></template>
       <template v-else>{{ label }}</template>
@@ -25,10 +25,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ct-timeline-item:last-of-type {
-  .ct-timeline-item-tail {
-    display: none;
-  }
+ct-timeline-item:last-of-type .ct-timeline-item .ct-timeline-item-tail {
+  display: none;
 }
 
 .ct-timeline-item {
@@ -53,9 +51,9 @@ export default {
     position: absolute;
     box-sizing: border-box;
     height: calc(100% - 10px);
-    inset-inline-start: calc(40% - 1px);
+    inset-inline-start: calc(40% - 0.5px);
     inset-block-start: 10px;
-    border-inline-start: 2px solid rgba(5, 5, 5, 0.06);
+    border-inline-start: 1px solid rgba(5, 5, 5, 0.06);
   }
 
   .ct-timeline-item-head {
@@ -74,7 +72,7 @@ export default {
   .ct-timeline-item-content {
     position: relative;
     box-sizing: border-box;
-    width: calc(70% - 12px);
+    width: calc(60% - 18px);
     color: $uni-text-color;
     text-align: start;
     font-weight: 500;
