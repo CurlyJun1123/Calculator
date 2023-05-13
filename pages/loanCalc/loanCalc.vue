@@ -130,7 +130,7 @@ export default {
         { value: 30, text: '30年（360期）' }
       ],
 
-      result: false,
+      result: false, // 计算结果
       loan: {
         monthlyRate: 0,
         totalInterest: 0,

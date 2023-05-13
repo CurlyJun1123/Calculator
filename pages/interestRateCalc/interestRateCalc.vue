@@ -1,43 +1,40 @@
 <template>
   <view class="container">
-    <uni-section title="输入数据" type="line">
-      <view class="example">
-        <uni-forms ref="form" label-width="90px" label-align="right" :rules="rules" :modelValue="form">
-          <uni-forms-item label="贷款总额" name="principal">
-            <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款总额" :clearable="false">
-              <template #right>
-                <view class="rightSlot">元</view>
-              </template>
-            </uni-easyinput>
-          </uni-forms-item>
-          <uni-forms-item label="贷款年限" name="termInYears">
-            <uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" />
-          </uni-forms-item>
-          <uni-forms-item label="每月还款金额" name="monthlyPayment">
-            <uni-easyinput v-model="form.monthlyPayment" type="digit" placeholder="请输入每月还款金额" :clearable="false" />
-          </uni-forms-item>
-          <uni-forms-item>
-            <view style="display: flex">
-              <button style="flex: 1" type="primary" @click="submit('form')">计算</button>
-            </view>
-          </uni-forms-item>
-        </uni-forms>
-      </view>
-    </uni-section>
+    <view class="form">
+      <uni-forms ref="form" label-width="120px" label-align="right" :rules="rules" :modelValue="form">
+        <uni-forms-item label="贷款总额" name="principal">
+          <uni-easyinput v-model="form.principal" type="digit" placeholder="请输入贷款总额" :clearable="false">
+            <template #right>
+              <view class="rightSlot">元</view>
+            </template>
+          </uni-easyinput>
+        </uni-forms-item>
+        <uni-forms-item label="贷款年限" name="termInYears">
+          <uni-data-select v-model="form.termInYears" placeholder="请选择贷款年限" :localdata="termRange" :clear="false" />
+        </uni-forms-item>
+        <uni-forms-item label="每月还款金额" name="monthlyPayment">
+          <uni-easyinput v-model="form.monthlyPayment" type="digit" placeholder="请输入每月还款金额" :clearable="false" />
+        </uni-forms-item>
+      </uni-forms>
+      <button type="primary" @click="submit('form')">计算</button>
+    </view>
 
-    <uni-section title="计算结果" type="line">
-      <view class="example">
-        <uni-forms label-width="90px" label-align="right" :modelValue="form">
-          <uni-forms-item label="真实年利率">
-            <uni-easyinput v-model="annualInterestRate" disabled>
-              <template #right>
-                <view class="rightSlot">%</view>
-              </template>
-            </uni-easyinput>
-          </uni-forms-item>
-        </uni-forms>
+    <template v-if="result">
+      <view class="result">
+        <view class="result-card">
+          <view class="result-card-cell">
+            <view class="result-card-item">
+              <view class="result-card-item-title">月利率</view>
+              <view class="result-card-item-content">{{ annualInterestRate }}%</view>
+            </view>
+            <view class="result-card-item">
+              <view class="result-card-item-title">日利率</view>
+              <view class="result-card-item-content">{{ annualInterestRate }}%</view>
+            </view>
+          </view>
+        </view>
       </view>
-    </uni-section>
+    </template>
   </view>
 </template>
 
@@ -46,11 +43,17 @@ export default {
   data() {
     return {
       form: {
-        principal: '',
-        termInYears: '',
-        monthlyPayment: ''
+        principal: 100000,
+        termInYears: 3,
+        monthlyPayment: 2997.09
       },
-      annualInterestRate: '',
+      // 校验规则
+      rules: {
+        principal: { rules: [{ required: true, errorMessage: '贷款本金不能为空', trigger: 'blur' }] },
+        termInYears: { rules: [{ required: true, errorMessage: '贷款年限不能为空', trigger: 'change' }] },
+        monthlyPayment: { rules: [{ required: true, errorMessage: '每月还款金额不能为空', trigger: 'blur' }] }
+      },
+
       termRange: [
         { value: 0.5, text: '半年（6期）' },
         { value: 1, text: '1年（12期）' },
@@ -84,12 +87,9 @@ export default {
         { value: 29, text: '29年（348期）' },
         { value: 30, text: '30年（360期）' }
       ],
-      // 校验规则
-      rules: {
-        principal: { rules: [{ required: true, errorMessage: '贷款本金不能为空', trigger: 'blur' }] },
-        termInYears: { rules: [{ required: true, errorMessage: '贷款年限不能为空', trigger: 'change' }] },
-        monthlyPayment: { rules: [{ required: true, errorMessage: '每月还款金额不能为空', trigger: 'blur' }] }
-      }
+
+      result: false, // 计算结果
+      annualInterestRate: ''
     }
   },
 
@@ -134,6 +134,7 @@ export default {
           if (monthlyPaymentAndInterest <= Number(res.principal)) {
             uni.showToast({ title: '还款总额不能小于贷款总额', icon: 'none' })
           } else {
+            this.result = true
             this.annualInterestRate = (this.calculateRepayment(res.termInYears * 12, res.monthlyPayment, res.principal, 500, 10) * 100 * 12).toFixed(2)
           }
         })
@@ -146,7 +147,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.example {
+.form {
   padding: 15px;
   background-color: #fff;
 }
@@ -157,10 +158,19 @@ export default {
   text-align: center;
 }
 
-button,
-uni-button {
-  height: 35px;
-  line-height: 35px;
-  font-size: 14px;
+.result {
+  margin: 15px;
+  background-color: #18dcff;
+  border-radius: 4px;
+
+  .result-card {
+    .result-card-cell {
+      display: flex;
+
+      .result-card-item {
+        display: flex;
+      }
+    }
+  }
 }
 </style>
