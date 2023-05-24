@@ -225,6 +225,7 @@ export default {
         margin-top: 4px;
         color: rgb(255, 255, 255, 0.8);
         font-size: 14px;
+        display: flex8;
       }
     }
   }
