@@ -168,7 +168,7 @@ export default {
       display: flex;
 
       .result-card-item {
-        display: flex;
+        display: flex8;
       }
     }
   }

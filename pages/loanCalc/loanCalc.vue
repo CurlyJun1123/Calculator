@@ -163,7 +163,7 @@ export default {
     priceFormat,
 
     /**
-     * 计算等额本息还款
+     * 计算等额还款
      * @param {number} amount 贷款总金额
      * @param {number} termInYears 贷款期数（年数）
      * @param {number} interestRate 年利率
@@ -189,7 +189,7 @@ export default {
     },
 
     /**
-     * 计算等额本息还款
+     * 计算等额本金
      * @param {number} amount 贷款总金额
      * @param {number} termInYears 贷款期数（年数）
      * @param {number} interestRate 年利率
