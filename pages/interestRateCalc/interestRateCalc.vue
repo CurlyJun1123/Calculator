@@ -22,7 +22,17 @@
     <template v-if="result">
       <view class="result">
         <view class="result-card">
+          <!-- <view class="result-card-head">
+            <view class="result-card-head-title">月利率</view>
+            <view class="result-card-head-content">{{ annualInterestRate }}%</view>
+          </view> -->
+          <view class="result-card-title">真实利率</view>
+
           <view class="result-card-cell">
+            <view class="result-card-item">
+              <view class="result-card-item-title">年利率</view>
+              <view class="result-card-item-content">{{ annualInterestRate }}%</view>
+            </view>
             <view class="result-card-item">
               <view class="result-card-item-title">月利率</view>
               <view class="result-card-item-content">{{ annualInterestRate }}%</view>
@@ -159,16 +169,62 @@ export default {
 }
 
 .result {
-  margin: 15px;
-  background-color: #18dcff;
+  margin: 0 15px;
+  background: linear-gradient($uni-color-primary, rgb(30, 144, 255, 0.9));
   border-radius: 4px;
 
   .result-card {
+    display: flex;
+    flex-direction: column;
+
+    .result-card-title {
+      margin-top: 20px;
+      color: #fff;
+      text-align: center;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .result-card-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .result-card-head-title {
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .result-card-head-content {
+        margin-top: 4px;
+        color: rgb(255, 255, 255, 0.8);
+        font-size: 16px;
+      }
+    }
+
     .result-card-cell {
       display: flex;
 
       .result-card-item {
         display: flex;
+        padding: 24px 0;
+        text-align: center;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .result-card-item-title {
+        color: #fff;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .result-card-item-content {
+        margin-top: 4px;
+        color: rgb(255, 255, 255, 0.8);
+        font-size: 14px;
       }
     }
   }

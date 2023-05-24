@@ -93,11 +93,10 @@ export default {
       this.$refs.form
         .validate()
         .then((res) => {
-          console.log(res)
-          console.log(res.rate, res.fromPeriod, res.toPeriod)
           const dailyRate = rateConversion(res.rate, res.fromPeriod, res.toPeriod)
-          console.log(dailyRate) // 输出0.0005，即日利率为0.05%
           this.rate = dailyRate
+          console.log(res.rate, res.fromPeriod, res.toPeriod)
+          console.log(dailyRate) // 输出0.0005，即日利率为0.05%
         })
         .catch((err) => {
           console.log('err', err)

@@ -25,4 +25,9 @@ uni-button {
   font-size: 14px !important;
   background-color: $uni-color-primary !important;
 }
+
+button,
+uni-button:after {
+  border: 0
+}
 </style>
