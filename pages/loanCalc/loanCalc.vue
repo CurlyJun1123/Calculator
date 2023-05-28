@@ -25,7 +25,7 @@
           </uni-easyinput>
         </uni-forms-item>
       </uni-forms>
-      <button type="primary" @click="submit('form')">计算</button>
+      <ct-button @click="submit('form')">计算</ct-button>
     </view>
 
     <template v-if="result">

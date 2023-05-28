@@ -16,18 +16,13 @@
           <uni-easyinput v-model="form.monthlyPayment" type="digit" placeholder="请输入每月还款金额" :clearable="false" />
         </uni-forms-item>
       </uni-forms>
-      <button type="primary" @click="submit('form')">计算</button>
+      <ct-button @click="submit('form')">计算</ct-button>
     </view>
 
     <template v-if="result">
       <view class="result">
         <view class="result-card">
-          <!-- <view class="result-card-head">
-            <view class="result-card-head-title">月利率</view>
-            <view class="result-card-head-content">{{ annualInterestRate }}%</view>
-          </view> -->
           <view class="result-card-title">真实利率</view>
-
           <view class="result-card-cell">
             <view class="result-card-item">
               <view class="result-card-item-title">年利率</view>
