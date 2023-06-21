@@ -5,20 +5,16 @@
         <uni-forms ref="form" label-width="90px" label-align="right" :rules="rules" :modelValue="form">
           <uni-forms-item label="税前工资" name="salary">
             <view style="display: flex; align-items: center; height: 100%">
-              <uni-easyinput v-model="form.salary" placeholder="请选择税前工资" :clear="false" />
+              <uni-easyinput v-model="form.salary" placeholder="请选择税前工资" :clearable="false" />
             </view>
           </uni-forms-item>
           <uni-forms-item label="五险一金" name="gold">
             <view style="display: flex; align-items: center; height: 100%">
-              <uni-easyinput v-model="form.gold" placeholder="请选择五险一金" :clear="false" />
+              <uni-easyinput v-model="form.gold" placeholder="请选择五险一金" :clearable="false" />
             </view>
           </uni-forms-item>
           <uni-forms-item label="专项扣除" name="deduct">
-            <uni-easyinput v-model="form.deduct" type="digit" placeholder="请输入贷款本金" :clearable="false">
-              <template #right>
-                <view class="rightSlot">/万</view>
-              </template>
-            </uni-easyinput>
+            <uni-easyinput v-model="form.deduct" type="digit" placeholder="请输入贷款本金" :clearable="false" />
           </uni-forms-item>
           <uni-forms-item>
             <view style="display: flex">

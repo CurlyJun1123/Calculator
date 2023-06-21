@@ -28,9 +28,9 @@
       <ct-button @click="submit('form')">计算</ct-button>
     </view>
 
-    <template v-if="result">
+    <template v-if="calculating">
       <view class="result">
-        <view class="result-content">还款总额：{{ loan.totalRepayment }}，本息总额：{{ loan.totalInterest }}</view>
+        <view class="result-content">还款总额：{{ result.totalRepayment }}，本息总额：{{ result.totalInterest }}</view>
       </view>
 
       <ct-timeline>
@@ -130,8 +130,8 @@ export default {
         { value: 30, text: '30年（360期）' }
       ],
 
-      result: false, // 计算结果
-      loan: {
+      calculating: false, // 计算结果
+      result: {
         monthlyRate: 0,
         totalInterest: 0,
         totalRepayment: 0
@@ -144,7 +144,7 @@ export default {
   watch: {
     form: {
       handler(newVal, oldVal) {
-        this.result = false
+        this.calculating = false
       },
       deep: true
     }
@@ -219,19 +219,19 @@ export default {
         .then((res) => {
           if (this.form.savings === 0) {
             const result = this.calculateRepayment(res.principal, res.termInYears, res.interestRate / 100)
-            this.loan.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
-            this.loan.totalInterest = priceFormat(result.totalInterest, 2)
-            this.loan.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.result.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.result.totalInterest = priceFormat(result.totalInterest, 2)
+            this.result.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
             this.loanList = result.result
           } else {
             const result = this.equalPrincipal(res.principal, res.termInYears, res.interestRate / 100)
-            this.loan.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
-            this.loan.totalInterest = priceFormat(result.totalInterest, 2)
-            this.loan.totalPayment = priceFormat(result.totalPayment, 2)
-            this.loan.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
+            this.result.monthlyRate = priceFormat(result.monthlyRate * 1000, 4)
+            this.result.totalInterest = priceFormat(result.totalInterest, 2)
+            this.result.totalPayment = priceFormat(result.totalPayment, 2)
+            this.result.totalRepayment = priceFormat(res.principal + result.totalInterest, 2)
             this.loanList = result.result
           }
-          this.result = true
+          this.calculating = true
         })
         .catch((err) => {
           console.log('err', err)

@@ -33,14 +33,16 @@
       </view>
     </uni-section>
 
-    <uni-section title="计算结果" type="line">
-      <view class="example">
-        <uni-forms label-width="90px" label-align="right" :modelValue="form">
-          <uni-forms-item label="所得利息"><uni-easyinput v-model="form.interest" disabled /></uni-forms-item>
-          <uni-forms-item label="本息合计"><uni-easyinput v-model="form.total" disabled /></uni-forms-item>
-        </uni-forms>
-      </view>
-    </uni-section>
+    <template v-if="calculating">
+      <uni-section title="计算结果" type="line">
+        <view class="example">
+          <uni-forms label-width="90px" label-align="right" :modelValue="form">
+            <uni-forms-item label="所得利息"><uni-easyinput v-model="form.interest" disabled /></uni-forms-item>
+            <uni-forms-item label="本息合计"><uni-easyinput v-model="form.total" disabled /></uni-forms-item>
+          </uni-forms>
+        </view>
+      </uni-section>
+    </template>
   </view>
 </template>
 
@@ -99,7 +101,9 @@ export default {
             { minimum: 5000, errorMessage: '输入金额需大于 5000 元' }
           ]
         }
-      }
+      },
+
+      calculating: false
     }
   },
 
