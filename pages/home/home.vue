@@ -37,7 +37,6 @@ export default {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(2, calc((100% - 10px) / 2));
-  // grid-template-columns: repeat(3, calc((100% - 20px) / 3));
 }
 
 .card-item {

@@ -1,11 +1,13 @@
 {
-  "easycom": {
-    "autoscan": true,
-    "custom": {
-      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
-    }
-  },
   "pages": [
+    {
+      "path": "pages/home/index",
+      "style": {}
+    },
+    {
+      "path": "pages/home/search",
+      "style": {}
+    },
     {
       "path": "pages/home/home",
       "style": {}
@@ -47,5 +49,10 @@
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF"
   },
-  "uniIdRouter": {}
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
+    }
+  }
 }

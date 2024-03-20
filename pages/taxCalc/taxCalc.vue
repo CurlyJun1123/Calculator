@@ -53,7 +53,7 @@ import { priceFormat } from '@/utils/function'
 
 function calculateTax(salary, socialSecurity, specialDeduction) {
   // 计算应纳税所得额
-  let taxableIncome = salary - socialSecurity - specialDeduction - 5000
+  const taxableIncome = salary - socialSecurity - specialDeduction - 5000
   if (taxableIncome <= 0) {
     return 0
   }
@@ -82,7 +82,7 @@ function calculateTax(salary, socialSecurity, specialDeduction) {
     quickDeduction = 181920
   }
   // 计算个人所得税
-  let tax = taxableIncome * taxRate - quickDeduction
+  const tax = taxableIncome * taxRate - quickDeduction
   return tax > 0 ? tax : 0
 }
 
@@ -108,6 +108,7 @@ export default {
         .validate()
         .then((res) => {
           this.taxAmount = calculateTax(res.salary, res.gold, res.deduct)
+          console.log(this.taxAmount)
         })
         .catch((err) => {
           console.log('err', err)
