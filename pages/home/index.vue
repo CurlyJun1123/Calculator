@@ -101,25 +101,19 @@ export default {
 .home-swiper {
   padding: 15px;
 }
-.info {
-  position: absolute;
-  right: 20rpx;
+
+.swiper {
+  overflow: hidden;
+  height: 300rpx;
+  border-radius: 8px;
 }
+
 .swiper-item {
   display: block;
   height: 300rpx;
   border-radius: 8px;
   text-align: center;
   line-height: 300rpx;
-}
-.swiper-list {
-  margin-top: 40rpx;
-  margin-bottom: 0;
-}
-.swiper {
-  overflow: hidden;
-  height: 300rpx;
-  border-radius: 8px;
 }
 .uni-bg-blue {
   background-color: $uni-color-primary;
@@ -129,22 +123,6 @@ export default {
 }
 .uni-bg-red {
   background-color: $uni-color-error;
-}
-.uni-common-mt {
-  position: relative;
-  margin-top: 60rpx;
-}
-.uni-margin-wrap {
-  width: 690rpx;
-  width: 100%;
-}
-.uni-margin-wrap {
-  width: 690rpx;
-  width: 100%;
-}
-.uni-padding-wrap {
-  padding: 0 100rpx;
-  width: 550rpx;
 }
 
 .home-nav {

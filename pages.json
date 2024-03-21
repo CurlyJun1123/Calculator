@@ -13,6 +13,13 @@
       "style": {}
     },
     {
+      "path": "pages/home/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "backgroundColor": "#EFEFEF"
+      }
+    },
+    {
       "path": "pages/depositInterestCalc/depositInterestCalc",
       "style": {
         "navigationBarTitleText": "计算人民币存款利息"

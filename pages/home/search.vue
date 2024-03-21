@@ -1,27 +1,29 @@
 <template>
   <view>
     <view class="page-cell">
-      <view class="page-item">
-        <view class="page-cover"></view>
-        <view class="page-info">
-          <view class="page-info-title">桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林</view>
-          <view class="page-info-content">
-            <view class="page-info-score-sold">
-              <view class="page-info-score">4.6 分</view>
-              <view class="page-info-sold">已售 200 份</view>
-            </view>
-            <view class="page-info-original-price">
-              <view class="page-info-original">￥275</view>
-              <view class="page-info-price">
-                <text class="page-info-price-fit">￥</text>
-                <text class="page-info-price-num">300</text>
-                <text class="page-info-price-fit">起</text>
+      <navigator url="/pages/home/detail" open-type="navigate" hover-class="navigator-hover">
+        <view class="page-item">
+          <view class="page-cover"></view>
+          <view class="page-info">
+            <view class="page-info-title">桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林</view>
+            <view class="page-info-content">
+              <view class="page-info-score-sold">
+                <view class="page-info-score">4.6 分</view>
+                <view class="page-info-sold">已售 200 份</view>
               </view>
-              <view class="page-info-result">已优惠 ￥25</view>
+              <view class="page-info-original-price">
+                <view class="page-info-original">￥275</view>
+                <view class="page-info-price">
+                  <text class="page-info-price-fit">￥</text>
+                  <text class="page-info-price-num">300</text>
+                  <text class="page-info-price-fit">起</text>
+                </view>
+                <view class="page-info-result">已优惠 ￥25</view>
+              </view>
             </view>
           </view>
         </view>
-      </view>
+      </navigator>
       <view class="page-item">
         <view class="page-cover"></view>
         <view class="page-info">
@@ -115,11 +117,11 @@ export default {}
 }
 
 .page-info-title {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #333;
-  text-align: justify;
   font-weight: 600;
   font-size: 16px;
+  line-height: 20px;
 }
 
 .page-info-content {
