@@ -75,7 +75,14 @@ export default {
       ]
     }
   },
+  onLoad() {
+    this.globalGetData()
+  },
   methods: {
+    globalGetData() {
+      this.$http.get('/prod-api/huayi/banner/list')
+    },
+
     changeIndicatorDots(e) {
       this.indicatorDots = !this.indicatorDots
     },
