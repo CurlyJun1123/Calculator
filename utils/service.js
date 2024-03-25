@@ -24,7 +24,7 @@ const http = new Request()
 
 http.setConfig((config) => {
   /* 设置全局配置 */
-  config.baseURL = 'http://8.134.9.215:6666' /* 根域名不同 */
+  config.baseURL = 'http://8.134.9.215/prod-api' /* 根域名不同 */
   config.header = { ...config.header }
   return config
 })

@@ -52,6 +52,8 @@
         </navigator>
       </view>
     </view>
+
+    <button type="default" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">获取手机号</button>
   </view>
 </template>
 
@@ -64,8 +66,7 @@ export default {
       autoplay: true,
       interval: 2000,
       duration: 500,
-
-      list: [
+      menu: [
         { icon: '/static/account.png', lable: '实际利率计算器', url: '/pages/interestRateCalc/interestRateCalc' },
         { icon: '/static/account.png', lable: '贷款计算器', url: '/pages/loanCalc/loanCalc' },
         { icon: '/static/account.png', lable: '利率周期转化器', url: '/pages/rateConversionCalc/rateConversionCalc' },
@@ -76,11 +77,20 @@ export default {
     }
   },
   onLoad() {
-    this.globalGetData()
+    uni.login({
+      success: (res) => {
+        console.log(res)
+      }
+    })
+    this.getMenuData()
   },
   methods: {
-    globalGetData() {
-      this.$http.get('/prod-api/huayi/banner/list')
+    getMenuData() {
+      this.$http.get('/huayi/menu/list')
+    },
+
+    decryptPhoneNumber(event) {
+      console.log(event)
     },
 
     changeIndicatorDots(e) {
@@ -122,12 +132,15 @@ export default {
   text-align: center;
   line-height: 300rpx;
 }
+
 .uni-bg-blue {
   background-color: $uni-color-primary;
 }
+
 .uni-bg-green {
   background-color: $uni-color-success;
 }
+
 .uni-bg-red {
   background-color: $uni-color-error;
 }

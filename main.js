@@ -39,7 +39,6 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
-console.log(111)
 
 export function createApp() {
   const app = createSSRApp(App)
