@@ -22,33 +22,9 @@
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">包车</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">跟团游</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">景区门票</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">景区门票</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">景区门票</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">景区门票</view>
-        </navigator>
-        <navigator url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"></view>
-          <view class="home-nav-text">景区门票</view>
+        <navigator v-for="(item, index) in list" v-bind:key="index" url="/pages/home/search" open-type="navigate" class="home-nav-item">
+          <view class="home-nav-icon"><img :src="item.icon" class="home-nav-icon-img" /></view>
+          <view class="home-nav-text">{{ item.lable }}</view>
         </navigator>
       </view>
     </view>
@@ -60,18 +36,18 @@ export default {
   data() {
     return {
       background: ['color1', 'color2', 'color3'],
-      indicatorDots: true,
       autoplay: true,
-      interval: 2000,
       duration: 500,
-
+      indicatorDots: true,
+      interval: 2000,
       list: [
-        { icon: '/static/account.png', lable: '实际利率计算器', url: '/pages/interestRateCalc/interestRateCalc' },
-        { icon: '/static/account.png', lable: '贷款计算器', url: '/pages/loanCalc/loanCalc' },
-        { icon: '/static/account.png', lable: '利率周期转化器', url: '/pages/rateConversionCalc/rateConversionCalc' },
-        { icon: '/static/account.png', lable: '税额计算器', url: '' },
-        { icon: '/static/account.png', lable: '个税计算器', url: '/pages/taxCalc/taxCalc' },
-        { icon: '/static/account.png', lable: '计算人民币存款利息', url: '/pages/depositInterestCalc/depositInterestCalc' }
+        { icon: '/static/account.png', lable: '包车', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
+        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' }
       ]
     }
   },
@@ -99,7 +75,7 @@ export default {
 }
 
 .home-swiper {
-  padding: 15px;
+  padding: 30rpx;
 }
 
 .swiper {
@@ -115,21 +91,27 @@ export default {
   text-align: center;
   line-height: 300rpx;
 }
+
 .uni-bg-blue {
   background-color: $uni-color-primary;
 }
+
 .uni-bg-green {
   background-color: $uni-color-success;
 }
+
 .uni-bg-red {
   background-color: $uni-color-error;
 }
 
 .home-nav {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+
   .home-nav-cell {
     display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(auto-fill, calc((100% - 40px) / 5));
+    grid-gap: 15rpx;
+    grid-template-columns: repeat(auto-fill, calc((100% - 52rpx) / 4));
   }
 
   .home-nav-item {
@@ -140,10 +122,18 @@ export default {
   }
 
   .home-nav-icon {
-    width: 40px;
-    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80rpx;
+    height: 80rpx;
     border-radius: 8px;
-    background-color: red;
+    // background-color: red;
+  }
+
+  .home-nav-icon-img {
+    width: 60rpx;
+    height: 60rpx;
   }
 
   .home-nav-text {

@@ -15,8 +15,8 @@
     {
       "path": "pages/home/detail",
       "style": {
-        "navigationStyle": "custom",
-        "backgroundColor": "#EFEFEF"
+        "backgroundColor": "#EFEFEF",
+        "navigationStyle": "custom"
       }
     },
     {
