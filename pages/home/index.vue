@@ -28,6 +28,8 @@
         </navigator>
       </view>
     </view>
+
+    <button type="default" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">获取手机号</button>
   </view>
 </template>
 
@@ -51,7 +53,23 @@ export default {
       ]
     }
   },
+  onLoad() {
+    uni.login({
+      success: (res) => {
+        console.log(res)
+      }
+    })
+    this.getMenuData()
+  },
   methods: {
+    getMenuData() {
+      this.$http.get('/huayi/menu/list')
+    },
+
+    decryptPhoneNumber(event) {
+      console.log(event)
+    },
+
     changeIndicatorDots(e) {
       this.indicatorDots = !this.indicatorDots
     },
