@@ -2,20 +2,21 @@
   "pages": [
     {
       "path": "pages/home/index",
-      "style": {}
+      "style": {
+        "navigationBarTitleText": "首页"
+      }
     },
     {
-      "path": "pages/home/search",
-      "style": {}
+      "path": "pages/home/search"
     },
     {
-      "path": "pages/home/home",
-      "style": {}
+      "path": "pages/home/home"
     },
     {
       "path": "pages/home/detail",
       "style": {
-        "backgroundColor": "#EFEFEF",
+        "backgroundColorTop": "#EFEFEF",
+        "backgroundColorBottom": "#EFEFEF",
         "navigationStyle": "custom"
       }
     },
@@ -47,6 +48,12 @@
       "path": "pages/taxCalc/taxCalc",
       "style": {
         "navigationBarTitleText": "个税计算器"
+      }
+    },
+    {
+      "path": "pages/identity/identity",
+      "style": {
+        "navigationBarTitleText": "新增出行人"
       }
     }
   ],

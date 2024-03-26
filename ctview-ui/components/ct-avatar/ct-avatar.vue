@@ -1,5 +1,5 @@
 <template>
-  <view class="ct-avatar" @tap="clickHandler">
+  <view class="ct-avatar" @tap="clickHandler" :style="[{ width: imageWidth, height: imageHeight, borderRadius }]">
     <image
       class="ct-avatar-image"
       :src="avatarUrl || defaultUrl"
@@ -146,7 +146,7 @@ export default {
     },
 
     borderRadius() {
-      return getVal(this.radius)
+      return getVal(this.radius) || 0
     }
   },
 
@@ -197,6 +197,7 @@ export default {
 .ct-avatar-round {
   border-radius: 50%;
 }
+
 // 毛玻璃
 .Ground {
   // background-attachment: fixed;

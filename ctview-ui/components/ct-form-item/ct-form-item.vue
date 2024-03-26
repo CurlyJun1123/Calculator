@@ -4,9 +4,10 @@
       <text class="ct-form-item-label-text">{{ label }}</text>
     </view>
     <view class="ct-form-item-content" :style="[contentStyle]"><slot /></view>
-    <view v-if="!isEmpty(explain)" class="ct-form-item-explain">
+    <!-- TODO -->
+    <!-- <view v-if="!isEmpty(explain)" class="ct-form-item-explain">
       <text class="ct-form-item-explain-text">{{ explain }}</text>
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -57,7 +58,8 @@ export default {
   },
 
   methods: {
-    ...{ isEmpty: uni.$ct.isEmpty }
+    // TODO
+    // ...{ isEmpty: uni.$ct.isEmpty }
   }
 }
 </script>

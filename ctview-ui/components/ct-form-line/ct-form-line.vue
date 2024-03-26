@@ -1,8 +1,8 @@
 <template>
   <view class="ct-form-line" :class="[layout]" @tap="onclick">
-    <view v-if="value || value === 0" class="ct-form-line-main align-center">
+    <view v-if="modelValue || modelValue === 0" class="ct-form-line-main align-center">
       <text class="ct-form-line-content align-center">
-        <slot name="content">{{ value }}</slot>
+        <slot name="content">{{ modelValue }}</slot>
       </text>
     </view>
     <view v-else class="ct-form-line-main align-center">
@@ -28,7 +28,7 @@ export default {
   },
 
   props: {
-    value: [String, Number],
+    modelValue: [String, Number],
     placeholder: String,
     placeholderStyle: {
       type: Object,

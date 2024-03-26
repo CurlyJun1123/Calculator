@@ -16,9 +16,11 @@
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator v-for="(menu, index) in menus" v-bind:key="index" url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"><img class="home-nav-icon-img" :src="menu.imgUrl" /></view>
-          <view class="home-nav-text">{{ menu.title }}</view>
+        <navigator v-for="(menu, index) in menus" v-bind:key="index" open-type="navigate" :url="`/pages/home/search?navigationBarTitleText=${menu.title}&projectType=${menu.type}`">
+          <view class="home-nav-item">
+            <view class="home-nav-icon"><img class="home-nav-icon-img" :src="$static + menu.imgUrl" /></view>
+            <view class="home-nav-text">{{ menu.title }}</view>
+          </view>
         </navigator>
       </view>
     </view>
@@ -42,6 +44,7 @@ export default {
       menus: []
     }
   },
+
   onLoad() {
     // uni.login({
     //   success: (res) => {
@@ -51,8 +54,10 @@ export default {
     this.getSwiperData()
     this.getMenuData()
   },
+
   methods: {
     getSwiperData() {
+      console.log(uni.$http)
       this.$http.get('/hy/app/getBanner').then((data) => {
         this.swipers = data
       })

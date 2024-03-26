@@ -14,7 +14,7 @@ export default {
 
 <style lang="scss">
 /* 每个页面公共css */
-text {
-  font-family: Helvetica Neue, robotoregular, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, Helvetica, Arial, monospace, serif;
-}
+// text {
+//   font-family: Helvetica Neue, robotoregular, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, Helvetica, Arial, monospace, serif;
+// }
 </style>

@@ -62,7 +62,7 @@ export default {
   },
 
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: ''
     },
@@ -105,27 +105,28 @@ export default {
 
   data() {
     return {
-      defaultValue: '',
+      // defaultValue: '',
       placeholderClass: 'ct-input-placeholder-none'
     }
   },
 
   computed: {
+    defaultValue: {
+      get() {
+        return this.modelValue
+      },
+      set(value) {
+        this.$emit('update:modelValue', value)
+      }
+    },
     layout() {
       return this.ctForm && this.ctForm.layout
     }
   },
 
   watch: {
-    value: {
-      handler(nVal, oVal) {
-        this.defaultValue = nVal
-      },
-      immediate: true,
-      deep: true
-    },
     layout: {
-      handler(nVal, oVal) {
+      handler(nVal) {
         this.placeholderClass = nVal === 'card' ? 'ct-input-placeholder-card' : 'ct-input-placeholder-none'
       }
     }
@@ -133,6 +134,7 @@ export default {
 
   methods: {
     ...{ isEmpty },
+
     handleFocus(event) {
       this.$emit('focus', event)
     },
@@ -141,13 +143,14 @@ export default {
       // vue 原生的方法 return 出去
       this.$emit('blur', event)
     },
+
     doSearch() {
       this.$emit('doSearch', this.defaultValue)
     },
+
     handleInput(event) {
       let value = event.detail.value
-      // vue 原生的方法 return 出去
-      this.$emit('input', value)
+      this.$emit('update:modelValue', value)
     },
 
     inputClick() {

@@ -44,6 +44,7 @@ export function createApp() {
   const app = createSSRApp(App)
 
   app.config.globalProperties.$http = http
+  app.config.globalProperties.$static = 'http://8.134.9.215/prod-api'
   return { app }
 }
 // #endif
