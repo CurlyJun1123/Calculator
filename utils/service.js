@@ -36,11 +36,12 @@ http.interceptors.request.use(
       ...config.header,
       token: getTokenStorage()
     }
-    /*
- if (!token) { // 如果token不存在，return Promise.reject(config) 会取消本次请求
-   return Promise.reject(config)
- }
- */
+
+    // if (!token) {
+    //   // 如果token不存在，return Promise.reject(config) 会取消本次请求
+    //   return Promise.reject(config)
+    // }
+
     return config
   },
   (config) => {
@@ -54,7 +55,7 @@ http.interceptors.response.use(
     // if (response.data.code !== 200) { // 服务端返回的状态码不等于200，则reject()
     //   return Promise.reject(response)
     // }
-    return response
+    return response.data.data
   },
   (response) => {
     // 请求错误做点什么。可以使用async await 做异步操作

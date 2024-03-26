@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="page-cell">
-      <navigator url="/pages/home/detail" open-type="navigate" hover-class="navigator-hover">
+      <!-- <navigator url="/pages/home/detail" open-type="navigate" hover-class="navigator-hover">
         <view class="page-item">
           <view class="page-cover"></view>
           <view class="page-info">
@@ -23,79 +23,59 @@
             </view>
           </view>
         </view>
+      </navigator> -->
+      <navigator v-for="(item, index) in list" class="page-item" url="/pages/home/detail" open-type="navigate" hover-class="navigator-hover" v-bind:key="index">
+        <view class="page-content">
+          <view class="page-cover">
+            <ct-avatar :src="item.img" :size="105" :radius="8" />
+          </view>
+          <view class="page-info">
+            <view class="page-info-title">
+              {{ item.title }}
+            </view>
+            <view class="page-info-content">
+              <view class="page-info-score-sold">
+                <view class="page-info-score">4.6 分</view>
+                <view class="page-info-sold">已售 {{ item.price }} 份</view>
+              </view>
+              <view class="page-info-original-price">
+                <view class="page-info-original">￥{{ item.price }}</view>
+                <view class="page-info-price">
+                  <text class="page-info-price-fit">￥</text>
+                  <text class="page-info-price-num">{{ item.price }}</text>
+                  <text class="page-info-price-fit">起</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
       </navigator>
-      <view class="page-item">
-        <view class="page-cover"></view>
-        <view class="page-info">
-          <view class="page-info-title">
-            桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林
-          </view>
-          <view class="page-info-content">
-            <view class="page-info-score-sold">
-              <view class="page-info-score">4.6 分</view>
-              <view class="page-info-sold">已售 200 份</view>
-            </view>
-            <view class="page-info-original-price">
-              <view class="page-info-original">￥300</view>
-              <view class="page-info-price">
-                <text class="page-info-price-fit">￥</text>
-                <text class="page-info-price-num">300</text>
-                <text class="page-info-price-fit">起</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="page-item">
-        <view class="page-cover"></view>
-        <view class="page-info">
-          <view class="page-info-title">桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林</view>
-          <view class="page-info-content">
-            <view class="page-info-score-sold">
-              <view class="page-info-score">4.6 分</view>
-              <view class="page-info-sold">已售 200 份</view>
-            </view>
-            <view class="page-info-original-price">
-              <view class="page-info-original">￥300</view>
-              <view class="page-info-price">
-                <text class="page-info-price-fit">￥</text>
-                <text class="page-info-price-num">300</text>
-                <text class="page-info-price-fit">起</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="page-item">
-        <view class="page-cover"></view>
-        <view class="page-info">
-          <view class="page-info-title">桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林桂林</view>
-          <view class="page-info-content">
-            <view class="page-info-score-sold">
-              <view class="page-info-score">4.6 分</view>
-              <view class="page-info-sold">已售 200 份</view>
-            </view>
-            <view class="page-info-original-price">
-              <view class="page-info-original">￥300</view>
-              <view class="page-info-price">
-                <text class="page-info-price-fit">￥</text>
-                <text class="page-info-price-num">300</text>
-                <text class="page-info-price-fit">起</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
     </view>
   </view>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      list: []
+    }
+  },
+  onLoad() {
+    this.getListData()
+  },
+  methods: {
+    getListData() {
+      this.$http.get('/hy/project/list?pageNum=1&pageSize=10&searchValue=&projectType=1').then((data) => {
+        this.list = data.rows
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-.page-item {
+.page-content {
   display: flex;
   margin: 0 12px;
   padding: 12px 0;
@@ -107,7 +87,6 @@ export default {}
   width: 105px;
   height: 105px;
   border-radius: 8px;
-  background-color: red;
 }
 
 .page-info {

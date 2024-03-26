@@ -8,23 +8,17 @@
 
     <view class="home-swiper">
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-        <swiper-item>
+        <swiper-item v-for="(swiper, index) in swipers" v-bind:key="index">
           <view class="swiper-item uni-bg-red">A</view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item uni-bg-green">B</view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item uni-bg-blue">C</view>
         </swiper-item>
       </swiper>
     </view>
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator v-for="(item, index) in list" v-bind:key="index" url="/pages/home/search" open-type="navigate" class="home-nav-item">
-          <view class="home-nav-icon"><img :src="item.icon" class="home-nav-icon-img" /></view>
-          <view class="home-nav-text">{{ item.lable }}</view>
+        <navigator v-for="(menu, index) in menus" v-bind:key="index" url="/pages/home/search" open-type="navigate" class="home-nav-item">
+          <view class="home-nav-icon"><img class="home-nav-icon-img" :src="menu.imgUrl" /></view>
+          <view class="home-nav-text">{{ menu.title }}</view>
         </navigator>
       </view>
     </view>
@@ -37,39 +31,44 @@
 export default {
   data() {
     return {
-      background: ['color1', 'color2', 'color3'],
+      // 轮播图
+      swipers: [],
       autoplay: true,
       duration: 500,
       indicatorDots: true,
       interval: 2000,
-      list: [
-        { icon: '/static/account.png', lable: '包车', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '跟团游', url: '/pages/home/search' },
-        { icon: '/static/account.png', lable: '景区门票', url: '/pages/home/search' }
-      ]
+
+      // 菜单
+      menus: []
     }
   },
   onLoad() {
-    uni.login({
-      success: (res) => {
-        console.log(res)
-      }
-    })
+    // uni.login({
+    //   success: (res) => {
+    //     console.log(res)
+    //   }
+    // })
+    this.getSwiperData()
     this.getMenuData()
   },
   methods: {
+    getSwiperData() {
+      this.$http.get('/hy/app/getBanner').then((data) => {
+        this.swipers = data
+      })
+    },
+
     getMenuData() {
-      this.$http.get('/huayi/menu/list')
+      this.$http.get('/hy/app/getMenu').then((data) => {
+        this.menus = data
+      })
     },
 
     decryptPhoneNumber(event) {
       console.log(event)
     },
 
+    // 轮播图处理事件
     changeIndicatorDots(e) {
       this.indicatorDots = !this.indicatorDots
     },

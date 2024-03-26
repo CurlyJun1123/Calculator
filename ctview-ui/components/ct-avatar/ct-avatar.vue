@@ -104,7 +104,6 @@ export default {
   },
 
   created() {
-    console.log(this.visibility, this.isBuy, '11111')
     let url = this.avatarUrl || this.defaultUrl // 获取头像路径
     if (url.indexOf('/default/headimg') > -1) {
       //判断有没有 '/default/headimg' 这个字段 有的话就是系统默认头像
