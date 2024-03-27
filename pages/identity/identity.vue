@@ -20,25 +20,25 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        form: {
-          id: undefined,
-          idCard: '',
-          name: '',
-          phone: '13211121312',
-          type: '身份证'
-        }
-      }
-    },
-
-    methods: {
-      on() {
-        console.log(this.form)
+export default {
+  data() {
+    return {
+      form: {
+        id: undefined,
+        idCard: '',
+        name: '',
+        phone: '13211121312',
+        type: '身份证'
       }
     }
+  },
+
+  methods: {
+    on() {
+      console.log(this.form)
+    }
   }
+}
 </script>
 
 <style lang="scss"></style>

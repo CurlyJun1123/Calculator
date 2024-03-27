@@ -1,4 +1,10 @@
 {
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "金融计算器",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
   "pages": [
     {
       "path": "pages/home/index",
@@ -55,18 +61,27 @@
       "style": {
         "navigationBarTitleText": "新增出行人"
       }
+    },
+    {
+      "path": "pages/mine/mine"
     }
   ],
-  "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "金融计算器",
-    "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#FFFFFF"
-  },
   "easycom": {
     "autoscan": true,
     "custom": {
       "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
     }
+  },
+  "tabBar": {
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/index"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mine/mine"
+      }
+    ]
   }
 }
