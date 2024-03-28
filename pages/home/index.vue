@@ -9,14 +9,19 @@
     <view class="home-swiper">
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
         <swiper-item v-for="(swiper, index) in swipers" v-bind:key="index">
-          <view class="swiper-item uni-bg-red">A</view>
+          <view class="swiper-item"><ct-avatar :src="$static + swiper.imgUrl" size="100%" :radius="8" /></view>
         </swiper-item>
       </swiper>
     </view>
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator v-for="(menu, index) in menus" v-bind:key="index" open-type="navigate" :url="`/pages/home/search?navigationBarTitleText=${menu.title}&projectType=${menu.type}`">
+        <navigator
+          v-for="(menu, index) in menus"
+          v-bind:key="index"
+          open-type="navigate"
+          :url="`${menu.path}&navigationBarTitleText=${menu.title}`"
+        >
           <view class="home-nav-item">
             <view class="home-nav-icon"><img class="home-nav-icon-img" :src="$static + menu.imgUrl" /></view>
             <view class="home-nav-text">{{ menu.title }}</view>
@@ -57,7 +62,6 @@ export default {
 
   methods: {
     getSwiperData() {
-      console.log(uni.$http)
       this.$http.get('/hy/app/getBanner').then((data) => {
         this.swipers = data
       })
@@ -71,20 +75,6 @@ export default {
 
     decryptPhoneNumber(event) {
       console.log(event)
-    },
-
-    // 轮播图处理事件
-    changeIndicatorDots(e) {
-      this.indicatorDots = !this.indicatorDots
-    },
-    changeAutoplay(e) {
-      this.autoplay = !this.autoplay
-    },
-    intervalChange(e) {
-      this.interval = e.target.value
-    },
-    durationChange(e) {
-      this.duration = e.target.value
     }
   }
 }
@@ -112,18 +102,6 @@ export default {
   border-radius: 8px;
   text-align: center;
   line-height: 300rpx;
-}
-
-.uni-bg-blue {
-  background-color: $uni-color-primary;
-}
-
-.uni-bg-green {
-  background-color: $uni-color-success;
-}
-
-.uni-bg-red {
-  background-color: $uni-color-error;
 }
 
 .home-nav {

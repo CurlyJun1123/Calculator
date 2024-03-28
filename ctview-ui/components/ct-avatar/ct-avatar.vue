@@ -5,10 +5,9 @@
       :src="avatarUrl || defaultUrl"
       :mode="mode"
       :style="[{ width: imageWidth, height: imageHeight, borderRadius }]"
-      :class="[{ 'ct-avatar-round': round }, { Ground: !isCallResume() && avatarBool }]"
+      :class="[{ 'ct-avatar-round': round }]"
       @error="errorHandler"
     ></image>
-    <!-- 'Ground': !isCallResume() && avatarBool  -->
   </view>
 </template>
 
@@ -159,25 +158,10 @@ export default {
     // 图片加载时失败时触发
     errorHandler() {
       this.avatarUrl = this.defaultUrl || base64Avatar
-      this.avatarBool = false //系统默认头像
     },
 
     clickHandler() {
       this.$emit('click', this.name)
-    },
-    //直call简历 还是职聊简历  true:职聊简历  false:直call简历
-    isCallResume() {
-      // 判断是不是没有字段都没空 避免影响到其他头像
-      if (this.visibility == '' && this.isBuy == '') {
-        return true
-      }
-      if (this.visibility === 1 || this.isBuy === 1) {
-        //公开或者有购买关系可以看到联系方式的为直call简历
-        return true
-      } else if (this.visibility === 2) {
-        //其余的为职聊简历
-        return false
-      }
     }
   }
 }
@@ -196,16 +180,5 @@ export default {
 
 .ct-avatar-round {
   border-radius: 50%;
-}
-
-// 毛玻璃
-.Ground {
-  // background-attachment: fixed;
-  filter: blur(5px);
-
-  color: transparent;
-
-  // color: transparent;
-  // text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 </style>
