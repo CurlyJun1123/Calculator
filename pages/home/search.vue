@@ -22,13 +22,15 @@
                 <view class="page-info-sold">已售{{ item.price }}份</view>
               </view>
               <view class="page-info-original-price">
-                <view v-if="item.linePrice" class="page-info-original">￥{{ item.linePrice }}</view>
+                <view v-if="item.linePrice && item.linePrice != item.price" class="page-info-original">￥{{ item.linePrice }}</view>
                 <view class="page-info-price">
                   <text class="page-info-price-fit">￥</text>
                   <text class="page-info-price-num">{{ item.price }}</text>
                   <text class="page-info-price-fit">起</text>
                 </view>
-                <view v-if="item.linePrice" class="page-info-result">已优惠￥{{ item.linePrice - item.price }}</view>
+                <view v-if="item.linePrice && item.linePrice != item.price" class="page-info-result">
+                  已优惠￥{{ item.linePrice - item.price }}
+                </view>
               </view>
             </view>
           </view>

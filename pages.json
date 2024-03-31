@@ -57,15 +57,27 @@
       }
     },
     {
-      "path": "pages/identity/identity",
-      "style": {
-        "navigationBarTitleText": "新增出行人"
-      }
-    },
-    {
       "path": "pages/mine/mine",
       "style": {
         "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/order/order",
+      "style": {
+        "navigationBarTitleText": "订单填写"
+      }
+    },
+    {
+      "path": "pages/identity/identityEdit",
+      "style": {
+        "navigationBarTitleText": "新增出行人信息"
+      }
+    },
+    {
+      "path": "pages/identity/identityList",
+      "style": {
+        "navigationBarTitleText": "常用出行人"
       }
     }
   ],

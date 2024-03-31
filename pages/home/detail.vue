@@ -6,13 +6,15 @@
       </swiper-item>
     </swiper>
 
-    <view class="card detail-info">
+    <view class="detail-info card">
       <view>
         <view class="detail-info-price">
           <text class="detail-info-price-fit">￥</text>
           <text class="detail-info-price-num">{{ data.price }}</text>
           <text class="detail-info-price-fit">起</text>
-          <text v-if="data.linePrice" class="detail-info-price-original-price">优惠前￥{{ data.linePrice }}起</text>
+          <text v-if="data.linePrice && data.linePrice != data.price" class="detail-info-price-original-price">
+            优惠前￥{{ data.linePrice }}起
+          </text>
         </view>
       </view>
       <view class="detail-info-title">{{ data.title }}</view>
@@ -34,10 +36,26 @@
 
     <view class="card">
       <view class="card-title">全部车型</view>
-      <view class="vehicle">
-        <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="vehicle-card">
-          <view class="vehicle-card-title">{{ item.remark }}</view>
-          <view class="vehicle-card-capacity">4人 · 2行李</view>
+      <view class="ticket">
+        <view class="ticket-list">
+          <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="ticket-item">
+            <view class="ticket-item-left">
+              <view class="ticket-item-title">{{ item.remark }}</view>
+              <view class="ticket-item-label">立即取票 需要换票</view>
+              <view class="ticket-item-label">已售31+</view>
+            </view>
+            <view class="ticket-item-right">
+              <view class="ticket-item-original-price">
+                <view v-if="item.linePrice" class="ticket-item-original">￥{{ item.linePrice }}</view>
+                <view class="ticket-item-price">
+                  <text class="ticket-item-price-fit">￥</text>
+                  <text class="ticket-item-price-num">{{ item.price }}</text>
+                  <text class="ticket-item-price-fit">起</text>
+                </view>
+                <view v-if="item.linePrice" class="ticket-item-result">已优惠￥{{ item.linePrice - item.price }}</view>
+              </view>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -96,6 +114,10 @@ export default {
       this.$http.get('/hy/project/' + id).then((data) => {
         this.data = data
       })
+    },
+
+    changeValue(value) {
+      console.log('返回数值：', value)
     }
   }
 }
@@ -106,7 +128,15 @@ page {
   background-color: #efefef;
 }
 </style>
+
 <style lang="scss" scoped>
+.card {
+  margin: 12px 12px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
 .swiper {
   overflow: hidden;
   height: 750rpx;
@@ -117,13 +147,6 @@ page {
   height: 750rpx;
   text-align: center;
   line-height: 750rpx;
-}
-
-.card {
-  margin: 12px 12px;
-  padding: 12px;
-  background-color: #fff;
-  border-radius: 8px;
 }
 
 .detail-info-original-price {
@@ -221,5 +244,47 @@ page {
 
 .rich-text {
   font-size: 14px;
+}
+
+.ticket-item {
+  display: flex;
+
+  .ticket-item-left {
+    flex: 1;
+  }
+}
+
+.ticket-item-original-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.ticket-item-original {
+  color: #454545;
+  text-decoration: line-through;
+  font-size: 10px;
+}
+
+.ticket-item-price {
+  color: #f86601;
+  font-size: 16px;
+}
+
+.ticket-item-price-fit {
+  font-size: 12px;
+}
+
+.ticket-item-price-num {
+  font-weight: 600;
+}
+
+.ticket-item-result {
+  margin-top: 4px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #fa7e54, #f33726);
+  color: #fff;
+  font-size: 10px;
 }
 </style>
