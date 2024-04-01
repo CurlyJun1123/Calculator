@@ -19,10 +19,10 @@
       "path": "pages/home/home"
     },
     {
-      "path": "pages/home/detail",
+      "path": "pages/detail/detail",
       "style": {
-        "backgroundColorTop": "#EFEFEF",
         "backgroundColorBottom": "#EFEFEF",
+        "backgroundColorTop": "#EFEFEF",
         "navigationStyle": "custom"
       }
     },
@@ -65,6 +65,10 @@
     {
       "path": "pages/order/order",
       "style": {
+        "backgroundColorBottom": "#f8f8f8",
+        "backgroundColorTop": "#1e90ff",
+        "navigationBarBackgroundColor": "#1e90ff",
+        "navigationBarTextStyle": "white",
         "navigationBarTitleText": "订单填写"
       }
     },
