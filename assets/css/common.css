@@ -1,0 +1,45 @@
+view, scroll-view, swiper, button, input, textarea, label, navigator, image { box-sizing: border-box; }
+
+/* Text 文本 */
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ct-header { padding: 16px; }
+.ct-header-title .ct-header-title-text { color: #192434; font-weight: 600; font-size: 24px; line-height: 28px; }
+.ct-header-describe { margin-top: 8px; }
+.ct-header-describe-text { color: #666; font-size: 14px; line-height: 22px; }
+
+/* Flex 布局 */
+.flex-col { display: flex; flex-direction: column; }
+.flex-row { display: flex; flex-direction: row; }
+.justify-start { display: flex; justify-content: flex-start; }
+.justify-center { display: flex; justify-content: center; }
+.justify-end { display: flex; justify-content: flex-end; }
+.justify-evenly { display: flex; justify-content: space-evenly; }
+.justify-around { display: flex; justify-content: space-around; }
+.justify-between { display: flex; justify-content: space-between; }
+.align-start { display: flex; align-items: flex-start; }
+.align-center { display: flex; align-items: center; }
+.align-end { display: flex; align-items: flex-end; }
+
+/* NavBar 导航栏 */
+.uni-nav-bar-text { font-weight: 600; font-size: 16px !important; }
+
+/* Button 按钮样式 */
+.ct-button { margin: 0; padding: 0 12px; height: 45px; border-radius: 4px; border: 1px #E8EBEF; background: #E8EBEF; color: #666; font-size: 16px; line-height: 43px; }
+.ct-button::after { border: none; }
+.ct-button-primary { background: #1676F3; color: #fff; }
+.ct-button-small { height: 36px; line-height: 34px; font-size: 14px; }
+.ct-button-mini { height: 32px; line-height: 30px; font-size: 14px; }
+.ct-button-round { border-radius: 999px; }
+
+/* Switch 样式 */
+.uni-switch-input,.wx-switch-input { width: 44px !important; height: 24px !important; }
+.uni-switch-input::before,.wx-switch-input::before { box-sizing: border-box !important; width: 42px !important; height: 22px !important; }
+.uni-switch-input::after,.wx-switch-input::after { margin: 1px; width: 20px !important; height: 20px !important; }
+
+/* 弹窗样式 */
+.uni-popup { z-index: 9999 !important;}
+.ct-popup .ct-popup-close { position: absolute; top: 16px; right: 16px; }
+.ct-popup .ct-popup-main { display: flex; border-radius: 16px 16px 0 0; background: #fff; flex-direction: column; }
+.ct-popup .ct-popup-main.ct-popup-main-inset { margin: 12px; border-radius: 16px; }
+.ct-popup .ct-popup-title { margin-top: 32px; padding: 0 16px; color: #333; text-align: center; font-weight: 600; font-size: 18px; }
+.ct-popup.ct-popup-bottom .ct-popup-main { padding-bottom: constant(safe-area-inset-bottom) !important; padding-bottom: env(safe-area-inset-bottom) !important; }

@@ -4,8 +4,19 @@
       <view class="ct-action-bar-cell-group flex-row" :style="[{ paddingBottom: safeAreaInsets + 'px' }]">
         <view v-if="options.icon && options.icon.length" class="ct-action-bar-cell flex-row">
           <!-- 图标 -->
-          <view v-for="(item, index) in options.icon" class="ct-action-bar-item ct-action-bar-item-icon flex-col justify-center align-center" :key="index" @tap="onClickIcon(item, index)">
-            <ct-icon v-if="item.icon" class="ct-action-bar-icon" :name="item.icon" :size="item.size || 24" :color="item.color || '#292929'" />
+          <view
+            v-for="(item, index) in options.icon"
+            class="ct-action-bar-item ct-action-bar-item-icon flex-col justify-center align-center"
+            :key="index"
+            @tap="onClickIcon(item, index)"
+          >
+            <ct-icon
+              v-if="item.icon"
+              class="ct-action-bar-icon"
+              :name="item.icon"
+              :size="item.size || 24"
+              :color="item.color || '#292929'"
+            />
             <text class="ct-action-bar-icon-text">{{ item.text }}</text>
           </view>
         </view>
