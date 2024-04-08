@@ -6,11 +6,13 @@
       <view class="head card">
         <view class="head-title">{{ data.title }}</view>
         <view class="divider"></view>
-        <view class="head-time">
+        <view class="head-time" @click="open">
           <view class="head-time-lable">2023/11/11 周六</view>
           <view class="head-time-replace">更换&gt;</view>
         </view>
       </view>
+
+      <wu-calendar ref="calendar" :insert="false" :monthShowCurrentMonth="true" @confirm="calendarConfirm" />
 
       <view class="ticket card">
         <view class="ticket-list">
@@ -18,14 +20,14 @@
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
-              <view class="ticket-item-label">已售31+</view>
+              <view class="ticket-item-label">已售{{ item.saleNum }}</view>
             </view>
             <view class="ticket-item-right">
               <view class="ticket-item-price">
                 <text class="ticket-item-price-fit">￥</text>
                 <text class="ticket-item-price-num">{{ item.price }}</text>
               </view>
-              <view class="ticket-item-number"><uni-number-box /></view>
+              <view class="ticket-item-number"><uni-number-box v-model="item.number" /></view>
             </view>
           </view>
         </view>
@@ -65,10 +67,43 @@
 </template>
 
 <script>
+/**
+ * 获取任意时间
+ */
+function getDate(date, AddDayCount = 0) {
+  if (!date) {
+    date = new Date()
+  }
+  if (typeof date !== 'object') {
+    date = date.replace(/-/g, '/')
+  }
+  const dd = new Date(date)
+
+  dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
+
+  const y = dd.getFullYear()
+  const m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 // 获取当前月份的日期，不足10补0
+  const d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
+  return {
+    fullDate: y + '-' + m + '-' + d,
+    year: y,
+    month: m,
+    date: d,
+    day: dd.getDay()
+  }
+}
+
 export default {
   data() {
     return {
-      data: {}
+      data: {},
+
+      info: {
+        lunar: true,
+        range: true,
+        insert: false,
+        selected: []
+      }
     }
   },
 
@@ -76,11 +111,55 @@ export default {
     this.getListData(options.id)
   },
 
+  onReady() {
+    this.$nextTick(() => {
+      this.showCalendar = true
+    })
+
+    // TODO 模拟请求异步同步数据
+    setTimeout(() => {
+      this.info.date = getDate(new Date(), -30).fullDate
+      this.info.startDate = getDate(new Date(), -60).fullDate
+      this.info.endDate = getDate(new Date(), 30).fullDate
+      this.info.selected = [
+        {
+          date: getDate(new Date(), -3).fullDate,
+          info: '打卡'
+        },
+        {
+          date: getDate(new Date(), -2).fullDate,
+          info: '签到',
+          data: {
+            custom: '自定义信息',
+            name: '自定义消息头'
+          }
+        },
+        {
+          date: getDate(new Date(), -1).fullDate,
+          info: '已打卡'
+        }
+      ]
+    }, 2000)
+  },
+
   methods: {
     getListData(id) {
       this.$http.get('/hy/project/' + id).then((data) => {
-        this.data = data
+        this.data = { ...data, hyProjectTicketList: data.hyProjectTicketList.map((item) => ({ ...item, number: 0 })) }
       })
+    },
+
+    // 打开日历
+    open() {
+      this.$refs.calendar.open()
+    },
+
+    close() {
+      console.log('弹窗关闭')
+    },
+
+    calendarConfirm(e) {
+      console.log(e)
     }
   }
 }
@@ -97,7 +176,7 @@ page {
   position: fixed;
   left: 0;
   z-index: 1;
-  width: 750rpx;
+  width: 100%;
   height: 300px;
   background: linear-gradient(to bottom, $uni-theme-color-6, $uni-bg-color-grey);
 }
