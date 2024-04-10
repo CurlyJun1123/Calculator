@@ -8,7 +8,10 @@
         <view class="divider"></view>
         <view class="head-time" @click="open">
           <view class="head-time-lable">2023/11/11 周六</view>
-          <view class="head-time-replace">更换&gt;</view>
+          <view class="head-time-replace">
+            更换
+            <uni-icons type="right" size="14" />
+          </view>
         </view>
       </view>
 
@@ -20,7 +23,7 @@
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
-              <view class="ticket-item-label">已售{{ item.saleNum }}</view>
+              <view class="ticket-item-label">已售{{ item.saleNum || 0 }}</view>
             </view>
             <view class="ticket-item-right">
               <view class="ticket-item-price">
@@ -40,7 +43,7 @@
             <view class="tourist-item-type">{{ item.remark }}</view>
             <view class="tourist-item-list">
               <view class="tourist-item-info">
-                <view class="tourist-item-info-delete">&gt;</view>
+                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
                 <view class="tourist-item-info-main">
                   <view class="tourist-item-info-name">{{ item.remark }}</view>
                   <view class="tourist-item-info-code">身份证 442000199700000000</view>
@@ -48,7 +51,7 @@
                 </view>
               </view>
               <view class="tourist-item-info">
-                <view class="tourist-item-info-delete">&gt;</view>
+                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
                 <view class="tourist-item-info-main">
                   <view class="tourist-item-info-name">{{ item.remark }}</view>
                   <view class="tourist-item-info-code">身份证 442000199700000000</view>
@@ -56,12 +59,12 @@
                 </view>
               </view>
             </view>
-            <view class="tourist-item-icon">&gt;</view>
+            <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
           </view>
         </view>
       </view>
 
-      <ct-action-bar :options="{ button: [{ text: 123 }] }"></ct-action-bar>
+      <ct-action-bar :options="{ button: [{ text: '立即付款' }] }"></ct-action-bar>
     </view>
   </view>
 </template>
@@ -315,7 +318,7 @@ page {
       border-top: 1rpx solid rgba(0, 0, 0, 0.12);
 
       .tourist-item-info-delete {
-        margin-right: 6px;
+        margin-right: 12px;
       }
 
       .tourist-item-info-main {

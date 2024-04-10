@@ -9,10 +9,12 @@
     <view class="detail-info card">
       <view class="detail-info-price">
         <text class="detail-info-price-fit">￥</text>
-        <text class="detail-info-price-num">{{ data.price }}</text>
+        <text class="detail-info-price-num">
+          {{ minPrice.price }}
+        </text>
         <text class="detail-info-price-fit">起</text>
-        <text v-if="data.linePrice && data.linePrice != data.price" class="detail-info-price-original-price">
-          优惠前￥{{ data.linePrice }}起
+        <text v-if="minPrice.linePrice && minPrice.linePrice != minPrice.price" class="detail-info-price-original-price">
+          优惠前￥{{ minPrice.linePrice }}起
         </text>
       </view>
       <view class="detail-info-title">{{ data.title }}</view>
@@ -39,7 +41,7 @@
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
-              <view class="ticket-item-label">已售31+</view>
+              <view class="ticket-item-label">已售{{ item.saleNum || 0 }}</view>
             </view>
             <view class="ticket-item-right">
               <view class="ticket-item-original-price">
@@ -96,6 +98,12 @@ export default {
       duration: 500,
 
       data: {}
+    }
+  },
+
+  computed: {
+    minPrice() {
+      return this.data.hyProjectTicketList.reduce((prev, current) => (prev.price < current.price ? prev : current))
     }
   },
 

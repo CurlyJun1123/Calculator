@@ -27,7 +27,7 @@
             class="ct-action-bar-item ct-action-bar-button ct-action-bar-item-button justify-center align-center"
             :key="index"
             :class="item.disable ? 'disable' : ''"
-            :style="[buttonStyle, item.style, { borderRadius: buttonRadius }]"
+            :style="[buttonStyle, item.style]"
             @tap="onClickButton(item, index)"
           >
             <text class="ct-action-bar-button-text" :style="[item.fontStyle]">{{ item.text }}</text>
@@ -87,12 +87,6 @@ export default {
     }
   },
 
-  computed: {
-    buttonRadius() {
-      return getVal(this.radius)
-    }
-  },
-
   mounted() {
     this.$nextTick(() => {
       uni.getSystemInfo({
@@ -127,7 +121,7 @@ export default {
 .ct-action-bar {
   left: 0;
   bottom: 0;
-  z-index: 1024;
+  z-index: 10;
   width: 100%;
 }
 
@@ -157,9 +151,9 @@ export default {
   flex: 1;
 }
 
-.ct-action-bar-item {
-  margin: 0 6px;
-}
+// .ct-action-bar-item {
+//   margin: 0 6px;
+// }
 
 .ct-action-bar-item-icon {
   width: 45px;
@@ -174,7 +168,7 @@ export default {
 .ct-action-bar-button {
   height: 45px;
   border-radius: 4px;
-  background: #1676f3;
+  background-color: $uni-theme-color-6;
   flex: 1;
 }
 
@@ -186,10 +180,11 @@ export default {
 .ct-action-bar-place {
   box-sizing: content-box;
   padding-top: 12px;
-  width: 750rpx;
+  width: 100%;
   height: 45px;
 }
+
 .disable {
-  background: #b9d6fc !important;
+  background-color: #b9d6fc !important;
 }
 </style>
