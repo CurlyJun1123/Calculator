@@ -20,7 +20,7 @@
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
-              <view class="ticket-item-label">已售{{ item.saleNum }}</view>
+              <view class="ticket-item-label">已售{{ item.saleNum || 0 }}</view>
             </view>
             <view class="ticket-item-right">
               <view class="ticket-item-price">
