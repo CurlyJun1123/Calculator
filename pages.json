@@ -1,103 +1,112 @@
 {
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "金融计算器",
-		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#FFFFFF"
-	},
-	"pages": [{
-			"path": "pages/home/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
-			"path": "pages/home/search"
-		},
-		{
-			"path": "pages/home/home"
-		},
-		{
-			"path": "pages/detail/detail",
-			"style": {
-				"backgroundColorBottom": "#EFEFEF",
-				"backgroundColorTop": "#EFEFEF"
-			}
-		},
-		{
-			"path": "pages/depositInterestCalc/depositInterestCalc",
-			"style": {
-				"navigationBarTitleText": "计算人民币存款利息"
-			}
-		},
-		{
-			"path": "pages/loanCalc/loanCalc",
-			"style": {
-				"navigationBarTitleText": "贷款计算器"
-			}
-		},
-		{
-			"path": "pages/interestRateCalc/interestRateCalc",
-			"style": {
-				"navigationBarTitleText": "实际利率计算器"
-			}
-		},
-		{
-			"path": "pages/rateConversionCalc/rateConversionCalc",
-			"style": {
-				"navigationBarTitleText": "利率转换计算器"
-			}
-		},
-		{
-			"path": "pages/taxCalc/taxCalc",
-			"style": {
-				"navigationBarTitleText": "个税计算器"
-			}
-		},
-		{
-			"path": "pages/mine/mine",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/order/order",
-			"style": {
-				"backgroundColorBottom": "#f8f8f8",
-				"backgroundColorTop": "#1e90ff",
-				"navigationBarBackgroundColor": "#1e90ff",
-				"navigationBarTextStyle": "white",
-				"navigationBarTitleText": "订单填写"
-			}
-		},
-		{
-			"path": "pages/identity/identityEdit",
-			"style": {
-				"navigationBarTitleText": "新增出行人信息"
-			}
-		},
-		{
-			"path": "pages/identity/identityList",
-			"style": {
-				"navigationBarTitleText": "常用出行人"
-			}
-		}
-	],
-	"easycom": {
-		"autoscan": true,
-		"custom": {
-			"^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
-		}
-	},
-	"tabBar": {
-		"list": [{
-				"text": "首页",
-				"pagePath": "pages/home/index"
-			},
-			{
-				"text": "我的",
-				"pagePath": "pages/mine/mine"
-			}
-		]
-	}
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "金融计算器",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF"
+  },
+  "pages": [
+    {
+      "path": "pages/home/index",
+      "style": {
+        "navigationBarTitleText": "首页"
+      }
+    },
+    {
+      "path": "pages/home/search"
+    },
+    {
+      "path": "pages/home/home"
+    },
+    {
+      "path": "pages/detail/detail",
+      "style": {
+        "backgroundColorBottom": "#EFEFEF",
+        "backgroundColorTop": "#EFEFEF",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/depositInterestCalc/depositInterestCalc",
+      "style": {
+        "navigationBarTitleText": "计算人民币存款利息"
+      }
+    },
+    {
+      "path": "pages/loanCalc/loanCalc",
+      "style": {
+        "navigationBarTitleText": "贷款计算器"
+      }
+    },
+    {
+      "path": "pages/interestRateCalc/interestRateCalc",
+      "style": {
+        "navigationBarTitleText": "实际利率计算器"
+      }
+    },
+    {
+      "path": "pages/rateConversionCalc/rateConversionCalc",
+      "style": {
+        "navigationBarTitleText": "利率转换计算器"
+      }
+    },
+    {
+      "path": "pages/taxCalc/taxCalc",
+      "style": {
+        "navigationBarTitleText": "个税计算器"
+      }
+    },
+    {
+      "path": "pages/mine/mine",
+      "style": {
+        "backgroundColorBottom": "#f8f8f8",
+        "backgroundColorTop": "#1e90ff",
+        "navigationBarBackgroundColor": "#1e90ff",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/order/order",
+      "style": {
+        "backgroundColorBottom": "#f8f8f8",
+        "backgroundColorTop": "#1e90ff",
+        "navigationBarBackgroundColor": "#1e90ff",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "订单填写"
+      }
+    },
+    {
+      "path": "pages/identity/identityEdit",
+      "style": {
+        "navigationBarTitleText": "新增出行人信息"
+      }
+    },
+    {
+      "path": "pages/identity/identityList",
+      "style": {
+        "navigationBarTitleText": "常用出行人"
+      }
+    }
+  ],
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
+    }
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#1e90ff",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/home/index"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mine/mine"
+      }
+    ]
+  }
 }
