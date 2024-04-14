@@ -108,9 +108,9 @@ export default {
   },
 
   onLoad(options) {
-    uni.setNavigationBarTitle({
-      title: options.title
-    })
+    // uni.setNavigationBarTitle({
+    //   title: options.title
+    // })
     this.getListData(options.id)
   },
 
