@@ -7,16 +7,13 @@
   },
   "pages": [
     {
-      "path": "pages/home/index",
+      "path": "pages/home/home",
       "style": {
         "navigationBarTitleText": "首页"
       }
     },
     {
-      "path": "pages/home/search"
-    },
-    {
-      "path": "pages/home/home"
+      "path": "pages/search/search"
     },
     {
       "path": "pages/detail/detail",
@@ -24,36 +21,6 @@
         "backgroundColorBottom": "#EFEFEF",
         "backgroundColorTop": "#EFEFEF",
         "navigationBarTitleText": "详情"
-      }
-    },
-    {
-      "path": "pages/depositInterestCalc/depositInterestCalc",
-      "style": {
-        "navigationBarTitleText": "计算人民币存款利息"
-      }
-    },
-    {
-      "path": "pages/loanCalc/loanCalc",
-      "style": {
-        "navigationBarTitleText": "贷款计算器"
-      }
-    },
-    {
-      "path": "pages/interestRateCalc/interestRateCalc",
-      "style": {
-        "navigationBarTitleText": "实际利率计算器"
-      }
-    },
-    {
-      "path": "pages/rateConversionCalc/rateConversionCalc",
-      "style": {
-        "navigationBarTitleText": "利率转换计算器"
-      }
-    },
-    {
-      "path": "pages/taxCalc/taxCalc",
-      "style": {
-        "navigationBarTitleText": "个税计算器"
       }
     },
     {
@@ -101,7 +68,7 @@
     "list": [
       {
         "text": "首页",
-        "pagePath": "pages/home/index"
+        "pagePath": "pages/home/home"
       },
       {
         "text": "我的",

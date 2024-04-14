@@ -36,8 +36,36 @@
         </view>
       </view>
 
-      <view class="tourist card">
+      <!-- <view class="tourist card">
         <view class="tourist-title card-title">游客信息</view>
+        <view class="tourist-list">
+          <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="tourist-item">
+            <view class="tourist-item-type">{{ item.remark }}</view>
+            <view class="tourist-item-list">
+              <view class="tourist-item-info">
+                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
+                <view class="tourist-item-info-main">
+                  <view class="tourist-item-info-name">{{ item.remark }}</view>
+                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
+                  <view class="tourist-item-info-phone">手机号 13211100000</view>
+                </view>
+              </view>
+              <view class="tourist-item-info">
+                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
+                <view class="tourist-item-info-main">
+                  <view class="tourist-item-info-name">{{ item.remark }}</view>
+                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
+                  <view class="tourist-item-info-phone">手机号 13211100000</view>
+                </view>
+              </view>
+            </view>
+            <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
+          </view>
+        </view>
+      </view> -->
+
+      <view class="tourist card">
+        <view class="tourist-title card-title">联系人信息</view>
         <view class="tourist-list">
           <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="tourist-item">
             <view class="tourist-item-type">{{ item.remark }}</view>
