@@ -36,7 +36,7 @@
         </view>
       </view>
 
-      <!-- <view class="tourist card">
+      <view class="tourist card">
         <view class="tourist-title card-title">游客信息</view>
         <view class="tourist-list">
           <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="tourist-item">
@@ -62,33 +62,9 @@
             <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
           </view>
         </view>
-      </view> -->
-
-      <view class="tourist card">
-        <view class="tourist-title card-title">联系人信息</view>
-        <view class="tourist-list">
-          <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="tourist-item">
-            <view class="tourist-item-type">{{ item.remark }}</view>
-            <view class="tourist-item-list">
-              <view class="tourist-item-info">
-                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
-                <view class="tourist-item-info-main">
-                  <view class="tourist-item-info-name">{{ item.remark }}</view>
-                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
-                  <view class="tourist-item-info-phone">手机号 13211100000</view>
-                </view>
-              </view>
-              <view class="tourist-item-info">
-                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
-                <view class="tourist-item-info-main">
-                  <view class="tourist-item-info-name">{{ item.remark }}</view>
-                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
-                  <view class="tourist-item-info-phone">手机号 13211100000</view>
-                </view>
-              </view>
-            </view>
-            <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
-          </view>
+        <view class="tourist-button align-center">
+          <view class="tourist-button-left">联系电话</view>
+          <uni-easyinput v-model="formData.name" placeholder="请输入姓名" :styles="{ border: 0 }" />
         </view>
       </view>
 
@@ -134,6 +110,10 @@ export default {
         range: true,
         insert: false,
         selected: []
+      },
+
+      formData: {
+        name: ''
       }
     }
   },
@@ -362,6 +342,16 @@ page {
           font-size: 12px;
         }
       }
+    }
+  }
+
+  .tourist-button {
+    padding: 6px 12px;
+
+    .tourist-button-left {
+      width: 80px;
+      color: $uni-text-color;
+      font-size: 14px;
     }
   }
 }
