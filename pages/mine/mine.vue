@@ -44,7 +44,7 @@
         <view class="common-cell">
           <navigator url="/pages/identity/identityList">
             <view class="common-item">
-              <view class="common-icon"></view>
+              <view class="common-icon"><uni-icons type="staff" size="30"></uni-icons></view>
               <view class="common-lable">常用信息</view>
             </view>
           </navigator>
