@@ -10,26 +10,26 @@
       <view class="detail-info-price">
         <text class="detail-info-price-fit">￥</text>
         <text class="detail-info-price-num">
-          {{ minPrice.price }}
+          {{ minPrice?.price }}
         </text>
         <text class="detail-info-price-fit">起</text>
-        <text v-if="minPrice.linePrice && minPrice.linePrice != minPrice.price" class="detail-info-price-original-price">
-          优惠前￥{{ minPrice.linePrice }}起
+        <text v-if="minPrice?.linePrice && minPrice?.linePrice != minPrice?.price" class="detail-info-price-original-price">
+          优惠前￥{{ minPrice?.linePrice }}起
         </text>
       </view>
       <view class="detail-info-title">{{ data.title }}</view>
       <view class="detail-info-more">
         <view class="detail-info-more-item">
-          <view class="detail-info-more-item-icon"></view>
-          5分
+          <uni-icons type="heart" size="14" color="#95a5a6" />
+          <text class="detail-info-more-item-text">5分</text>
         </view>
         <view class="detail-info-more-item">
-          <view class="detail-info-more-item-icon"></view>
-          13条评价
+          <uni-icons type="chat" size="14" color="#95a5a6" />
+          <text class="detail-info-more-item-text">13条评价</text>
         </view>
         <view class="detail-info-more-item">
-          <view class="detail-info-more-item-icon"></view>
-          分享
+          <uni-icons type="redo" size="14" color="#95a5a6" />
+          <text class="detail-info-more-item-text">分享</text>
         </view>
       </view>
     </view>
@@ -45,13 +45,13 @@
             </view>
             <view class="ticket-item-right">
               <view class="ticket-item-original-price">
-                <view v-if="item.linePrice" class="ticket-item-original">￥{{ item.linePrice }}</view>
+                <view v-if="item?.linePrice" class="ticket-item-original">￥{{ item.linePrice }}</view>
                 <view class="ticket-item-price">
                   <text class="ticket-item-price-fit">￥</text>
                   <text class="ticket-item-price-num">{{ item.price }}</text>
                   <text class="ticket-item-price-fit">起</text>
                 </view>
-                <view v-if="item.linePrice" class="ticket-item-result">已优惠￥{{ item.linePrice - item.price }}</view>
+                <view v-if="item?.linePrice" class="ticket-item-result">已优惠￥{{ item.linePrice - item.price }}</view>
               </view>
             </view>
           </view>
@@ -83,7 +83,7 @@
 
     <view class="rich-text-main card"><rich-text class="rich-text" :nodes="data.content" /></view>
 
-    <ct-action-bar :options="{ button: [{ text: 123 }] }"></ct-action-bar>
+    <ct-action-bar :options="{ button: [{ text: '立即购买' }] }"></ct-action-bar>
   </view>
 </template>
 
@@ -103,7 +103,7 @@ export default {
 
   computed: {
     minPrice() {
-      return this.data.hyProjectTicketList.reduce((prev, current) => (prev.price < current.price ? prev : current))
+      return this.data?.hyProjectTicketList?.reduce((prev, current) => (prev?.price < current?.price ? prev : current))
     }
   },
 
@@ -213,11 +213,8 @@ page {
     font-size: 12px;
   }
 
-  .detail-info-more-item-icon {
-    margin-right: 4px;
-    width: 12px;
-    height: 12px;
-    background-color: #f86601;
+  .detail-info-more-item-text {
+    margin-left: 4px;
   }
 }
 
