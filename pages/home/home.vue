@@ -30,7 +30,7 @@
       </view>
     </view>
 
-    <button type="default" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">获取手机号</button>
+    <button type="primary" size="mini" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">获取手机号</button>
   </view>
 </template>
 
@@ -51,11 +51,6 @@ export default {
   },
 
   onLoad() {
-    // uni.login({
-    //   success: (res) => {
-    //     console.log(res)
-    //   }
-    // })
     this.getSwiperData()
     this.getMenuData()
   },
@@ -74,7 +69,17 @@ export default {
     },
 
     decryptPhoneNumber(event) {
-      console.log(event)
+      uni.login({
+        provider: 'weixin',
+        success: (loginRes) =>
+          this.$http.post('/miniapp/login', { ...event.detail, code: loginRes.code }).then((res) => {
+            try {
+              uni.setStorageSync('token', res.token)
+            } catch (e) {
+              // error
+            }
+          })
+      })
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "金融计算器",
+    "navigationBarTitleText": "旅游",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF"
   },
@@ -44,13 +44,13 @@
       }
     },
     {
-      "path": "pages/identity/identityEdit",
+      "path": "pages/identity/edit",
       "style": {
         "navigationBarTitleText": "新增出行人信息"
       }
     },
     {
-      "path": "pages/identity/identityList",
+      "path": "pages/identity/list",
       "style": {
         "navigationBarTitleText": "常用出行人"
       }

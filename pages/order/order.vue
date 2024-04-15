@@ -64,7 +64,7 @@
         </view>
         <view class="tourist-button align-center">
           <view class="tourist-button-left">联系电话</view>
-          <uni-easyinput v-model="formData.name" placeholder="请输入姓名" :styles="{ border: 0 }" />
+          <uni-easyinput v-model="formData.name" placeholder="请输入姓名" :styles="{ borderColor: 'transparent' }" />
         </view>
       </view>
 

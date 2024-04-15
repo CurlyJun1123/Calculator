@@ -108,9 +108,6 @@ export default {
   },
 
   onLoad(options) {
-    // uni.setNavigationBarTitle({
-    //   title: options.title
-    // })
     this.getListData(options.id)
   },
 
@@ -128,7 +125,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 page {
   background-color: #efefef;
 }

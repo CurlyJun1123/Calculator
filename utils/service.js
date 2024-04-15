@@ -34,7 +34,7 @@ http.interceptors.request.use(
     /* 请求之前拦截器。可以使用async await 做异步操作 */
     config.header = {
       ...config.header,
-      token: getTokenStorage()
+      Authorization: 'Bearer ' + getTokenStorage()
     }
 
     // if (!token) {

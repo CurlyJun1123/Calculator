@@ -42,39 +42,21 @@
       <view class="common card">
         <view class="common-title">常用</view>
         <view class="common-cell">
-          <navigator url="/pages/identity/identityList">
+          <navigator url="/pages/identity/list">
             <view class="common-item">
-              <view class="common-icon"><uni-icons type="staff" size="30"></uni-icons></view>
+              <uni-icons type="staff" size="28"></uni-icons>
               <view class="common-lable">常用信息</view>
             </view>
           </navigator>
-          <navigator url="/pages/identity/identityList">
+          <navigator url="/pages/identity/list">
             <view class="common-item">
-              <view class="common-icon"></view>
+              <uni-icons type="staff" size="28"></uni-icons>
               <view class="common-lable">常用信息</view>
             </view>
           </navigator>
-          <navigator url="/pages/identity/identityList">
+          <navigator url="/pages/identity/list">
             <view class="common-item">
-              <view class="common-icon"></view>
-              <view class="common-lable">常用信息</view>
-            </view>
-          </navigator>
-          <navigator url="/pages/identity/identityList">
-            <view class="common-item">
-              <view class="common-icon"></view>
-              <view class="common-lable">常用信息</view>
-            </view>
-          </navigator>
-          <navigator url="/pages/identity/identityList">
-            <view class="common-item">
-              <view class="common-icon"></view>
-              <view class="common-lable">常用信息</view>
-            </view>
-          </navigator>
-          <navigator url="/pages/identity/identityList">
-            <view class="common-item">
-              <view class="common-icon"></view>
+              <uni-icons type="staff" size="28"></uni-icons>
               <view class="common-lable">常用信息</view>
             </view>
           </navigator>
@@ -212,12 +194,6 @@ page {
     justify-content: center;
     align-items: center;
     padding: 8px 0;
-
-    .common-icon {
-      width: 20px;
-      height: 20px;
-      background-color: #333333;
-    }
 
     .common-lable {
       margin-top: 4px;
