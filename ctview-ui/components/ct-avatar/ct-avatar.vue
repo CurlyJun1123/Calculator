@@ -17,7 +17,7 @@ const getVal = (val) => {
   return typeof val === 'number' || reg.test(val) ? val + 'px' : val
 }
 
-const base64Avatar = 'https://doc.job001.cn/files/default/headimg/photoDefault_m_02.png'
+const base64Avatar = '/static/ct-avatar.png'
 
 export default {
   name: 'CtAvatar',

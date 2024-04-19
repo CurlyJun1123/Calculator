@@ -83,7 +83,7 @@
 
     <view class="rich-text-main card"><rich-text class="rich-text" :nodes="data.content" /></view>
 
-    <ct-action-bar :options="{ button: [{ text: '立即购买' }] }"></ct-action-bar>
+    <ct-action-bar :options="{ button: [{ text: '立即购买' }] }" />
   </view>
 </template>
 

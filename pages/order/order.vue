@@ -6,7 +6,7 @@
       <view class="head card">
         <view class="head-title">{{ data.title }}</view>
         <view class="divider"></view>
-        <view class="head-time" @click="open">
+        <view class="head-time" @click="openCalendar">
           <view class="head-time-lable">2023/11/11 周六</view>
           <view class="head-time-replace">
             更换
@@ -39,28 +39,30 @@
       <view class="tourist card">
         <view class="tourist-title card-title">游客信息</view>
         <view class="tourist-list">
-          <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="tourist-item">
-            <view class="tourist-item-type">{{ item.remark }}</view>
-            <view class="tourist-item-list">
-              <view class="tourist-item-info">
-                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
-                <view class="tourist-item-info-main">
-                  <view class="tourist-item-info-name">{{ item.remark }}</view>
-                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
-                  <view class="tourist-item-info-phone">手机号 13211100000</view>
+          <template v-for="(cell, index) in data.hyProjectTicketList">
+            <view v-bind:key="index" v-if="cell.number" class="tourist-item">
+              <view class="tourist-item-type">{{ cell.remark }}</view>
+              <view class="tourist-item-list">
+                <view
+                  v-for="(tourst, tourstIndex) in tourstList[cell.id]"
+                  v-bind:key="tourstIndex"
+                  class="tourist-item-info"
+                  @click="openTourists(cell.id)"
+                >
+                  <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
+                  <view class="tourist-item-info-main">
+                    <view class="tourist-item-info-name">{{ tourst.name }}</view>
+                    <view class="tourist-item-info-code">身份证 {{ tourst.idCard }}</view>
+                    <view class="tourist-item-info-phone">手机号 {{ tourst.phone }}</view>
+                  </view>
+                </view>
+                <view v-if="cell.number > (tourstList[cell.id]?.length || 0)" class="tourist-item-select" @click="openTourists(cell.id)">
+                  还需选择{{ cell.number - (tourstList[cell.id]?.length || 0) }}位{{ cell.remark }}
                 </view>
               </view>
-              <view class="tourist-item-info">
-                <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
-                <view class="tourist-item-info-main">
-                  <view class="tourist-item-info-name">{{ item.remark }}</view>
-                  <view class="tourist-item-info-code">身份证 442000199700000000</view>
-                  <view class="tourist-item-info-phone">手机号 13211100000</view>
-                </view>
-              </view>
+              <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
             </view>
-            <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
-          </view>
+          </template>
         </view>
         <view class="tourist-button align-center">
           <view class="tourist-button-left">联系电话</view>
@@ -68,53 +70,51 @@
         </view>
       </view>
 
-      <ct-action-bar :options="{ button: [{ text: '立即付款' }] }"></ct-action-bar>
+      <ct-action-bar :options="{ button: [{ text: '立即付款' }] }" @clickButton="generateOrder" />
     </view>
+
+    <uni-popup ref="popup" type="bottom" background-color="#fff" borderRadius="10px 10px 0 0" title="选择游客">
+      <view class="tourist-button-left">
+        <view class="identity-list">
+          <checkbox-group @change="touristsChange">
+            <label v-for="item in identity" v-bind:key="item.id" class="identity-item card align-center">
+              <checkbox :value="String(item.id)" :checked="item.checked" style="transform: scale(0.7)" color="#1e90ff" />
+              <view class="flex-1">
+                <view class="identity-item-name">{{ item.name }}</view>
+                <view class="identity-item-info">身份证 {{ item.idCard }}</view>
+                <view class="identity-item-info">手机号 {{ item.phone }}</view>
+              </view>
+              <uni-icons type="compose" size="20"></uni-icons>
+            </label>
+          </checkbox-group>
+        </view>
+      </view>
+
+      <ct-action-bar
+        :placeholder="false"
+        :fixed="false"
+        :safeAreaInsetBottom="false"
+        :options="{ button: [{ text: '确认' }] }"
+        @clickButton="selectTourists"
+      />
+    </uni-popup>
   </view>
 </template>
 
 <script>
-/**
- * 获取任意时间
- */
-function getDate(date, AddDayCount = 0) {
-  if (!date) {
-    date = new Date()
-  }
-  if (typeof date !== 'object') {
-    date = date.replace(/-/g, '/')
-  }
-  const dd = new Date(date)
-
-  dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
-
-  const y = dd.getFullYear()
-  const m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 // 获取当前月份的日期，不足10补0
-  const d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
-  return {
-    fullDate: y + '-' + m + '-' + d,
-    year: y,
-    month: m,
-    date: d,
-    day: dd.getDay()
-  }
-}
-
 export default {
   data() {
     return {
       data: {},
 
-      info: {
-        lunar: true,
-        range: true,
-        insert: false,
-        selected: []
-      },
+      tourstList: {},
 
       formData: {
         name: ''
-      }
+      },
+
+      tourists: {},
+      identity: []
     }
   },
 
@@ -126,31 +126,6 @@ export default {
     this.$nextTick(() => {
       this.showCalendar = true
     })
-
-    // TODO 模拟请求异步同步数据
-    setTimeout(() => {
-      this.info.date = getDate(new Date(), -30).fullDate
-      this.info.startDate = getDate(new Date(), -60).fullDate
-      this.info.endDate = getDate(new Date(), 30).fullDate
-      this.info.selected = [
-        {
-          date: getDate(new Date(), -3).fullDate,
-          info: '打卡'
-        },
-        {
-          date: getDate(new Date(), -2).fullDate,
-          info: '签到',
-          data: {
-            custom: '自定义信息',
-            name: '自定义消息头'
-          }
-        },
-        {
-          date: getDate(new Date(), -1).fullDate,
-          info: '已打卡'
-        }
-      ]
-    }, 2000)
   },
 
   methods: {
@@ -161,7 +136,7 @@ export default {
     },
 
     // 打开日历
-    open() {
+    openCalendar() {
       this.$refs.calendar.open()
     },
 
@@ -171,6 +146,43 @@ export default {
 
     calendarConfirm(e) {
       console.log(e)
+    },
+
+    // 打开游客列表
+    openTourists(event) {
+      this.tourists = event
+      this.$refs.popup.open()
+      this.$http.get('/hy/tourist/list').then((data) => {
+        this.identity = data.map((item) => {
+          return {
+            ...item,
+            checked: this.tourstList[event]?.some((identity) => {
+              return identity.id === item.id
+            })
+          }
+        })
+      })
+    },
+
+    // 游客列表选择处理
+    touristsChange(e) {
+      const items = this.identity
+      const value = e.detail.value
+
+      items.forEach((item) => {
+        this.$set(item, 'checked', value.includes(String(item.id)))
+      })
+    },
+
+    selectTourists() {
+      this.$refs.popup.close()
+      this.tourstList[this.tourists] = this.identity.filter((item) => item.checked === true)
+    },
+
+    // 生成订单
+    generateOrder() {
+      console.log(this.data)
+      console.log(this.tourstList)
     }
   }
 }
@@ -343,6 +355,12 @@ page {
         }
       }
     }
+
+    .tourist-item-select {
+      padding: 12px 0;
+      font-size: 14px;
+      color: #636e72;
+    }
   }
 
   .tourist-button {
@@ -354,5 +372,16 @@ page {
       font-size: 14px;
     }
   }
+}
+
+.identity-item-name {
+  margin-bottom: 6px;
+  color: $uni-text-color;
+  font-size: 16px;
+}
+
+.identity-item-info {
+  color: #636e72;
+  font-size: 14px;
 }
 </style>

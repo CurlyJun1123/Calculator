@@ -8,7 +8,7 @@
             v-for="(item, index) in options.icon"
             class="ct-action-bar-item ct-action-bar-item-icon flex-col justify-center align-center"
             :key="index"
-            @tap="onClickIcon(item, index)"
+            @click="onClickIcon(item, index)"
           >
             <ct-icon
               v-if="item.icon"
@@ -28,7 +28,7 @@
             :key="index"
             :class="item.disable ? 'disable' : ''"
             :style="[buttonStyle, item.style]"
-            @tap="onClickButton(item, index)"
+            @click="onClickButton(item, index)"
           >
             <text class="ct-action-bar-button-text" :style="[item.fontStyle]">{{ item.text }}</text>
           </view>

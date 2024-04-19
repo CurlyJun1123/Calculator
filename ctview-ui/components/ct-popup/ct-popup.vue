@@ -1,7 +1,8 @@
 <template>
   <uni-popup ref="popup" class="ct-popup" type="bottom" :safe-area="false" @change="change" :is-mask-click="isMask">
     <ct-icon class="ct-popup-close" name="icon43-guanbi" color="#192434" size="16px" @click="close" weight="bold"></ct-icon>
-    <view class="ct-popup-main" :style="[{ height: popupHeight }]">
+    <!-- <view class="ct-popup-main" :style="[{ height: popupHeight }]"> -->
+    <view class="ct-popup-main">
       <view class="ct-popup-title">{{ title }}</view>
       <slot></slot>
     </view>
@@ -31,10 +32,6 @@ export default {
     }
   },
 
-  mounted() {
-    console.log(this.mask)
-  },
-
   computed: {
     popupHeight() {
       return getVal(this.height)
@@ -48,7 +45,6 @@ export default {
 
     close() {
       this.$refs.popup.close()
-      uni.showTabBar()
     },
 
     change(e) {

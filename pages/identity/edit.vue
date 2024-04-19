@@ -15,11 +15,11 @@
       </ct-form-item>
     </ct-form>
 
-    <button @click="handleSubmit">保存</button>
-
     <view class="page-card">
       <text>您已知晓您的身份证等信息将用于预订须实名制的产品，请确保信息真实有效。《》仅在有具体交易时授权提供给第三方</text>
     </view>
+
+    <ct-action-bar :options="{ button: [{ text: '保存' }] }" @clickButton="handleSubmit" />
   </view>
 </template>
 
@@ -44,7 +44,6 @@ export default {
   methods: {
     handleSubmit() {
       this.$http.post('/hy/tourist', this.form).then((res) => {
-        console.log(res)
         uni.navigateBack()
       })
     }
