@@ -17,5 +17,6 @@ export default {
 // text {
 //   font-family: Helvetica Neue, robotoregular, PingFang SC, Hiragino Sans GB, Heiti SC, Microsoft YaHei, WenQuanYi Micro Hei, Helvetica, Arial, monospace, serif;
 // }
-@import '@/assets/css/common.css';
+
+@import '@/common/scss/index.scss';
 </style>

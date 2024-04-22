@@ -66,33 +66,43 @@
         </view>
         <view class="tourist-button align-center">
           <view class="tourist-button-left">联系电话</view>
-          <uni-easyinput v-model="formData.name" placeholder="请输入姓名" :styles="{ borderColor: 'transparent' }" />
+          <input
+            v-model="formData.name"
+            class="tourist-button-input"
+            placeholder-style="font-size: 14px"
+            placeholder="请输入姓名"
+            type="text"
+          />
         </view>
       </view>
 
       <ct-action-bar :options="{ button: [{ text: '立即付款' }] }" @clickButton="generateOrder" />
     </view>
 
-    <uni-popup ref="popup" type="bottom" background-color="#fff" borderRadius="10px 10px 0 0" title="选择游客">
+    <uni-popup ref="popup" type="bottom" background-color="#fff" borderRadius="10px 10px 0 0">
+      <view class="popup-title">选择游客</view>
+
       <view class="tourist-button-left">
         <view class="identity-list">
-          <checkbox-group @change="touristsChange">
-            <label v-for="item in identity" v-bind:key="item.id" class="identity-item card align-center">
-              <checkbox :value="String(item.id)" :checked="item.checked" style="transform: scale(0.7)" color="#1e90ff" />
-              <view class="flex-1">
+          <view v-for="(item, index) in identity" v-bind:key="item.id" class="identity-item align-center">
+            <view class="align-center flex-1" @click="touristsChange(!item.checked, index)">
+              <uni-icons v-if="item.checked" type="circle-filled" size="22" color="#1e90ff" />
+              <uni-icons v-else type="circle" size="22" color="#d1d1d1" />
+
+              <view class="identity-item-content flex-1">
                 <view class="identity-item-name">{{ item.name }}</view>
                 <view class="identity-item-info">身份证 {{ item.idCard }}</view>
                 <view class="identity-item-info">手机号 {{ item.phone }}</view>
               </view>
-              <uni-icons type="compose" size="20"></uni-icons>
-            </label>
-          </checkbox-group>
+            </view>
+            <uni-icons type="compose" size="22"></uni-icons>
+          </view>
         </view>
       </view>
 
       <ct-action-bar
-        :placeholder="false"
         :fixed="false"
+        :placeholder="false"
         :safeAreaInsetBottom="false"
         :options="{ button: [{ text: '确认' }] }"
         @clickButton="selectTourists"
@@ -119,7 +129,7 @@ export default {
   },
 
   onLoad(options) {
-    this.getListData(options.id)
+    this.getListData(options)
   },
 
   onReady() {
@@ -129,9 +139,13 @@ export default {
   },
 
   methods: {
-    getListData(id) {
-      this.$http.get('/hy/project/' + id).then((data) => {
-        this.data = { ...data, hyProjectTicketList: data.hyProjectTicketList.map((item) => ({ ...item, number: 0 })) }
+    getListData(options) {
+      this.$http.get(`/hy/project/${options.id}`).then((data) => {
+        this.data = data
+        this.data.hyProjectTicketList = data.hyProjectTicketList.map((item) => ({
+          ...item,
+          number: Number(options.projectTicketId) === item.id ? 1 : 0
+        }))
       })
     },
 
@@ -153,30 +167,18 @@ export default {
       this.tourists = event
       this.$refs.popup.open()
       this.$http.get('/hy/tourist/list').then((data) => {
-        this.identity = data.map((item) => {
-          return {
-            ...item,
-            checked: this.tourstList[event]?.some((identity) => {
-              return identity.id === item.id
-            })
-          }
-        })
+        this.identity = data.map((item) => ({ ...item, checked: this.tourstList[event]?.some((identity) => identity.id === item.id) }))
       })
     },
 
     // 游客列表选择处理
-    touristsChange(e) {
-      const items = this.identity
-      const value = e.detail.value
-
-      items.forEach((item) => {
-        this.$set(item, 'checked', value.includes(String(item.id)))
-      })
+    touristsChange(value, index) {
+      this.$set(this.identity[index], 'checked', value)
     },
 
     selectTourists() {
-      this.$refs.popup.close()
       this.tourstList[this.tourists] = this.identity.filter((item) => item.checked === true)
+      this.$refs.popup.close()
     },
 
     // 生成订单
@@ -364,24 +366,37 @@ page {
   }
 
   .tourist-button {
-    padding: 6px 12px;
+    padding: 12px;
 
     .tourist-button-left {
       width: 80px;
       color: $uni-text-color;
       font-size: 14px;
     }
+
+    .tourist-button-input {
+      flex: 1;
+      padding: 0 6px;
+    }
   }
 }
 
-.identity-item-name {
-  margin-bottom: 6px;
-  color: $uni-text-color;
-  font-size: 16px;
-}
+.identity-item {
+  margin: 12px;
 
-.identity-item-info {
-  color: #636e72;
-  font-size: 14px;
+  .identity-item-content {
+    margin-left: 11px;
+  }
+
+  .identity-item-name {
+    margin-bottom: 4px;
+    color: $uni-text-color;
+    font-size: 16px;
+  }
+
+  .identity-item-info {
+    color: #636e72;
+    font-size: 14px;
+  }
 }
 </style>

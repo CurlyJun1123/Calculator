@@ -34,9 +34,13 @@
       </view>
     </view>
 
-    <view class="ticket card">
+    <view v-if="data.hyProjectTicketList.length" class="ticket card">
       <view class="ticket-list">
-        <navigator v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" :url="`/pages/order/order?id=${data.id}`">
+        <navigator
+          v-for="(item, index) in data.hyProjectTicketList"
+          v-bind:key="index"
+          :url="`/pages/order/order?id=${data.id}&projectTicketId=${item.id}`"
+        >
           <view class="ticket-item">
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>

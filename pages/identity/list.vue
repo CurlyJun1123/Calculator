@@ -1,6 +1,6 @@
 <template>
   <view class="identity-list">
-    <view v-for="item in identity" v-bind:key="item.id" class="identity-item card align-center" @click="() => onNavigateTo(item)">
+    <view v-for="item in identity" v-bind:key="item.id" class="identity-item align-center" @click="() => onNavigateTo(item)">
       <view class="flex-1">
         <view class="identity-item-name">{{ item.name }}</view>
         <view class="identity-item-info">身份证 {{ item.idCard }}</view>
@@ -44,7 +44,7 @@ page {
 </style>
 
 <style lang="scss" scoped>
-.card {
+.identity-item {
   margin: 12px 12px;
   padding: 12px;
   background-color: #fff;
