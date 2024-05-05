@@ -65,6 +65,12 @@ export default {
 }
 </script>
 
+<style lang="scss">
+page {
+  background-color: #fff;
+}
+</style>
+
 <style lang="scss" scoped>
 .page-content {
   display: flex;

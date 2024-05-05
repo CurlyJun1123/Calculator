@@ -95,7 +95,7 @@
                 <view class="identity-item-info">手机号 {{ item.phone }}</view>
               </view>
             </view>
-            <uni-icons type="compose" size="22"></uni-icons>
+            <uni-icons type="compose" size="22" />
           </view>
         </view>
       </view>
@@ -123,7 +123,7 @@ export default {
         name: ''
       },
 
-      tourists: {},
+      tourists: null,
       identity: []
     }
   },
@@ -165,10 +165,11 @@ export default {
     // 打开游客列表
     openTourists(event) {
       this.tourists = event
-      this.$refs.popup.open()
+      console.log('🚀 ~ openTourists ~ event:', event)
       this.$http.get('/hy/tourist/list').then((data) => {
         this.identity = data.map((item) => ({ ...item, checked: this.tourstList[event]?.some((identity) => identity.id === item.id) }))
       })
+      this.$refs.popup.open()
     },
 
     // 游客列表选择处理
@@ -178,6 +179,7 @@ export default {
 
     selectTourists() {
       this.tourstList[this.tourists] = this.identity.filter((item) => item.checked === true)
+      console.log('🚀 ~ selectTourists ~ this.tourstList:', this.tourstList)
       this.$refs.popup.close()
     },
 
@@ -377,6 +379,7 @@ page {
     .tourist-button-input {
       flex: 1;
       padding: 0 6px;
+      font-size: 14px;
     }
   }
 }

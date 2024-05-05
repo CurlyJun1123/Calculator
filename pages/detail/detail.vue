@@ -34,7 +34,7 @@
       </view>
     </view>
 
-    <view v-if="data.hyProjectTicketList.length" class="ticket card">
+    <view v-if="data?.hyProjectTicketList?.length" class="ticket card">
       <view class="ticket-list">
         <navigator
           v-for="(item, index) in data.hyProjectTicketList"
@@ -131,7 +131,7 @@ export default {
 
 <style lang="scss">
 page {
-  background-color: #efefef;
+  background-color: $uni-bg-color-grey;
 }
 </style>
 

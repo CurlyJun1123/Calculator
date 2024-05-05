@@ -7,7 +7,7 @@
       :style="[{ width: imageWidth, height: imageHeight, borderRadius }]"
       :class="[{ 'ct-avatar-round': round }]"
       @error="errorHandler"
-    ></image>
+    />
   </view>
 </template>
 
@@ -172,6 +172,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
 }
 
 .ct-avatar-image {

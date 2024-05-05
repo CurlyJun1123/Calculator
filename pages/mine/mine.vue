@@ -48,18 +48,6 @@
               <view class="common-lable">常用信息</view>
             </view>
           </navigator>
-          <navigator url="/pages/identity/list">
-            <view class="common-item">
-              <uni-icons type="staff" size="28"></uni-icons>
-              <view class="common-lable">常用信息</view>
-            </view>
-          </navigator>
-          <navigator url="/pages/identity/list">
-            <view class="common-item">
-              <uni-icons type="staff" size="28"></uni-icons>
-              <view class="common-lable">常用信息</view>
-            </view>
-          </navigator>
         </view>
       </view>
     </view>
