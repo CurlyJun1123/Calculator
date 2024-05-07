@@ -1,0 +1,19 @@
+{
+    "id": "k-date-picker",
+    "name": "k-date-picker 日期选择器",
+    "displayName": "k-date-picker 日期选择器",
+    "version": "1.2.5",
+    "description": "日期选择器，可供选择日期，范围日期，月份，范围月份，年份，范围年份。",
+    "keywords": [
+        "日期选择器",
+        "区间",
+        "年月日",
+        "日历"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    }
+}

@@ -6,8 +6,13 @@
       <view class="head card">
         <view class="head-title">{{ data.title }}</view>
         <view class="divider"></view>
-        <view class="head-time" @click="openCalendar">
-          <view class="head-time-lable">2023/11/11 周六</view>
+        <view class="head-time" @click="onCalendarOpen">
+          <view class="head-time-lable">
+            {{
+              form.startDate &&
+              `${dayjs(form.startDate).format('YYYY/MM/DD')} 星期${weeksChinese[Number(dayjs(form.startDate).format('d'))]}`
+            }}
+          </view>
           <view class="head-time-replace">
             更换
             <uni-icons type="right" size="14" />
@@ -15,7 +20,13 @@
         </view>
       </view>
 
-      <wu-calendar ref="calendar" :insert="false" :monthShowCurrentMonth="true" @confirm="calendarConfirm" />
+      <k-date-picker
+        v-model="openCalendar"
+        formatter="YYYY-MM-DD"
+        :defaultValue="form.startDate"
+        :limitStartDate="dayjs(new Date()).format('YYYY-MM-DD')"
+        @change="onCalendarChange"
+      />
 
       <view class="ticket card">
         <view class="ticket-list">
@@ -85,13 +96,27 @@
 
 <script>
 import IdentityPopup from '@/component/identity-popup/identity-popup.vue'
+import dayjs from '@/component/k-date-picker/k-date-picker/day'
+import KDatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue'
+import { weeksChinese } from '@/component/k-date-picker/k-date-picker/utils'
 
 export default {
-  components: { IdentityPopup },
+  components: {
+    KDatePicker,
+    IdentityPopup
+  },
 
   data() {
     return {
+      weeksChinese,
+
+      openCalendar: false,
+
       data: {},
+
+      form: {
+        startDate: dayjs(new Date()).format('YYYY-MM-DD')
+      },
 
       tourstList: {},
 
@@ -115,6 +140,8 @@ export default {
   },
 
   methods: {
+    ...{ dayjs },
+
     getListData(options) {
       this.$http.get(`/hy/project/${options.id}`).then((data) => {
         this.data = data
@@ -126,16 +153,14 @@ export default {
     },
 
     // 打开日历
-    openCalendar() {
-      this.$refs.calendar.open()
+    onCalendarOpen() {
+      this.openCalendar = true
     },
 
-    close() {
-      console.log('弹窗关闭')
-    },
-
-    calendarConfirm(e) {
-      console.log(e)
+    // 选择日期
+    onCalendarChange(event) {
+      this.openCalendar = false
+      this.form.startDate = event
     },
 
     // 打开游客列表
@@ -143,7 +168,10 @@ export default {
       this.tourists = event
       console.log('🚀 ~ openTourists ~ event:', event)
       this.$http.get('/hy/tourist/list').then((data) => {
-        this.identity = data.map((item) => ({ ...item, checked: this.tourstList[event]?.some((identity) => identity.id === item.id) }))
+        this.identity = data.map((item) => ({
+          ...item,
+          checked: this.tourstList[event]?.some((identity) => identity.id === item.id)
+        }))
       })
       this.$refs.popup.open()
     },

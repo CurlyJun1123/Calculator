@@ -6,8 +6,8 @@
       <view class="identity-list">
         <view v-for="(item, index) in identity" v-bind:key="item.id" class="identity-item align-center">
           <view class="align-center flex-1" @click="touristsChange(!item.checked, index)">
-            <uni-icons v-if="item.checked" type="circle-filled" size="22" color="#1e90ff" />
-            <uni-icons v-else type="circle" size="22" color="#d1d1d1" />
+            <uni-icons v-if="item.checked" type="circle-filled" size="24" color="#1e90ff" />
+            <uni-icons v-else type="circle" size="24" color="#d1d1d1" />
 
             <view class="identity-item-content flex-1">
               <view class="identity-item-name">{{ item.name }}</view>
@@ -106,200 +106,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
-page {
-  background-color: $uni-bg-color-grey;
-}
-</style>
-
 <style lang="scss" scoped>
-.bg {
-  position: fixed;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 300px;
-  background: linear-gradient(to bottom, $uni-theme-color-6, $uni-bg-color-grey);
-}
-
-.page {
-  position: relative;
-  z-index: 2;
-  padding-top: 12px;
-}
-
-.card {
-  margin: 12px 12px;
-  margin-top: 0;
-  background-color: #fff;
-  border-radius: 8px;
-}
-
-.divider {
-  margin: 12px 0;
-  width: 100%;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.12);
-}
-
-.card-title {
-  padding: 12px;
-  padding-bottom: 0;
-  color: $uni-text-color;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.head {
-  padding: 12px;
-
-  .head-title,
-  .head-time-lable {
-    color: $uni-text-color;
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .head-time {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .head-time-lable,
-  .head-time-replace {
-    font-size: 14px;
-  }
-}
-
-.ticket {
-  .ticket-item:first-of-type {
-    border-top: none;
-  }
-
-  .ticket-item {
-    display: flex;
-    padding: 12px;
-    border-top: 1rpx solid rgba(0, 0, 0, 0.12);
-
-    .ticket-item-left {
-      flex: 1;
-
-      .ticket-item-title {
-        margin-bottom: 4px;
-        font-size: 16px;
-        font-weight: 600;
-      }
-
-      .ticket-item-label {
-        color: #636e72;
-        font-size: 14px;
-      }
-    }
-
-    .ticket-item-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      justify-content: space-between;
-
-      .ticket-item-price-fit {
-        font-size: 14px;
-      }
-
-      .ticket-item-price {
-        color: #f86601;
-        font-size: 18px;
-      }
-
-      .ticket-item-price-num {
-        font-weight: 600;
-      }
-    }
-  }
-}
-
-.tourist {
-  .tourist-title {
-    padding: 12px;
-  }
-
-  .tourist-item:first-of-type {
-    border-top: none;
-  }
-
-  .tourist-item {
-    padding: 0 12px;
-    display: flex;
-    align-items: center;
-    border-top: 1rpx solid rgba(0, 0, 0, 0.12);
-
-    .tourist-item-type {
-      width: 80px;
-      color: $uni-text-color;
-      font-size: 14px;
-    }
-
-    .tourist-item-list {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 0 6px;
-    }
-
-    .tourist-item-info:first-of-type {
-      border-top: none;
-    }
-
-    .tourist-item-info {
-      display: flex;
-      padding: 12px 0;
-      align-items: center;
-      border-top: 1rpx solid rgba(0, 0, 0, 0.12);
-
-      .tourist-item-info-delete {
-        margin-right: 12px;
-      }
-
-      .tourist-item-info-main {
-        .tourist-item-info-name {
-          margin-bottom: 4px;
-          color: $uni-text-color;
-          font-size: 14px;
-        }
-
-        .tourist-item-info-code,
-        .tourist-item-info-phone {
-          color: #636e72;
-          font-size: 12px;
-        }
-      }
-    }
-
-    .tourist-item-select {
-      padding: 12px 0;
-      font-size: 14px;
-      color: #636e72;
-    }
-  }
-
-  .tourist-button {
-    padding: 12px;
-
-    .tourist-button-left {
-      width: 80px;
-      color: $uni-text-color;
-      font-size: 14px;
-    }
-
-    .tourist-button-input {
-      flex: 1;
-      padding: 0 6px;
-      font-size: 14px;
-    }
-  }
+.identity-list {
+  padding: 12px 0;
 }
 
 .identity-item {
-  margin: 12px;
+  margin: 18px 12px;
+  margin-top: 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   .identity-item-content {
     margin-left: 11px;
