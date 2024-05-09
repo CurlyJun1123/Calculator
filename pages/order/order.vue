@@ -4,14 +4,11 @@
 
     <view class="page">
       <view class="head card">
-        <view class="head-title">{{ data.title }}</view>
+        <view class="head-title">{{ dataSource.title }}</view>
         <view class="divider"></view>
         <view class="head-time" @click="onCalendarOpen">
           <view class="head-time-lable">
-            {{
-              form.startDate &&
-              `${dayjs(form.startDate).format('YYYY/MM/DD')} 星期${weeksChinese[Number(dayjs(form.startDate).format('d'))]}`
-            }}
+            {{ form.startDate && `${dayjs(form.startDate).format('YYYY/MM/DD')} 星期${weeksChinese[Number(dayjs(form.startDate).format('d'))]}` }}
           </view>
           <view class="head-time-replace">
             更换
@@ -30,7 +27,7 @@
 
       <view class="ticket card">
         <view class="ticket-list">
-          <view v-for="(item, index) in data.hyProjectTicketList" v-bind:key="index" class="ticket-item">
+          <view v-for="(item, index) in dataSource.hyProjectTicketList" v-bind:key="index" class="ticket-item">
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
@@ -50,25 +47,20 @@
       <view class="tourist card">
         <view class="tourist-title card-title">游客信息</view>
         <view class="tourist-list">
-          <template v-for="(cell, index) in data.hyProjectTicketList">
-            <view v-bind:key="index" v-if="cell.number" class="tourist-item">
+          <template v-for="(cell, cellIndex) in dataSource.hyProjectTicketList">
+            <view v-bind:key="cellIndex" v-if="cell.number" class="tourist-item">
               <view class="tourist-item-type">{{ cell.remark }}</view>
               <view class="tourist-item-list">
-                <view
-                  v-for="(tourst, tourstIndex) in tourstList[cell.id]"
-                  v-bind:key="tourstIndex"
-                  class="tourist-item-info"
-                  @click="openTourists(cell.id)"
-                >
+                <view v-for="(item, itemIndex) in cell.identity" v-bind:key="itemIndex" class="tourist-item-info" @click="openTourists(cell)">
                   <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
                   <view class="tourist-item-info-main">
-                    <view class="tourist-item-info-name">{{ tourst.name }}</view>
-                    <view class="tourist-item-info-code">身份证 {{ tourst.idCard }}</view>
-                    <view class="tourist-item-info-phone">手机号 {{ tourst.phone }}</view>
+                    <view class="tourist-item-info-name">{{ item.name }}</view>
+                    <view class="tourist-item-info-code">身份证 {{ item.idCard }}</view>
+                    <view class="tourist-item-info-phone">手机号 {{ item.phone }}</view>
                   </view>
                 </view>
-                <view v-if="cell.number > (tourstList[cell.id]?.length || 0)" class="tourist-item-select" @click="openTourists(cell.id)">
-                  还需选择{{ cell.number - (tourstList[cell.id]?.length || 0) }}位{{ cell.remark }}
+                <view v-if="cell.number > (cell.identity?.length || 0)" class="tourist-item-select" @click="openTourists(cell)">
+                  还需选择{{ cell.number - (cell.identity?.length || 0) }}位{{ cell.remark }}
                 </view>
               </view>
               <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
@@ -77,20 +69,14 @@
         </view>
         <view class="tourist-button align-center">
           <view class="tourist-button-left">联系电话</view>
-          <input
-            v-model="formData.name"
-            class="tourist-button-input"
-            placeholder-style="font-size: 14px"
-            placeholder="请输入姓名"
-            type="text"
-          />
+          <input v-model="form.name" class="tourist-button-input" placeholder-style="font-size: 14px" placeholder="请输入姓名" type="text" />
         </view>
       </view>
 
       <ct-action-bar :options="{ button: [{ text: '立即付款' }] }" @clickButton="generateOrder" />
     </view>
 
-    <IdentityPopup ref="popup" />
+    <identity-popup ref="popup" :dataSource="dataSource" @result="result" />
   </view>
 </template>
 
@@ -109,20 +95,13 @@ export default {
   data() {
     return {
       weeksChinese,
-
       openCalendar: false,
 
-      data: {},
+      dataSource: {},
 
-      form: {
-        startDate: dayjs(new Date()).format('YYYY-MM-DD')
-      },
+      form: { name: '', startDate: dayjs(new Date()).format('YYYY-MM-DD') },
 
       tourstList: {},
-
-      formData: {
-        name: ''
-      },
 
       tourists: null,
       identity: []
@@ -133,19 +112,21 @@ export default {
     this.getListData(options)
   },
 
-  onReady() {
-    this.$nextTick(() => {
-      this.showCalendar = true
-    })
-  },
-
   methods: {
     ...{ dayjs },
 
+    result(result) {
+      const index = this.dataSource.hyProjectTicketList.findIndex((item) => item.id === result.id)
+
+      if (index !== -1) {
+        this.$set(this.dataSource.hyProjectTicketList, index, result)
+      }
+    },
+
     getListData(options) {
       this.$http.get(`/hy/project/${options.id}`).then((data) => {
-        this.data = data
-        this.data.hyProjectTicketList = data.hyProjectTicketList.map((item) => ({
+        this.dataSource = data
+        this.dataSource.hyProjectTicketList = data.hyProjectTicketList.map((item) => ({
           ...item,
           number: Number(options.projectTicketId) === item.id ? 1 : 0
         }))
@@ -165,27 +146,13 @@ export default {
 
     // 打开游客列表
     openTourists(event) {
-      this.tourists = event
-      console.log('🚀 ~ openTourists ~ event:', event)
-      this.$http.get('/hy/tourist/list').then((data) => {
-        this.identity = data.map((item) => ({
-          ...item,
-          checked: this.tourstList[event]?.some((identity) => identity.id === item.id)
-        }))
-      })
-      this.$refs.popup.open()
+      this.$refs.popup.open(event)
     },
 
     // 游客列表选择处理
     touristsChange(value, index) {
       this.$set(this.identity[index], 'checked', value)
     },
-
-    // selectTourists() {
-    //   this.tourstList[this.tourists] = this.identity.filter((item) => item.checked === true)
-    //   console.log('🚀 ~ selectTourists ~ this.tourstList:', this.tourstList)
-    //   this.$refs.close()
-    // },
 
     // 生成订单
     generateOrder() {
