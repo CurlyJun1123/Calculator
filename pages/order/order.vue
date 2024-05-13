@@ -59,8 +59,8 @@
                     <view class="tourist-item-info-phone">手机号 {{ item.phone }}</view>
                   </view>
                 </view>
-                <view v-if="cell.number > (cell.identity?.length || 0)" class="tourist-item-select" @click="openTourists(cell)">
-                  还需选择{{ cell.number - (cell.identity?.length || 0) }}位{{ cell.remark }}
+                <view v-if="cell.number > (cell.identity.length || 0)" class="tourist-item-select" @click="openTourists(cell)">
+                  还需选择{{ cell.number - (cell.identity.length || 0) }}位{{ cell.remark }}
                 </view>
               </view>
               <view class="tourist-item-icon"><uni-icons type="right" size="14" color="#636e72" /></view>
@@ -81,10 +81,10 @@
 </template>
 
 <script>
-import IdentityPopup from '@/component/identity-popup/identity-popup.vue'
-import dayjs from '@/component/k-date-picker/k-date-picker/day'
-import KDatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue'
 import { weeksChinese } from '@/component/k-date-picker/k-date-picker/utils'
+import dayjs from '@/component/k-date-picker/k-date-picker/day'
+import IdentityPopup from '@/component/identity-popup/identity-popup.vue'
+import KDatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue'
 
 export default {
   components: {
@@ -128,7 +128,8 @@ export default {
         this.dataSource = data
         this.dataSource.hyProjectTicketList = data.hyProjectTicketList.map((item) => ({
           ...item,
-          number: Number(options.projectTicketId) === item.id ? 1 : 0
+          number: Number(options.projectTicketId) === item.id ? 1 : 0,
+          identity: []
         }))
       })
     },
@@ -340,6 +341,7 @@ page {
 
   .tourist-button {
     padding: 12px;
+    border-top: 1rpx solid rgba(0, 0, 0, 0.12);
 
     .tourist-button-left {
       width: 80px;
@@ -352,25 +354,6 @@ page {
       padding: 0 6px;
       font-size: 14px;
     }
-  }
-}
-
-.identity-item {
-  margin: 12px;
-
-  .identity-item-content {
-    margin-left: 11px;
-  }
-
-  .identity-item-name {
-    margin-bottom: 4px;
-    color: $uni-text-color;
-    font-size: 16px;
-  }
-
-  .identity-item-info {
-    color: #636e72;
-    font-size: 14px;
   }
 }
 </style>

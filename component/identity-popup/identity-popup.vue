@@ -67,12 +67,18 @@ export default {
 
     // 保存选择的游客信息
     handleIdentitySave() {
-      const result =
-        this.specs?.identity?.length > 0
-          ? this.specs.identity.map((itemA) => this.identity.find((itemB) => itemB.id === itemA.id) || itemA)
-          : this.identity.filter((item) => item.checked)
+      const result = { ...this.specs }
 
-      this.$emit('result', { ...this.specs, identity: result })
+      if (this.specs.identity.length > 0) {
+        result.identity = this.specs.identity.map((itemA) => this.identity.find((itemB) => itemB.id === itemA.id) || itemA)
+      } else {
+        result.identity = this.identity.filter((item) => item.checked)
+      }
+
+      console.log('🚀 ~ handleIdentitySave ~ result:', result)
+
+      this.$emit('result', result)
+
       this.$refs.popup.close()
     }
   }
