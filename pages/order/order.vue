@@ -21,7 +21,7 @@
 
       <view class="ticket card">
         <view class="ticket-list">
-          <view v-for="(item, index) in dataSource.hyProjectTicketList" v-bind:key="index" class="ticket-item">
+          <view v-for="(item, index) in dataSource.hyProjectTicketList" :key="index" class="ticket-item">
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
               <view class="ticket-item-label">立即取票 需要换票</view>
@@ -42,10 +42,10 @@
         <view class="tourist-title card-title">游客信息</view>
         <view class="tourist-list">
           <template v-for="(cell, cellIndex) in dataSource.hyProjectTicketList">
-            <view v-bind:key="cellIndex" v-if="cell.number" class="tourist-item">
+            <view :key="cellIndex" v-if="cell.number" class="tourist-item">
               <view class="tourist-item-type">{{ cell.remark }}</view>
               <view class="tourist-item-list">
-                <view v-for="(item, itemIndex) in cell.identity" v-bind:key="itemIndex" class="tourist-item-info" @click="openTourists(cell)">
+                <view v-for="(item, itemIndex) in cell.identity" :key="itemIndex" class="tourist-item-info" @click="openTourists(cell)">
                   <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
                   <view class="tourist-item-info-main">
                     <view class="tourist-item-info-name">{{ item.name }}</view>
@@ -89,6 +89,7 @@ export default {
   data() {
     return {
       weeksChinese,
+      // 日历弹窗控制
       openCalendar: false,
 
       dataSource: {},
@@ -97,11 +98,6 @@ export default {
         name: '',
         startDate: dayjs(new Date()).format('YYYY-MM-DD'),
       },
-
-      tourstList: {},
-
-      tourists: null,
-      identity: [],
     }
   },
 
@@ -126,7 +122,7 @@ export default {
         this.dataSource.hyProjectTicketList = data.hyProjectTicketList.map((item) => ({
           ...item,
           number: Number(options.projectTicketId) === item.id ? 1 : 0,
-          identity: []
+          identity: [],
         }))
       })
     },
@@ -145,11 +141,6 @@ export default {
     // 打开游客列表
     openTourists(event) {
       this.$refs.popup.open(event)
-    },
-
-    // 游客列表选择处理
-    touristsChange(value, index) {
-      this.$set(this.identity[index], 'checked', value)
     },
 
     // 生成订单

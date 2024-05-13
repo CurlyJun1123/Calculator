@@ -27,7 +27,7 @@
 <script>
 export default {
   props: {
-    dataSource: Object
+    dataSource: Object,
   },
 
   data() {
@@ -35,7 +35,7 @@ export default {
       // 当前规格
       specs: {},
       // 游客信息
-      identity: []
+      identity: [],
     }
   },
 
@@ -44,7 +44,7 @@ export default {
       this.$http.get('/hy/tourist/list').then((data) => {
         this.identity = data.map((item) => ({
           ...item,
-          checked: event.identity?.some((identity) => identity.id === item.id)
+          checked: event.identity?.some((identity) => identity.id === item.id),
         }))
       })
     },
@@ -75,13 +75,10 @@ export default {
         result.identity = this.identity.filter((item) => item.checked)
       }
 
-      console.log('🚀 ~ handleIdentitySave ~ result:', result)
-
       this.$emit('result', result)
-
       this.$refs.popup.close()
-    }
-  }
+    },
+  },
 }
 </script>
 
