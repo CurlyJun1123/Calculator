@@ -17,13 +17,7 @@
         </view>
       </view>
 
-      <k-date-picker
-        v-model="openCalendar"
-        formatter="YYYY-MM-DD"
-        :defaultValue="form.startDate"
-        :limitStartDate="dayjs(new Date()).format('YYYY-MM-DD')"
-        @change="onCalendarChange"
-      />
+      <k-date-picker v-model="openCalendar" formatter="YYYY-MM-DD" :defaultValue="form.startDate" :limitStartDate="dayjs(new Date()).format('YYYY-MM-DD')" @change="onCalendarChange" />
 
       <view class="ticket card">
         <view class="ticket-list">
@@ -89,7 +83,7 @@ import KDatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue
 export default {
   components: {
     KDatePicker,
-    IdentityPopup
+    IdentityPopup,
   },
 
   data() {
@@ -99,12 +93,15 @@ export default {
 
       dataSource: {},
 
-      form: { name: '', startDate: dayjs(new Date()).format('YYYY-MM-DD') },
+      form: {
+        name: '',
+        startDate: dayjs(new Date()).format('YYYY-MM-DD'),
+      },
 
       tourstList: {},
 
       tourists: null,
-      identity: []
+      identity: [],
     }
   },
 
@@ -159,8 +156,8 @@ export default {
     generateOrder() {
       console.log(this.data)
       console.log(this.tourstList)
-    }
-  }
+    },
+  },
 }
 </script>
 
