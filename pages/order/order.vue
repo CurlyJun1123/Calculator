@@ -70,7 +70,7 @@
       <ct-action-bar :options="{ button: [{ text: '立即付款' }] }" @clickButton="generateOrder" />
     </view>
 
-    <identity-popup ref="popup" :dataSource="dataSource" @result="result" />
+    <identity-popup ref="popup" @result="result" />
   </view>
 </template>
 

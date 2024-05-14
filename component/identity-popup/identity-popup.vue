@@ -40,19 +40,10 @@ export default {
   },
 
   methods: {
-    getIdentity(event) {
-      this.$http.get('/hy/tourist/list').then((data) => {
-        this.identity = data.map((item) => ({
-          ...item,
-          checked: event.identity?.some((identity) => identity.id === item.id),
-        }))
-      })
-    },
-
     // 打开游客列表
     open(event) {
       this.specs = event
-      this.getIdentity(event)
+      this.handleIdentityData(event)
       this.$refs.popup.open()
     },
 
@@ -60,17 +51,41 @@ export default {
       this.$refs.popup.close()
     },
 
+    handleIdentityData(event) {
+      this.$http.get('/hy/tourist/list').then((data) => {
+        this.identity = data.map((item) => ({ ...item, checked: event.identity?.some((identity) => identity.id === item.id) }))
+      })
+    },
+
     // 游客列表选择处理
     handleIdentitySelect(value, index) {
-      this.$set(this.identity[index], 'checked', !value)
+      if (this.specs.number === 1) {
+        this.identity.forEach((_item, itemIndex) => {
+          this.$set(this.identity[itemIndex], 'checked', false)
+        })
+        this.$set(this.identity[index], 'checked', !value)
+      } else if (value || this.specs.number > this.identity.filter((item) => item.checked).length) {
+        this.$set(this.identity[index], 'checked', !value)
+      }
     },
 
     // 保存选择的游客信息
     handleIdentitySave() {
       const result = { ...this.specs }
 
-      if (this.specs.identity.length > 0) {
-        result.identity = this.specs.identity.map((itemA) => this.identity.find((itemB) => itemB.id === itemA.id) || itemA)
+      if (result.identity.length > 0) {
+        const hold = []
+        const newly = []
+
+        this.identity.forEach((item) => {
+          if (item.checked && this.specs.identity?.some((identity) => identity.id === item.id)) {
+            hold.push(item)
+          } else if (item.checked) {
+            newly.push(item)
+          }
+        })
+
+        result.identity = [...hold, ...newly]
       } else {
         result.identity = this.identity.filter((item) => item.checked)
       }
