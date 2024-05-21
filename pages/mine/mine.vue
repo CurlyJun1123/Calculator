@@ -16,10 +16,10 @@
       <view class="order card">
         <view class="order-title">我的订单</view>
         <view class="order-cell">
-          <view class="order-item">
+          <navigator class="order-item" url="/pages/order/list">
             <view class="order-icon"></view>
             <view class="order-lable">待付款</view>
-          </view>
+          </navigator>
           <view class="order-item">
             <view class="order-icon"></view>
             <view class="order-lable">待确定</view>
@@ -58,7 +58,7 @@
 export default {
   data() {
     return {}
-  }
+  },
 }
 </script>
 

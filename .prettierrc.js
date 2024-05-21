@@ -7,7 +7,7 @@ module.exports = {
     { files: '.prettierrc', options: { parser: 'json' } },
     { files: 'document.ejs', options: { parser: 'html' } },
   ],
-  printWidth: 200,
+  printWidth: 170,
   proseWrap: 'never',
   semi: false,
   singleQuote: true,

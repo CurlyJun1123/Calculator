@@ -16,12 +16,7 @@
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator
-          v-for="(menu, index) in menus"
-          v-bind:key="index"
-          open-type="navigate"
-          :url="`${menu.path}&navigationBarTitleText=${menu.title}`"
-        >
+        <navigator v-for="(menu, index) in menus" v-bind:key="index" open-type="navigate" :url="`${menu.path}&navigationBarTitleText=${menu.title}`">
           <view class="home-nav-item">
             <view class="home-nav-icon"><img class="home-nav-icon-img" :src="$static + menu.imgUrl" /></view>
             <view class="home-nav-text">{{ menu.title }}</view>
@@ -46,7 +41,7 @@ export default {
       interval: 2000,
 
       // 菜单
-      menus: []
+      menus: [],
     }
   },
 
@@ -69,19 +64,25 @@ export default {
     },
 
     decryptPhoneNumber(event) {
+      console.log('🚀 ~ decryptPhoneNumber ~ event:', event)
       uni.login({
         provider: 'weixin',
         success: (loginRes) =>
-          this.$http.post('/miniapp/login', { ...event.detail, code: loginRes.code }).then((res) => {
-            try {
-              uni.setStorageSync('token', res.token)
-            } catch (e) {
-              // error
-            }
-          })
+          this.$http
+            .post('/miniapp/login', {
+              ...event.detail,
+              code: loginRes.code,
+            })
+            .then((res) => {
+              try {
+                uni.setStorageSync('token', res.token)
+              } catch (e) {
+                // error
+              }
+            }),
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      identity: []
+      identity: [],
     }
   },
 
@@ -32,8 +32,8 @@ export default {
 
     onNavigateTo(item) {
       uni.navigateTo({ url: `/pages/identity/edit?id=${item.id}&name=${item.name}&phone=${item.phone}&idCard=${item.idCard}` })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -44,6 +44,13 @@
       }
     },
     {
+      "path": "pages/order/list",
+      "style": {
+        "navigationBarBackgroundColor": "#f8f8f8",
+        "navigationBarTitleText": "订单列表"
+      }
+    },
+    {
       "path": "pages/identity/edit",
       "style": {
         "navigationBarTitleText": "新增出行人信息"

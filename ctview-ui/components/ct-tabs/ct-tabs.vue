@@ -3,16 +3,22 @@
     <view class="ct-tabs-wrapper flex-row align-center">
       <scroll-view ref="ct-tabs-wrapper__scroll-view" class="ct-tabs-wrapper__scroll-view" scroll-with-animation :scroll-x="scrollable" :scroll-left="scrollLeft" :show-scrollbar="false">
         <view class="ct-tab-nav align-center">
-          <view v-for="(item, index) in options" class="ct-tab-item justify-center align-center" :key="index" :class="[`ct-tab-item-${index}`, active === index && 'ct-tab-active']" @tap="click(item, index)">
+          <view
+            v-for="(item, index) in options"
+            class="ct-tab-item justify-center align-center"
+            :key="index"
+            :class="[`ct-tab-item-${index}`, active === index && 'ct-tab-active']"
+            @tap="click(item, index)"
+          >
             <view class="ct-tab-name">{{ item.name }}</view>
-            <view class="ct-tab__line"></view>
+            <view class="ct-tab__line" />
           </view>
         </view>
       </scroll-view>
       <view class="ct-tabs-right"><slot name="right" /></view>
     </view>
 
-    <view class="ct-tabs-place"></view>
+    <view class="ct-tabs-place" />
   </view>
 </template>
 
@@ -22,20 +28,20 @@ export default {
     // 绑定当前选中标签的标识符
     active: {
       type: [Number, String],
-      default: 0
+      default: 0,
     },
     // 组件参数
     options: {
       type: Array,
       default() {
         return []
-      }
+      },
     },
     // 标签栏是否可以滚动
     scrollable: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
@@ -43,7 +49,7 @@ export default {
       scrollLeft: 0,
       tabsRect: {},
       scrollViewWidth: 0,
-      innerCurrent: 0
+      innerCurrent: 0,
     }
   },
 
@@ -58,8 +64,8 @@ export default {
             this.resize()
           })
         }
-      }
-    }
+      },
+    },
   },
 
   mounted() {
@@ -166,15 +172,15 @@ export default {
       // 这里做一个限制，限制scrollLeft的最大值为整个scroll-view宽度减去tabs组件的宽度
       scrollLeft = Math.min(scrollLeft, this.scrollViewWidth - this.tabsRect.width)
       this.scrollLeft = Math.max(0, scrollLeft)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-/deep/ ::-webkit-scrollbar {
-  display: none;
-}
+// /deep/ ::-webkit-scrollbar {
+//   display: none;
+// }
 
 .ct-tabs-place {
   width: 100%;
@@ -191,7 +197,7 @@ export default {
     z-index: 99;
     width: 100%;
     height: 44px;
-    background: #fff;
+    // background: #fff;
     /* #ifdef H5 */
     top: 44px;
     /* #endif */
