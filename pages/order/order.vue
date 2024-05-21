@@ -1,11 +1,11 @@
 <template>
   <view>
-    <view class="bg"></view>
+    <view class="bg" />
 
     <view class="page">
       <view class="head card">
         <view class="head-title">{{ dataSource.title }}</view>
-        <view class="divider"></view>
+        <view class="divider" />
         <view class="head-time" @click="onCalendarOpen">
           <view class="head-time-lable">
             {{ form.startDate && `${dayjs(form.startDate).format('YYYY/MM/DD')} 星期${weeksChinese[Number(dayjs(form.startDate).format('d'))]}` }}
@@ -45,9 +45,9 @@
             <view :key="cellIndex" v-if="cell.number" class="tourist-item">
               <view class="tourist-item-type">{{ cell.remark }}</view>
               <view class="tourist-item-list">
-                <view v-for="(item, itemIndex) in cell.identity" :key="itemIndex" class="tourist-item-info" @click="openTourists(cell)">
+                <view v-for="(item, itemIndex) in cell.identity" :key="itemIndex" class="tourist-item-info">
                   <view class="tourist-item-info-delete"><uni-icons type="minus" size="20" color="#636e72" /></view>
-                  <view class="tourist-item-info-main">
+                  <view class="tourist-item-info-main" @click="openTourists(cell)">
                     <view class="tourist-item-info-name">{{ item.name }}</view>
                     <view class="tourist-item-info-code">身份证 {{ item.idCard }}</view>
                     <view class="tourist-item-info-phone">手机号 {{ item.phone }}</view>
@@ -63,7 +63,7 @@
         </view>
         <view class="tourist-button align-center">
           <view class="tourist-button-left">联系电话</view>
-          <input v-model="form.name" class="tourist-button-input" placeholder-style="font-size: 14px" placeholder="请输入姓名" type="text" />
+          <input v-model="form.name" class="tourist-button-input" placeholder-style="font-size: 14px" placeholder="请输入联系电话" type="text" />
         </view>
       </view>
 
