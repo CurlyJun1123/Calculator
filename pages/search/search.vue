@@ -1,6 +1,12 @@
 <template>
   <view class="page-cell">
-    <navigator v-for="(item, index) in list" v-bind:key="index" open-type="navigate" hover-class="navigator-hover" :url="`/pages/detail/detail?id=${item.id}&title=${item.title}`">
+    <navigator
+      v-for="(item, index) in list"
+      v-bind:key="index"
+      open-type="navigate"
+      hover-class="navigator-hover"
+      :url="`/pages/detail/detail?id=${item.id}&title=${item.title}`"
+    >
       <view class="page-item">
         <view class="page-content">
           <view class="page-cover">

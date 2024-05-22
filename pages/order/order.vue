@@ -17,7 +17,13 @@
         </view>
       </view>
 
-      <k-date-picker v-model="openCalendar" formatter="YYYY-MM-DD" :defaultValue="form.startDate" :limitStartDate="dayjs(new Date()).format('YYYY-MM-DD')" @change="onCalendarChange" />
+      <date-picker
+        v-model="openCalendar"
+        formatter="YYYY-MM-DD"
+        :defaultValue="form.startDate"
+        :limitStartDate="dayjs(new Date()).format('YYYY-MM-DD')"
+        @change="onCalendarChange"
+      />
 
       <view class="ticket card">
         <view class="ticket-list">
@@ -78,11 +84,11 @@
 import { weeksChinese } from '@/component/k-date-picker/k-date-picker/utils'
 import dayjs from '@/component/k-date-picker/k-date-picker/day'
 import IdentityPopup from '@/component/identity-popup/identity-popup.vue'
-import KDatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue'
+import DatePicker from '@/component/k-date-picker/k-date-picker/KDatePicker.vue'
 
 export default {
   components: {
-    KDatePicker,
+    DatePicker,
     IdentityPopup,
   },
 

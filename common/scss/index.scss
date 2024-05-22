@@ -1,5 +1,35 @@
 // @import 'font.scss';
 
+// 超出行数，自动显示行尾省略号，最多5行
+// 来自uView的温馨提示：当您在控制台看到此报错，说明需要在App.vue的style标签加上【lang="scss"】
+@for $i from 1 through 5 {
+  .line-#{$i} {
+    /* #ifdef APP-NVUE */
+    // nvue下，可以直接使用lines属性，这是weex特有样式
+    // lines: $i;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    /* #endif */
+
+    /* #ifndef APP-NVUE */
+    // vue下，单行和多行显示省略号需要单独处理
+    @if $i == '1' {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    } @else {
+      display: -webkit-box !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      -webkit-line-clamp: $i;
+      -webkit-box-orient: vertical !important;
+    }
+    /* #endif */
+  }
+}
+
 view, scroll-view, swiper, button, input, textarea, label, navigator, image { box-sizing: border-box; }
 
 /* Text 文本 */
