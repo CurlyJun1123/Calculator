@@ -2,7 +2,7 @@
   <view>
     <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
       <swiper-item>
-        <view class="swiper-item uni-bg-red"><ct-avatar :src="$static + data.img" :size="'100%'" /></view>
+        <view class="swiper-item uni-bg-red"><ct-avatar size="100%" :src="$static + dataSource.img" /></view>
       </swiper-item>
     </swiper>
 
@@ -10,14 +10,14 @@
       <view class="detail-info-price">
         <text class="detail-info-price-fit">￥</text>
         <text class="detail-info-price-num">
-          {{ minPrice?.price }}
+          {{ dataSource.price }}
         </text>
         <text class="detail-info-price-fit">起</text>
-        <text v-if="minPrice?.linePrice && minPrice?.linePrice != minPrice?.price" class="detail-info-price-original-price">
-          优惠前￥{{ minPrice?.linePrice }}起
+        <text v-if="dataSource?.linePrice && dataSource?.linePrice != dataSource?.price" class="detail-info-price-original-price">
+          优惠前￥{{ dataSource?.linePrice }}起
         </text>
       </view>
-      <view class="detail-info-title">{{ data.title }}</view>
+      <view class="detail-info-title">{{ dataSource.title }}</view>
       <view class="detail-info-more">
         <view class="detail-info-more-item">
           <uni-icons type="heart" size="14" color="#95a5a6" />
@@ -34,13 +34,9 @@
       </view>
     </view>
 
-    <view v-if="data?.hyProjectTicketList?.length" class="ticket card">
+    <view v-if="dataSource?.hyProjectTicketList && dataSource.hyProjectTicketList.length" class="ticket card">
       <view class="ticket-list">
-        <navigator
-          v-for="(item, index) in data.hyProjectTicketList"
-          v-bind:key="index"
-          :url="`/pages/order/order?id=${data.id}&projectTicketId=${item.id}`"
-        >
+        <navigator v-for="(item, index) in dataSource.hyProjectTicketList" :key="index" :url="`/pages/order/order?id=${dataSource.id}&projectTicketId=${item.id}`">
           <view class="ticket-item">
             <view class="ticket-item-left">
               <view class="ticket-item-title">{{ item.remark }}</view>
@@ -85,7 +81,7 @@
       </view>
     </view> -->
 
-    <view class="rich-text-main card"><rich-text class="rich-text" :nodes="data.content" /></view>
+    <view class="rich-text-main card"><rich-text class="rich-text" :nodes="dataSource.content" /></view>
 
     <ct-action-bar :options="{ button: [{ text: '立即购买' }] }" />
   </view>
@@ -101,14 +97,18 @@ export default {
       interval: 2000,
       duration: 500,
 
-      data: {}
+      dataSource: {},
     }
   },
 
   computed: {
     minPrice() {
-      return this.data?.hyProjectTicketList?.reduce((prev, current) => (prev?.price < current?.price ? prev : current))
-    }
+      if (this.dataSource.hyProjectTicketList && this.dataSource.hyProjectTicketList.length) {
+        return this.dataSource?.hyProjectTicketList.reduce((prev, current) => (prev.price < current.price ? prev : current))
+      } else {
+        return dataSource.price
+      }
+    },
   },
 
   onLoad(options) {
@@ -117,15 +117,15 @@ export default {
 
   methods: {
     getListData(id) {
-      this.$http.get('/hy/project/' + id).then((data) => {
-        this.data = data
+      this.$http.get('/hy/project/' + id).then((dataSource) => {
+        this.dataSource = dataSource
       })
     },
 
     changeValue(value) {
       console.log('返回数值：', value)
-    }
-  }
+    },
+  },
 }
 </script>
 

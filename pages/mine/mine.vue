@@ -16,10 +16,10 @@
       <view class="order card">
         <view class="order-title">我的订单</view>
         <view class="order-cell">
-          <navigator class="order-item" url="/pages/order/list">
+          <view class="order-item" @click="handleNavigator('/pages/order/list')">
             <view class="order-icon"></view>
             <view class="order-lable">待付款</view>
-          </navigator>
+          </view>
           <view class="order-item">
             <view class="order-icon"></view>
             <view class="order-lable">待确定</view>
@@ -58,6 +58,12 @@
 export default {
   data() {
     return {}
+  },
+
+  methods: {
+    handleNavigator(url) {
+      uni.navigateTo({ url })
+    },
   },
 }
 </script>
