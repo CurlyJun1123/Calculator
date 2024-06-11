@@ -1,4 +1,10 @@
 {
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
+    }
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "旅游",
@@ -9,7 +15,7 @@
     {
       "path": "pages/home/home",
       "style": {
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "顽友"
       }
     },
     {
@@ -63,12 +69,6 @@
       }
     }
   ],
-  "easycom": {
-    "autoscan": true,
-    "custom": {
-      "^ct-(.*)": "@/ctview-ui/components/ct-$1/ct-$1.vue"
-    }
-  },
   "tabBar": {
     "color": "#333333",
     "selectedColor": "#1e90ff",

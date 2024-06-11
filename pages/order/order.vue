@@ -151,8 +151,29 @@ export default {
 
     // 生成订单
     generateOrder() {
-      console.log(this.data)
-      console.log(this.tourstList)
+      const data = this.dataSource
+      const order = {
+        detailsList: [],
+        projectId: data.id,
+        startDate: this.form.startDate,
+        // endDate: 'string',
+        // distributorId: 0,
+      }
+
+      data.hyProjectTicketList.forEach((cell) => {
+        cell.identity.forEach((item) => {
+          order.detailsList.push({
+            projectTicketId: cell.id,
+            userName: item.name,
+            userPhone: item.phone,
+            userIdcard: item.idCard,
+          })
+        })
+      })
+
+      this.$http.post('/hy/orders/addOrders', order).then((data) => {})
+
+      console.log('🚀 ~ generateOrder ~ order:', order)
     },
   },
 }
