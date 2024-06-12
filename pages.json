@@ -40,6 +40,12 @@
       }
     },
     {
+      "path": "pages/order/details",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
       "path": "pages/order/order",
       "style": {
         "backgroundColorBottom": "#f8f8f8",

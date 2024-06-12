@@ -1,7 +1,14 @@
 <template>
   <view class="ct-tabs">
     <view class="ct-tabs-wrapper flex-row align-center">
-      <scroll-view ref="ct-tabs-wrapper__scroll-view" class="ct-tabs-wrapper__scroll-view" scroll-with-animation :scroll-x="scrollable" :scroll-left="scrollLeft" :show-scrollbar="false">
+      <scroll-view
+        ref="ct-tabs-wrapper__scroll-view"
+        class="ct-tabs-wrapper__scroll-view"
+        scroll-with-animation
+        :scroll-x="scrollable"
+        :scroll-left="scrollLeft"
+        :show-scrollbar="false"
+      >
         <view class="ct-tab-nav align-center">
           <view
             v-for="(item, index) in options"
@@ -197,7 +204,7 @@ export default {
     z-index: 99;
     width: 100%;
     height: 44px;
-    // background: #fff;
+    background: #fff;
     /* #ifdef H5 */
     top: 44px;
     /* #endif */

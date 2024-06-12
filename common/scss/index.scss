@@ -78,3 +78,12 @@ view, scroll-view, swiper, button, input, textarea, label, navigator, image { bo
 .ct-popup .ct-popup-main { display: flex; border-radius: 16px 16px 0 0; background: #fff; flex-direction: column; }
 .ct-popup .ct-popup-main.ct-popup-main-inset { margin: 12px; border-radius: 16px; }
 .ct-popup .ct-popup-title { margin-top: 32px; padding: 0 16px; color: #333; text-align: center; font-weight: 600; font-size: 18px; }
+
+/* 让文本在容器宽度限制下自动换行 */
+.wrap-normal { white-space: normal; word-break: break-all; }
+/* 不允许文本换行 */
+.nowrap { white-space: nowrap; }
+/* 保留空白符并在遇到换行字符时换行 */
+.pre-wrap { white-space: pre-wrap; }
+/* 保留空白符，在容器末尾自动换行，且合并空白符 */
+.pre-line { white-space: pre-line; }

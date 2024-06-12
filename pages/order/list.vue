@@ -1,27 +1,31 @@
 <template>
   <view>
-    <ct-tabs :options="[{ name: '全部' }, { name: '待付款' }, { name: '待发货' }]" />
+    <view class="head-tabs">
+      <ct-tabs :options="[{ name: '全部' }, { name: '待付款' }, { name: '待发货' }]" />
+    </view>
 
-    <view class="order-list">
-      <view v-for="(item, index) in dataSource" :key="index" class="order-item">
-        <view class="order-code">订单编号：{{ item.orderCode }}</view>
-        <!-- <view v-for="(specs, specsIndex) in item.project" :key="specsIndex" class="order-specs"> -->
-        <view class="order-specs">
-          <view class="order-specs-img">
-            <ct-avatar :src="$static + item.project.img" :size="80" :radius="8" />
-          </view>
-          <view class="order-specs-details">
-            <view class="order-specs-content">
-              <view class="order-specs-title line-1">
-                {{ item.project.title }}
-              </view>
+    <view class="order-row">
+      <view v-for="(item, index) in dataSource" class="order-card" :key="index" @click="onNavigateTo(item)">
+        <view class="order-item">
+          <view class="order-code">订单编号：{{ item.orderCode }}</view>
+          <!-- <view v-for="(specs, specsIndex) in item.project" :key="specsIndex" class="order-specs"> -->
+          <view class="order-specs">
+            <view class="order-specs-img">
+              <ct-avatar :src="$static + item.project.img" :size="80" :radius="8" />
             </view>
-            <view class="order-specs-amount-quantity">
-              <view class="order-specs-price">
-                <text class="order-specs-price-fit">￥</text>
-                <text class="order-specs-price-num">{{ item.project.price }}</text>
+            <view class="order-specs-details">
+              <view class="order-specs-content">
+                <view class="order-specs-title line-1">
+                  {{ item.project.title }}
+                </view>
               </view>
-              <view class="order-specs-num">x{{ item.totalNum }}</view>
+              <view class="order-specs-amount-quantity">
+                <view class="order-specs-price">
+                  <text class="order-specs-price-fit">￥</text>
+                  <text class="order-specs-price-num">{{ item.project.price }}</text>
+                </view>
+                <view class="order-specs-num">x{{ item.totalNum }}</view>
+              </view>
             </view>
           </view>
         </view>
@@ -38,16 +42,20 @@ export default {
     }
   },
 
-  onLoad(options) {
-    this.getListData(options)
+  onLoad() {
+    this.getListData()
   },
 
   methods: {
-    getListData(options) {
+    getListData() {
       this.$http.get('/hy/orders/getOrdersList').then((data) => {
         this.dataSource = data
         console.log('🚀 ~ this.$http.get ~ data:', data)
       })
+    },
+
+    onNavigateTo(order) {
+      uni.navigateTo({ url: `/pages/order/details?id=${order.id}` })
     },
   },
 }
@@ -60,9 +68,21 @@ page {
 </style>
 
 <style lang="scss">
+.head-tabs {
+  background-color: #fff;
+}
+
+.order-card {
+  padding: 12px;
+  padding-top: 0;
+}
+
+.order-card:first-of-type {
+  padding-top: 12px;
+}
+
 .order-item {
   background-color: #fff;
-  margin: 12px;
   border-radius: 8px;
 }
 
