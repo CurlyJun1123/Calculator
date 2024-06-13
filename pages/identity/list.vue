@@ -1,12 +1,12 @@
 <template>
-  <view class="identity-list">
+  <view class="identity-row">
     <view v-for="item in identity" v-bind:key="item.id" class="identity-item align-center" @click="() => onNavigateTo(item)">
       <view class="flex-1">
         <view class="identity-item-name">{{ item.name }}</view>
         <view class="identity-item-info">身份证 {{ item.idCard }}</view>
         <view class="identity-item-info">手机号 {{ item.phone }}</view>
       </view>
-      <uni-icons type="compose" size="20"></uni-icons>
+      <uni-icons type="compose" size="20" />
     </view>
   </view>
 </template>
