@@ -69,7 +69,7 @@ page {
 
 <style lang="scss">
 .head-tabs {
-  background-color: #fff;
+  background-color: #f8f8f8;
 }
 
 .order-card {

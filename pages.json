@@ -8,8 +8,8 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "旅游",
-    "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#FFFFFF"
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
   },
   "pages": [
     {
@@ -24,8 +24,8 @@
     {
       "path": "pages/detail/detail",
       "style": {
-        "backgroundColorBottom": "#EFEFEF",
-        "backgroundColorTop": "#EFEFEF",
+        "backgroundColorBottom": "#efefef",
+        "backgroundColorTop": "#efefef",
         "navigationBarTitleText": "详情"
       }
     },
@@ -42,7 +42,10 @@
     {
       "path": "pages/order/details",
       "style": {
-        "navigationBarTitleText": ""
+        "backgroundColorBottom": "#efefef",
+        "backgroundColorTop": "#efefef",
+        "navigationBarBackgroundColor": "#f8f8f8",
+        "navigationBarTitleText": "订单详情"
       }
     },
     {
