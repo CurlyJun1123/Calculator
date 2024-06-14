@@ -75,7 +75,7 @@ page {
 
 <style lang="scss">
 .head {
-  margin: 12px;
+  padding: 12px 12px 0;
   font-size: 16px;
   font-weight: bold;
 }

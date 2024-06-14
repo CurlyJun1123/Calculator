@@ -61,7 +61,7 @@
     {
       "path": "pages/order/list",
       "style": {
-        "navigationBarBackgroundColor": "#f8f8f8",
+        "navigationBarBackgroundColor": "#ffffff",
         "navigationBarTitleText": "订单列表"
       }
     },

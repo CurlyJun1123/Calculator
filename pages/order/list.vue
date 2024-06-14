@@ -50,7 +50,6 @@ export default {
     getListData() {
       this.$http.get('/hy/orders/getOrdersList').then((data) => {
         this.dataSource = data
-        console.log('🚀 ~ this.$http.get ~ data:', data)
       })
     },
 
