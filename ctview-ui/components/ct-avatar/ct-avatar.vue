@@ -26,79 +26,79 @@ export default {
     // 头像图片路径(不能为相对路径)
     src: {
       type: String,
-      default: ''
+      default: '',
     },
     // 头像尺寸
     size: {
       type: [Number, String, Array],
-      default: '30'
+      default: '30',
     },
     // 圆角大小，默认单位为 px
     radius: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
     // 是否显示为圆形
     round: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 裁剪模式
     mode: {
       type: String,
-      default: 'scaleToFill'
+      default: 'scaleToFill',
     },
     // 显示的文字
     text: {
       type: String,
-      default: ''
+      default: '',
     },
     // 背景色
     bgColor: {
       type: String,
-      default: ''
+      default: '',
     },
     // 文字颜色
     color: {
       type: String,
-      default: ''
+      default: '',
     },
     // 文字大小
     fontSize: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
     // 显示的图标
     icon: {
       type: String,
-      default: ''
+      default: '',
     },
     // 加载失败的默认头像(组件有内置默认图片)
     defaultUrl: {
       type: String,
-      default: ''
+      default: '',
     },
     // 组件标识符
     name: {
       type: String,
-      default: ''
+      default: '',
     },
     // 是不是职聊简历
     visibility: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
     // 有没有投递 有没有购买
     isBuy: {
       type: [String, Number],
-      default: ''
-    }
+      default: '',
+    },
   },
 
   data() {
     return {
       avatarUrl: this.src,
-      avatarBool: false
+      avatarBool: false,
     }
   },
 
@@ -123,8 +123,8 @@ export default {
         if (!newVal) {
           this.errorHandler()
         }
-      }
-    }
+      },
+    },
   },
 
   computed: {
@@ -146,7 +146,7 @@ export default {
 
     borderRadius() {
       return getVal(this.radius) || 0
-    }
+    },
   },
 
   methods: {
@@ -162,8 +162,8 @@ export default {
 
     clickHandler() {
       this.$emit('click', this.name)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -1,89 +1,92 @@
 <template>
   <view>
-    <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-      <swiper-item>
-        <view class="swiper-item uni-bg-red"><ct-avatar size="100%" :src="$static + dataSource.img" /></view>
-      </swiper-item>
-    </swiper>
+    <ct-loading v-if="loading" />
 
-    <view class="detail-info card">
-      <view class="detail-info-price">
-        <text class="detail-info-price-fit">￥</text>
-        <text class="detail-info-price-num">
-          {{ dataSource.price }}
-        </text>
-        <text class="detail-info-price-fit">起</text>
-        <text v-if="dataSource?.linePrice && dataSource?.linePrice != dataSource?.price" class="detail-info-price-original-price">
-          优惠前￥{{ dataSource?.linePrice }}起
-        </text>
-      </view>
-      <view class="detail-info-title">{{ dataSource.title }}</view>
-      <view class="detail-info-more">
-        <view class="detail-info-more-item">
-          <uni-icons type="heart" size="14" color="#95a5a6" />
-          <text class="detail-info-more-item-text">5分</text>
-        </view>
-        <view class="detail-info-more-item">
-          <uni-icons type="chat" size="14" color="#95a5a6" />
-          <text class="detail-info-more-item-text">13条评价</text>
-        </view>
-        <view class="detail-info-more-item">
-          <uni-icons type="redo" size="14" color="#95a5a6" />
-          <text class="detail-info-more-item-text">分享</text>
-        </view>
-      </view>
-    </view>
+    <template v-else>
+      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+        <swiper-item>
+          <view class="swiper-item uni-bg-red"><ct-avatar size="100%" :src="$static + dataSource.img" /></view>
+        </swiper-item>
+      </swiper>
 
-    <view v-if="dataSource?.hyProjectTicketList && dataSource.hyProjectTicketList.length" class="ticket card">
-      <view class="ticket-list">
-        <navigator v-for="(item, index) in dataSource.hyProjectTicketList" :key="index" :url="`/pages/order/order?id=${dataSource.id}&projectTicketId=${item.id}`">
-          <view class="ticket-item">
-            <view class="ticket-item-left">
-              <view class="ticket-item-title">{{ item.remark }}</view>
-              <view class="ticket-item-label">立即取票 需要换票</view>
-              <view class="ticket-item-label">已售{{ item.saleNum || 0 }}</view>
-            </view>
-            <view class="ticket-item-right">
-              <view class="ticket-item-original-price">
-                <view v-if="item?.linePrice" class="ticket-item-original">￥{{ item.linePrice }}</view>
-                <view class="ticket-item-price">
-                  <text class="ticket-item-price-fit">￥</text>
-                  <text class="ticket-item-price-num">{{ item.price }}</text>
-                  <text class="ticket-item-price-fit">起</text>
+      <view class="detail-info card">
+        <view class="detail-info-price">
+          <text class="detail-info-price-fit">￥</text>
+          <text class="detail-info-price-num">
+            {{ dataSource.price }}
+          </text>
+          <text class="detail-info-price-fit">起</text>
+          <text v-if="dataSource?.linePrice && dataSource?.linePrice != dataSource?.price" class="detail-info-price-original-price">
+            优惠前￥{{ dataSource?.linePrice }}起
+          </text>
+        </view>
+        <view class="detail-info-title">{{ dataSource.title }}</view>
+        <view class="detail-info-more">
+          <view class="detail-info-more-item">
+            <uni-icons type="heart" size="14" color="#95a5a6" />
+            <text class="detail-info-more-item-text">5分</text>
+          </view>
+          <view class="detail-info-more-item">
+            <uni-icons type="chat" size="14" color="#95a5a6" />
+            <text class="detail-info-more-item-text">13条评价</text>
+          </view>
+          <view class="detail-info-more-item">
+            <uni-icons type="redo" size="14" color="#95a5a6" />
+            <text class="detail-info-more-item-text">分享</text>
+          </view>
+        </view>
+      </view>
+
+      <view v-if="dataSource && dataSource.hyProjectTicketList && dataSource.hyProjectTicketList.length" class="ticket card">
+        <view class="ticket-list">
+          <navigator v-for="(item, index) in dataSource.hyProjectTicketList" :key="index" :url="`/pages/order/order?id=${dataSource.id}&projectTicketId=${item.id}`">
+            <view class="ticket-item">
+              <view class="ticket-item-left">
+                <view class="ticket-item-title">{{ item.remark }}</view>
+                <view class="ticket-item-label">立即取票 需要换票</view>
+                <view class="ticket-item-label">已售{{ item.saleNum || 0 }}</view>
+              </view>
+              <view class="ticket-item-right">
+                <view class="ticket-item-original-price">
+                  <view v-if="item.linePrice && item.linePrice - item.price !== 0" class="ticket-item-original">￥{{ item.linePrice }}</view>
+                  <view class="ticket-item-price">
+                    <text class="ticket-item-price-fit">￥</text>
+                    <text class="ticket-item-price-num">{{ item.price }}</text>
+                  </view>
+                  <view v-if="item.linePrice && item.linePrice - item.price !== 0" class="ticket-item-result">已优惠￥{{ item.linePrice - item.price }}</view>
                 </view>
-                <view v-if="item?.linePrice" class="ticket-item-result">已优惠￥{{ item.linePrice - item.price }}</view>
               </view>
             </view>
+          </navigator>
+        </view>
+      </view>
+
+      <!-- <view class="card">
+        <view class="card-title">全部车型</view>
+        <view class="vehicle">
+          <view class="vehicle-card">
+            <view class="vehicle-card-title">舒适5座</view>
+            <view class="vehicle-card-capacity">4人 · 2行李</view>
           </view>
-        </navigator>
-      </view>
-    </view>
+          <view class="vehicle-card">
+            <view class="vehicle-card-title">经济5座</view>
+            <view class="vehicle-card-capacity">4人 · 2行李</view>
+          </view>
+          <view class="vehicle-card">
+            <view class="vehicle-card-title">豪华7座</view>
+            <view class="vehicle-card-capacity">6人 · 4行李</view>
+          </view>
+          <view class="vehicle-card">
+            <view class="vehicle-card-title">商务7座</view>
+            <view class="vehicle-card-capacity">6人 · 4行李</view>
+          </view>
+        </view>
+      </view> -->
 
-    <!-- <view class="card">
-      <view class="card-title">全部车型</view>
-      <view class="vehicle">
-        <view class="vehicle-card">
-          <view class="vehicle-card-title">舒适5座</view>
-          <view class="vehicle-card-capacity">4人 · 2行李</view>
-        </view>
-        <view class="vehicle-card">
-          <view class="vehicle-card-title">经济5座</view>
-          <view class="vehicle-card-capacity">4人 · 2行李</view>
-        </view>
-        <view class="vehicle-card">
-          <view class="vehicle-card-title">豪华7座</view>
-          <view class="vehicle-card-capacity">6人 · 4行李</view>
-        </view>
-        <view class="vehicle-card">
-          <view class="vehicle-card-title">商务7座</view>
-          <view class="vehicle-card-capacity">6人 · 4行李</view>
-        </view>
-      </view>
-    </view> -->
+      <view v-if="dataSource.content" class="rich-text-main card"><rich-text class="rich-text" :nodes="dataSource.content" /></view>
 
-    <view class="rich-text-main card"><rich-text class="rich-text" :nodes="dataSource.content" /></view>
-
-    <ct-action-bar :options="{ button: [{ text: '立即购买' }] }" />
+      <ct-action-bar :options="{ button: [{ text: '立即购买' }] }" />
+    </template>
   </view>
 </template>
 
@@ -91,7 +94,10 @@
 export default {
   data() {
     return {
-      background: ['color1', 'color2', 'color3'],
+      // 加载
+      loading: true,
+
+      // 轮播图
       indicatorDots: true,
       autoplay: true,
       interval: 2000,
@@ -118,6 +124,8 @@ export default {
   methods: {
     getListData(id) {
       this.$http.get('/hy/project/' + id).then((dataSource) => {
+        this.loading = false
+
         this.dataSource = dataSource
       })
     },

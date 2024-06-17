@@ -8,7 +8,7 @@
 
     <view class="home-swiper">
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-        <swiper-item v-for="(swiper, index) in swipers" v-bind:key="index">
+        <swiper-item v-for="(swiper, index) in swipers" :key="index">
           <view class="swiper-item"><ct-avatar :src="$static + swiper.imgUrl" size="100%" :radius="8" /></view>
         </swiper-item>
       </swiper>
@@ -16,7 +16,7 @@
 
     <view class="home-nav">
       <view class="home-nav-cell">
-        <navigator v-for="(menu, index) in menus" v-bind:key="index" open-type="navigate" :url="`${menu.path}&navigationBarTitleText=${menu.title}`">
+        <navigator v-for="(menu, index) in menus" open-type="navigate" :key="index" :url="`${menu.path}&navigationBarTitleText=${menu.title}`">
           <view class="home-nav-item">
             <view class="home-nav-icon"><img class="home-nav-icon-img" :src="$static + menu.imgUrl" /></view>
             <view class="home-nav-text">{{ menu.title }}</view>
@@ -90,9 +90,7 @@ export default {
 page {
   background-color: #fff;
 }
-</style>
 
-<style lang="scss" scoped>
 .home-head {
   display: flex;
   align-items: center;
@@ -117,6 +115,7 @@ page {
 }
 
 .home-nav {
+  margin-top: -6px;
   padding-left: 30rpx;
   padding-right: 30rpx;
 
@@ -127,6 +126,7 @@ page {
   }
 
   .home-nav-item {
+    padding: 6px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -137,10 +137,10 @@ page {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -6px;
     width: 80rpx;
     height: 80rpx;
     border-radius: 8px;
-    // background-color: red;
   }
 
   .home-nav-icon-img {
@@ -149,7 +149,6 @@ page {
   }
 
   .home-nav-text {
-    margin-top: 4px;
     font-size: 12px;
     font-weight: 600;
   }

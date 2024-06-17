@@ -10,13 +10,7 @@
             :key="index"
             @click="onClickIcon(item, index)"
           >
-            <ct-icon
-              v-if="item.icon"
-              class="ct-action-bar-icon"
-              :name="item.icon"
-              :size="item.size || 24"
-              :color="item.color || '#292929'"
-            />
+            <ct-icon v-if="item.icon" class="ct-action-bar-icon" :name="item.icon" :size="item.size || 24" :color="item.color || '#292929'" />
             <text class="ct-action-bar-icon-text">{{ item.text }}</text>
           </view>
         </view>
@@ -55,35 +49,35 @@ export default {
       type: Object,
       default() {
         return {}
-      }
+      },
     },
     // 底部按钮样式
     buttonStyle: {
       type: Object,
       default() {
         return {}
-      }
+      },
     },
     // 是否定位在底部
     fixed: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 是否开启底部安全区适配
     safeAreaInsetBottom: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 是否在标签位置生成一个等高的占位元素
     placeholder: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
     return {
-      safeAreaInsets: 12
+      safeAreaInsets: 12,
     }
   },
 
@@ -96,7 +90,7 @@ export default {
           } else {
             this.safeAreaInsets = 12
           }
-        }
+        },
       })
     })
   },
@@ -112,8 +106,8 @@ export default {
       }
 
       this.$emit('clickButton', { item, index })
-    }
-  }
+    },
+  },
 }
 </script>
 

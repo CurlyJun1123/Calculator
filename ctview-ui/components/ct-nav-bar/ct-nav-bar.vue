@@ -2,9 +2,13 @@
   <uni-nav-bar :title="title" :background-color="backgroundColor" :fixed="fixed" :status-bar="statusBar" :left-width="capsules.width" :right-width="capsules.width">
     <template #left>
       <view class="ct-nav-bar-capsules" :style="[capsules]">
-        <view class="ct-nav-bar-capsules-button" hover-class="ct-nav-bar-capsules-button-active" @tap="onBack"><ct-icon name="iconarrow1l" size="18" color="#000"></ct-icon></view>
+        <view class="ct-nav-bar-capsules-button" hover-class="ct-nav-bar-capsules-button-active" @tap="onBack">
+          <ct-icon name="iconarrow1l" size="18" color="#000"></ct-icon>
+        </view>
         <view class="ct-nav-bar-capsules-line"></view>
-        <view class="ct-nav-bar-capsules-button" hover-class="ct-nav-bar-capsules-button-active" @tap="onHome"><ct-icon name="iconchat" size="18" color="#000"></ct-icon></view>
+        <view class="ct-nav-bar-capsules-button" hover-class="ct-nav-bar-capsules-button-active" @tap="onHome">
+          <ct-icon name="iconchat" size="18" color="#000"></ct-icon>
+        </view>
       </view>
     </template>
     <template #right></template>
@@ -23,18 +27,18 @@ export default {
     //
     fixed: {
       type: Boolean,
-      default: true
+      default: true,
     },
     //
     statusBar: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
     return {
-      capsules: { width: '86px', height: '32px' }
+      capsules: { width: '86px', height: '32px' },
     }
   },
 
@@ -53,8 +57,8 @@ export default {
 
     onHome() {
       uni.navigateBack()
-    }
-  }
+    },
+  },
 }
 </script>
 

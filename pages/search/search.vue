@@ -67,13 +67,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
   background-color: #fff;
 }
-</style>
 
-<style lang="scss" scoped>
 .page-content {
   display: flex;
   margin: 0 12px;

@@ -1,43 +1,47 @@
 <template>
   <view>
-    <view class="head">{{ project.title }}</view>
+    <ct-loading v-if="loading" />
 
-    <view class="card">
-      <view class="card-head">凭「身份证」换票入园</view>
-      <view class="id-card-row">
-        <view v-for="(item, index) in specs" class="id-card-item align-center" :key="index">
-          <view class="id-card-item-type">证件</view>
-          <view class="id-card-item-content">
-            <view>{{ item.userName }}</view>
-            <view>{{ item.userIdcard }}</view>
+    <template v-else>
+      <view class="head">{{ project.title }}</view>
+
+      <view class="card">
+        <view class="card-head">凭「身份证」换票入园</view>
+        <view class="id-card-row">
+          <view v-for="(item, index) in specs" class="id-card-item align-center" :key="index">
+            <view class="id-card-item-type">证件</view>
+            <view class="id-card-item-content">
+              <view>{{ item.userName }}</view>
+              <view>{{ item.userIdcard }}</view>
+            </view>
           </view>
         </view>
       </view>
-    </view>
 
-    <view class="card">
-      <view class="card-head">订单信息</view>
-      <view class="descriptions-row">
-        <view class="descriptions-item">
-          <view class="descriptions-item-container justify-between">
-            <view class="descriptions-item-label">订单编号</view>
-            <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.orderCode }}</view>
+      <view class="card">
+        <view class="card-head">订单信息</view>
+        <view class="descriptions-row">
+          <view class="descriptions-item">
+            <view class="descriptions-item-container justify-between">
+              <view class="descriptions-item-label">订单编号</view>
+              <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.orderCode }}</view>
+            </view>
           </view>
-        </view>
-        <view class="descriptions-item">
-          <view class="descriptions-item-container justify-between">
-            <view class="descriptions-item-label">创建时间</view>
-            <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.createTime }}</view>
+          <view class="descriptions-item">
+            <view class="descriptions-item-container justify-between">
+              <view class="descriptions-item-label">创建时间</view>
+              <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.createTime }}</view>
+            </view>
           </view>
-        </view>
-        <view class="descriptions-item">
-          <view class="descriptions-item-container justify-between">
-            <view class="descriptions-item-label">支付时间</view>
-            <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.createTime }}</view>
+          <view class="descriptions-item">
+            <view class="descriptions-item-container justify-between">
+              <view class="descriptions-item-label">支付时间</view>
+              <view class="descriptions-item-content flex-1 wrap-normal">{{ dataSource.createTime }}</view>
+            </view>
           </view>
         </view>
       </view>
-    </view>
+    </template>
   </view>
 </template>
 
@@ -45,6 +49,8 @@
 export default {
   data() {
     return {
+      loading: true,
+
       dataSource: {},
       project: {},
       specs: [],
@@ -58,6 +64,8 @@ export default {
   methods: {
     getDetailsData(orderId) {
       this.$http.get(`/hy/orders/getOrders?id=${orderId}`).then((data) => {
+        this.loading = false
+
         this.dataSource = data
         this.project = data.project
         this.specs = data.hyOrdersDetailsList
@@ -73,7 +81,7 @@ page {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .head {
   padding: 12px 12px 0;
   font-size: 16px;
